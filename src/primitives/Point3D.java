@@ -25,7 +25,7 @@ public class Point3D {
     /**
      * Copy Point
      *
-     * @param other other point
+     * @param other
      */
     public Point3D(Point3D other) {
         this._x = other._x;
@@ -46,7 +46,7 @@ public class Point3D {
     /**
      * Get Y coordinate
      *
-     * @return
+     * @return the value
      */
     public Coordinate get_y() {
         return _y;
@@ -66,9 +66,11 @@ public class Point3D {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null) return false;
-        if (!(obj instanceof Coordinate)) return false;
+        if (!(obj instanceof Point3D)) return false;
         Point3D other = (Point3D) obj;
-        return this._z == other._z && this._y == other._y && this._x == other._x;
+        return this._z.equals(other._z) &&
+                this._y.equals(other._y) &&
+                this._x.equals(other._x);
     }
 
     @Override

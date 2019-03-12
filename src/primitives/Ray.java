@@ -1,5 +1,8 @@
 package primitives;
 
+/**
+ *  Ray
+ */
 public class Ray {
     public Ray() {
     }
