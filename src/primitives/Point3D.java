@@ -28,9 +28,9 @@ public class Point3D {
      * @param other
      */
     public Point3D(Point3D other) {
-        this._x = other._x;
-        this._y = other._y;
-        this._z = other._z;
+        this._x = new Coordinate(other._x);
+        this._y = new Coordinate(other._y);
+        this._z = new Coordinate(other._z);
     }
 
     /************** Getters/Setters *******/
@@ -105,5 +105,42 @@ public class Point3D {
                 this._y.subtract(vec.get_point3D().get_y()),
                 this._z.subtract(vec.get_point3D().get_z())
         );
+    }
+
+    /**
+     * Subtract two points
+     * @param other the second point ( start point )
+     * @return a vector from the other point to the current point
+     */
+    public Vector subtract(Point3D other){
+        return new Vector(
+                new Point3D(
+                        this._x.subtract(other.get_x()),
+                        this._y.subtract(other.get_y()),
+                        this._z.subtract(other.get_z())
+
+                        )
+        );
+    }
+
+    /**
+     * get the distance between the two points in the power of 2
+     * @param other the second point
+     * @return the distance in the power of 2
+     */
+    public double distance2(Point3D other){
+        return
+                (this._x.subtract(other.get_x())).multiply(this._x.subtract(other.get_x())).add(
+                        (this._y.subtract(other.get_y())).multiply(this._y.subtract(other.get_y())) ).add(
+                            (this._z.subtract(other.get_z())).multiply(this._z.subtract(other.get_z())) ).get() ;
+    }
+
+    /**
+     * get the distance between the two points
+     * @param other the second point
+     * @return the distance
+     */
+    public double distance(Point3D other){
+        return  Math.sqrt(distance2(other));
     }
 }

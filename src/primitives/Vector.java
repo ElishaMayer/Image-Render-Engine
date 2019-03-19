@@ -12,7 +12,11 @@ public class Vector {
      *
      * @param _point3D the end of the vector
      */
-    public Vector(Point3D _point3D) {
+    public Vector(Point3D _point3D)
+    {
+        if(_point3D.get_x().equals(Coordinate.ZERO) && _point3D.get_y().equals(Coordinate.ZERO) && _point3D.get_z().equals(Coordinate.ZERO) ){
+            throw new IllegalArgumentException("Vector Zero");
+        }
         this._point3D = _point3D;
     }
 
@@ -22,7 +26,7 @@ public class Vector {
      * @param other
      */
     public Vector(Vector other) {
-        this._point3D = other._point3D;
+        this._point3D = new Point3D(other._point3D);
     }
 
     /************** Getters/Setters *******/
