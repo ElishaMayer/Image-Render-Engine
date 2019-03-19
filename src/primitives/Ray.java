@@ -7,19 +7,19 @@ import java.util.Objects;
  */
 public class Ray {
 
-    private Point3D point3D;
-    private Vector vector;
+    private Point3D _point3D;
+    private Vector _vector;
 
     /********** Constructors ***********/
 
     /**
      * A new Ray
-     * @param point3D the start point
-     * @param vector the vector
+     * @param _point3D the start point
+     * @param _vector the _vector
      */
-    public Ray(Point3D point3D, Vector vector) {
-        this.point3D = point3D;
-        this.vector = vector;
+    public Ray(Point3D _point3D, Vector _vector) {
+        this._point3D = _point3D;
+        this._vector = _vector;
     }
 
     /**
@@ -27,8 +27,8 @@ public class Ray {
      * @param other Ray to copy from
      */
     public Ray(Ray other){
-        this.point3D = new Point3D(other.point3D);
-        this.vector = new Vector(other.vector);
+        this._point3D = new Point3D(other._point3D);
+        this._vector = new Vector(other._vector);
     }
 
     /************** Getters/Setters *******/
@@ -38,15 +38,15 @@ public class Ray {
      * @return the point
      */
     public Point3D getPoint3D() {
-        return point3D;
+        return _point3D;
     }
 
     /**
      * Get Vector
-     * @return vector
+     * @return _vector
      */
     public Vector getVector() {
-        return vector;
+        return _vector;
     }
     /*************** Admin *****************/
     @Override
@@ -54,36 +54,36 @@ public class Ray {
         if (this == o) return true;
         if (o == null || !(o instanceof Ray)) return false;
         Ray ray = (Ray) o;
-        return point3D.equals(ray.point3D) &&
-                vector.equals(ray.vector);
+        return _point3D.equals(ray._point3D) &&
+                _vector.equals(ray._vector);
     }
 
     @Override
     public String toString() {
         return "Ray{" +
-                "point3D=" + point3D +
-                ", vector=" + vector +
+                "_point3D=" + _point3D +
+                ", _vector=" + _vector +
                 '}';
     }
 
     /************** Operations ***************/
 
     /**
-     * add a vector to the ray
-     * @param vec the vector to add
+     * add a _vector to the ray
+     * @param vec the _vector to add
      * @return a new ray
      */
     public Ray add(Vector vec){
-        return new Ray(point3D,vector.add(vec));
+        return new Ray(_point3D,_vector.add(vec));
     }
 
     /**
-     * subtract a vector to the ray
-     * @param vec the vector to subtract
+     * subtract a _vector to the ray
+     * @param vec the _vector to subtract
      * @return a new ray
      */
     public Ray subtract(Vector vec){
-        return new Ray(point3D,vector.subtract(vec));
+        return new Ray(_point3D,_vector.subtract(vec));
     }
 
     /**
@@ -92,7 +92,7 @@ public class Ray {
      * @return a new ray
      */
     public Ray scale(double scale){
-        return new Ray(point3D,vector.scale(scale));
+        return new Ray(_point3D,_vector.scale(scale));
     }
 
 
