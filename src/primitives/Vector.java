@@ -21,6 +21,20 @@ public class Vector {
     }
 
     /**
+     * A new Vector
+     * @param _x
+     * @param _y
+     * @param _z
+     */
+    public Vector(double _x,double _y,double _z){
+        Point3D _point3D = new Point3D(new Coordinate(_x),new Coordinate(_y),new Coordinate(_z));
+        if(_point3D.get_x().equals(Coordinate.ZERO) && _point3D.get_y().equals(Coordinate.ZERO) && _point3D.get_z().equals(Coordinate.ZERO) ){
+            throw new IllegalArgumentException("Vector Zero");
+        }
+        this._point3D = _point3D;
+    }
+
+    /**
      * Copy vector
      *
      * @param other
