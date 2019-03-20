@@ -37,6 +37,13 @@ public abstract class RadialGeometry {
         return usubtract(that._radios, _radios) == 0.0;
     }
 
+    @Override
+    public String toString() {
+        return
+                "_radios=" + _radios
+                ;
+    }
+
     /************** Getters/Setters *******/
 
     /**
