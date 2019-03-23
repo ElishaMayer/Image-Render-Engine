@@ -146,6 +146,17 @@ public class Vector {
     }
 
     /**
+     * the length in the pow 2
+     * @return the value
+     */
+    public double length2() {
+        return (this._point3D.get_x().multiply(this._point3D.get_x())).get() +
+                (this._point3D.get_y().multiply(this._point3D.get_y())).get() +
+                (this._point3D.get_z().multiply(this._point3D.get_z())).get()
+        ;
+    }
+
+    /**
      * get the normalization of the vector
      *
      * @return a new vector
