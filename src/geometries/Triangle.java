@@ -72,6 +72,6 @@ public class Triangle {
                 '}';
     }
 
-    /************** Operations ***************/
+    /*************** Operations ***************/
 
 }
