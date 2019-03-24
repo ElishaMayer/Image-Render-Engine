@@ -23,6 +23,18 @@ public class Point3D {
     }
 
     /**
+     * A new Point3D
+     * @param _x
+     * @param _y
+     * @param _z
+     */
+    public Point3D(double _x,double _y,double _z){
+        this._x = new Coordinate(_x);
+        this._y = new Coordinate(_y);
+        this._z = new Coordinate(_z);
+    }
+
+    /**
      * Copy Point
      *
      * @param other

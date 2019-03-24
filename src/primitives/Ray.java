@@ -43,7 +43,7 @@ public class Ray {
 
     /**
      * Get Vector
-     * @return _vector
+     * @return the vector
      */
     public Vector getVector() {
         return _vector;
@@ -94,7 +94,4 @@ public class Ray {
     public Ray scale(double scale){
         return new Ray(_point3D,_vector.scale(scale));
     }
-
-
-
 }
