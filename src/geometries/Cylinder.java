@@ -13,6 +13,7 @@ public class Cylinder extends Tube {
 
     /**
      * A new Cylinder
+     *
      * @param _radios the radios
      * @param _vector the direction vector
      * @param _height the height
@@ -24,17 +25,19 @@ public class Cylinder extends Tube {
 
     /**
      * A new Cylinder
+     *
      * @param other the other Cylinder
      */
-    public Cylinder(Cylinder other){
-        super(other.get_radios(),other.get_vector());
-        this._height=other._height;
+    public Cylinder(Cylinder other) {
+        super(other.get_radios(), other.get_vector());
+        this._height = other._height;
     }
 
     /************** Getters/Setters *******/
 
     /**
      * Get Height
+     *
      * @return height
      */
     public double get_height() {
@@ -45,7 +48,7 @@ public class Cylinder extends Tube {
 
     @Override
     public String toString() {
-        return "Cylinder{" +super.toString()+
+        return "Cylinder{" + super.toString() +
                 "_height=" + _height +
                 '}';
     }

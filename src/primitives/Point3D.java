@@ -24,11 +24,12 @@ public class Point3D {
 
     /**
      * A new Point3D
+     *
      * @param _x
      * @param _y
      * @param _z
      */
-    public Point3D(double _x,double _y,double _z){
+    public Point3D(double _x, double _y, double _z) {
         this._x = new Coordinate(_x);
         this._y = new Coordinate(_y);
         this._z = new Coordinate(_z);
@@ -121,38 +122,41 @@ public class Point3D {
 
     /**
      * Subtract two points
+     *
      * @param other the second point ( start point )
      * @return a vector from the other point to the current point
      */
-    public Vector subtract(Point3D other){
+    public Vector subtract(Point3D other) {
         return new Vector(
                 new Point3D(
                         this._x.subtract(other.get_x()),
                         this._y.subtract(other.get_y()),
                         this._z.subtract(other.get_z())
 
-                        )
+                )
         );
     }
 
     /**
      * get the distance between the two points in the power of 2
+     *
      * @param other the second point
      * @return the distance in the power of 2
      */
-    public double distance2(Point3D other){
+    public double distance2(Point3D other) {
         return
                 (this._x.subtract(other.get_x())).multiply(this._x.subtract(other.get_x())).add(
-                        (this._y.subtract(other.get_y())).multiply(this._y.subtract(other.get_y())) ).add(
-                            (this._z.subtract(other.get_z())).multiply(this._z.subtract(other.get_z())) ).get() ;
+                        (this._y.subtract(other.get_y())).multiply(this._y.subtract(other.get_y()))).add(
+                        (this._z.subtract(other.get_z())).multiply(this._z.subtract(other.get_z()))).get();
     }
 
     /**
      * get the distance between the two points
+     *
      * @param other the second point
      * @return the distance
      */
-    public double distance(Point3D other){
-        return  Math.sqrt(distance2(other));
+    public double distance(Point3D other) {
+        return Math.sqrt(distance2(other));
     }
 }

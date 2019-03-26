@@ -15,7 +15,8 @@ public class Plane {
 
     /**
      * A new Plane
-     * @param _point a point on the plane
+     *
+     * @param _point  a point on the plane
      * @param _vector a vector in the plane
      */
     public Plane(Point3D _point, Vector _vector) {
@@ -25,9 +26,10 @@ public class Plane {
 
     /**
      * A new Plane
+     *
      * @param other other plane
      */
-    public Plane(Plane other){
+    public Plane(Plane other) {
         this._point = new Point3D(other._point);
         this._vector = new Vector(other._vector);
     }
@@ -46,6 +48,7 @@ public class Plane {
 
     /**
      * Get Point
+     *
      * @return point
      */
     public Point3D get_point() {
@@ -54,6 +57,7 @@ public class Plane {
 
     /**
      * Get Vector
+     *
      * @return vector
      */
     public Vector get_vector() {

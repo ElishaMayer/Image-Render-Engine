@@ -13,8 +13,9 @@ public class Sphere extends RadialGeometry {
 
     /**
      * A new Sphere
+     *
      * @param _radios the radios
-     * @param _point the middle point
+     * @param _point  the middle point
      */
     public Sphere(double _radios, Point3D _point) {
         super(_radios);
@@ -23,9 +24,10 @@ public class Sphere extends RadialGeometry {
 
     /**
      * A new Sphere
+     *
      * @param other other Sphere
      */
-    public Sphere(Sphere other){
+    public Sphere(Sphere other) {
         super(other.get_radios());
         this._point = new Point3D(other._point);
     }
@@ -34,6 +36,7 @@ public class Sphere extends RadialGeometry {
 
     /**
      * Get Point
+     *
      * @return point
      */
     public Point3D get_point() {
@@ -44,7 +47,7 @@ public class Sphere extends RadialGeometry {
 
     @Override
     public String toString() {
-        return "Sphere{" + super.toString()+
+        return "Sphere{" + super.toString() +
                 "_point=" + _point +
                 '}';
     }

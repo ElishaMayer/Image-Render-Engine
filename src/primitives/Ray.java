@@ -3,7 +3,7 @@ package primitives;
 import java.util.Objects;
 
 /**
- *  Ray
+ * Ray
  */
 public class Ray {
 
@@ -14,8 +14,9 @@ public class Ray {
 
     /**
      * A new Ray
+     *
      * @param _point3D the start point
-     * @param _vector the _vector
+     * @param _vector  the _vector
      */
     public Ray(Point3D _point3D, Vector _vector) {
         this._point3D = _point3D;
@@ -24,9 +25,10 @@ public class Ray {
 
     /**
      * A new Ray
+     *
      * @param other Ray to copy from
      */
-    public Ray(Ray other){
+    public Ray(Ray other) {
         this._point3D = new Point3D(other._point3D);
         this._vector = new Vector(other._vector);
     }
@@ -35,6 +37,7 @@ public class Ray {
 
     /**
      * Get start point
+     *
      * @return the point
      */
     public Point3D getPoint3D() {
@@ -43,11 +46,13 @@ public class Ray {
 
     /**
      * Get Vector
+     *
      * @return the vector
      */
     public Vector getVector() {
         return _vector;
     }
+
     /*************** Admin *****************/
     @Override
     public boolean equals(Object o) {
@@ -70,28 +75,31 @@ public class Ray {
 
     /**
      * add a _vector to the ray
+     *
      * @param vec the _vector to add
      * @return a new ray
      */
-    public Ray add(Vector vec){
-        return new Ray(_point3D,_vector.add(vec));
+    public Ray add(Vector vec) {
+        return new Ray(_point3D, _vector.add(vec));
     }
 
     /**
      * subtract a _vector to the ray
+     *
      * @param vec the _vector to subtract
      * @return a new ray
      */
-    public Ray subtract(Vector vec){
-        return new Ray(_point3D,_vector.subtract(vec));
+    public Ray subtract(Vector vec) {
+        return new Ray(_point3D, _vector.subtract(vec));
     }
 
     /**
      * scale the ray
+     *
      * @param scale the scale
      * @return a new ray
      */
-    public Ray scale(double scale){
-        return new Ray(_point3D,_vector.scale(scale));
+    public Ray scale(double scale) {
+        return new Ray(_point3D, _vector.scale(scale));
     }
 }

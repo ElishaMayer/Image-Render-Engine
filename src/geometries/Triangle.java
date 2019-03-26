@@ -15,30 +15,33 @@ public class Triangle {
 
     /**
      * A new Triangle
+     *
      * @param _point1 point 1
      * @param _point2 point 2
      * @param _point3 point 3
      */
     public Triangle(Point3D _point1, Point3D _point2, Point3D _point3) {
-        this._point1 = new Point3D( _point1);
-        this._point2 = new Point3D( _point2);
-        this._point3 = new Point3D( _point3);
+        this._point1 = new Point3D(_point1);
+        this._point2 = new Point3D(_point2);
+        this._point3 = new Point3D(_point3);
     }
 
     /**
      * A new Triangle
+     *
      * @param other other Triangle
      */
-    public Triangle(Triangle other){
-        this._point1 = new Point3D( other._point1);
-        this._point2 = new Point3D( other._point2);
-        this._point3 = new Point3D( other._point3);
+    public Triangle(Triangle other) {
+        this._point1 = new Point3D(other._point1);
+        this._point2 = new Point3D(other._point2);
+        this._point3 = new Point3D(other._point3);
     }
 
     /************** Getters/Setters *******/
 
     /**
      * Get First point
+     *
      * @return the point
      */
     public Point3D get_point1() {
@@ -47,6 +50,7 @@ public class Triangle {
 
     /**
      * Get Second Point
+     *
      * @return the point
      */
     public Point3D get_point2() {
@@ -55,6 +59,7 @@ public class Triangle {
 
     /**
      * Get the Third point
+     *
      * @return the point
      */
     public Point3D get_point3() {
