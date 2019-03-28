@@ -4,6 +4,8 @@ package primitives;
  * Point in 3D
  */
 public class Point3D {
+    public static final Point3D ZERO = new Point3D(0,0,0);
+
     private Coordinate _x;
     private Coordinate _y;
     private Coordinate _z;
@@ -52,7 +54,7 @@ public class Point3D {
      *
      * @return the value
      */
-    public Coordinate get_x() {
+    public Coordinate getX() {
         return _x;
     }
 
@@ -100,7 +102,7 @@ public class Point3D {
      */
     public Point3D add(Vector vec) {
         return new Point3D(
-                this._x.add(vec.get_point3D().get_x()),
+                this._x.add(vec.get_point3D().getX()),
                 this._y.add(vec.get_point3D().get_y()),
                 this._z.add(vec.get_point3D().get_z())
         );
@@ -114,7 +116,7 @@ public class Point3D {
      */
     public Point3D subtract(Vector vec) {
         return new Point3D(
-                this._x.subtract(vec.get_point3D().get_x()),
+                this._x.subtract(vec.get_point3D().getX()),
                 this._y.subtract(vec.get_point3D().get_y()),
                 this._z.subtract(vec.get_point3D().get_z())
         );
@@ -129,7 +131,7 @@ public class Point3D {
     public Vector subtract(Point3D other) {
         return new Vector(
                 new Point3D(
-                        this._x.subtract(other.get_x()),
+                        this._x.subtract(other.getX()),
                         this._y.subtract(other.get_y()),
                         this._z.subtract(other.get_z())
 
@@ -145,7 +147,7 @@ public class Point3D {
      */
     public double distance2(Point3D other) {
         return
-                (this._x.subtract(other.get_x())).multiply(this._x.subtract(other.get_x())).add(
+                (this._x.subtract(other.getX())).multiply(this._x.subtract(other.getX())).add(
                         (this._y.subtract(other.get_y())).multiply(this._y.subtract(other.get_y()))).add(
                         (this._z.subtract(other.get_z())).multiply(this._z.subtract(other.get_z()))).get();
     }

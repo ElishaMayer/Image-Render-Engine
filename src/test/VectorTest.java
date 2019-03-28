@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class VectorTest {
 
-    @org.junit.Test
+    @Test
     public void add() {
         Vector vec1 = new Vector(1, 1, 1);
         Vector vec2 = new Vector(3, -2, 5);
