@@ -1,11 +1,13 @@
 package geometries;
 
+import primitives.Point3D;
 import primitives.Ray;
+import primitives.Vector;
 
 /**
  * Tube
  */
-public class Tube extends RadialGeometry {
+public class Tube extends RadialGeometry implements Geometry{
 
     private Ray _ray;
 
@@ -19,7 +21,7 @@ public class Tube extends RadialGeometry {
      */
     public Tube(double radius, Ray ray) {
         super(radius);
-        this._ray = ray;
+        this._ray = new Ray(ray);
     }
 
 
@@ -30,7 +32,8 @@ public class Tube extends RadialGeometry {
      *
      * @return vector
      */
-    public Ray getRay() {
+    public Ray getRay()
+    {
         return _ray;
     }
 
@@ -41,6 +44,17 @@ public class Tube extends RadialGeometry {
         return "Tube{" + super.toString() +
                 "ray=" + _ray +
                 '}';
+    }
+
+    /**
+     * Get the normal from the point in the shape
+     *
+     * @param p the point
+     * @return the normal
+     */
+    @Override
+    public Vector getNormal(Point3D p) {
+        return null;
     }
 
     /************** Operations ***************/

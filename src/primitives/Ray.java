@@ -19,7 +19,7 @@ public class Ray {
      * @param vector  the _vector
      */
     public Ray(Point3D point3D, Vector vector) {
-        _point3D = point3D;
+        _point3D = new Point3D(point3D);
         _vector = vector.normal();
     }
 
@@ -41,6 +41,7 @@ public class Ray {
      * @return the point
      */
     public Point3D getPoint3D() {
+
         return _point3D;
     }
 
@@ -50,6 +51,7 @@ public class Ray {
      * @return the vector
      */
     public Vector getVector() {
+
         return _vector;
     }
 

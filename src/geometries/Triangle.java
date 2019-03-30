@@ -5,9 +5,8 @@ import primitives.Point3D;
 /**
  * Triangle
  */
-public class Triangle {
+public class Triangle extends Plane implements Geometry{
 
-    private Point3D _point1;
     private Point3D _point2;
     private Point3D _point3;
 
@@ -16,14 +15,14 @@ public class Triangle {
     /**
      * A new Triangle
      *
-     * @param _point1 point 1
-     * @param _point2 point 2
-     * @param _point3 point 3
+     * @param p1 point 1
+     * @param p2 point 2
+     * @param p3 point 3
      */
-    public Triangle(Point3D _point1, Point3D _point2, Point3D _point3) {
-        this._point1 = new Point3D(_point1);
-        this._point2 = new Point3D(_point2);
-        this._point3 = new Point3D(_point3);
+    public Triangle(Point3D p1, Point3D p2, Point3D p3) {
+        super(p1,p2,p3);
+        this._point2 = new Point3D(p2);
+        this._point3 = new Point3D(p3);
     }
 
 
@@ -34,8 +33,9 @@ public class Triangle {
      *
      * @return the point
      */
-    public Point3D get_point1() {
-        return _point1;
+    public Point3D getPoint1() {
+
+        return super._point;
     }
 
     /**
@@ -43,7 +43,8 @@ public class Triangle {
      *
      * @return the point
      */
-    public Point3D get_point2() {
+    public Point3D getPoint2()
+    {
         return _point2;
     }
 
@@ -52,7 +53,8 @@ public class Triangle {
      *
      * @return the point
      */
-    public Point3D get_point3() {
+    public Point3D getPoint3()
+    {
         return _point3;
     }
 
@@ -60,10 +62,10 @@ public class Triangle {
 
     @Override
     public String toString() {
-        return "Triangle{" +
-                "_point1=" + _point1 +
-                ", _point2=" + _point2 +
-                ", _point3=" + _point3 +
+        return "Tri{" +
+                "P1=" + super._point +
+                ", P2=" + _point2 +
+                ", P3=" + _point3 +
                 '}';
     }
 
