@@ -14,23 +14,14 @@ public class Sphere extends RadialGeometry {
     /**
      * A new Sphere
      *
-     * @param _radios the radios
+     * @param radius the radios
      * @param _point  the middle point
      */
-    public Sphere(double _radios, Point3D _point) {
-        super(_radios);
+    public Sphere(double radius, Point3D _point) {
+        super(radius);
         this._point = _point;
     }
 
-    /**
-     * A new Sphere
-     *
-     * @param other other Sphere
-     */
-    public Sphere(Sphere other) {
-        super(other.get_radios());
-        this._point = new Point3D(other._point);
-    }
 
     /************** Getters/Setters *******/
 

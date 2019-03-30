@@ -28,7 +28,7 @@ public class Vector {
      */
     public Vector(double _x, double _y, double _z) {
         Point3D _point3D = new Point3D(new Coordinate(_x), new Coordinate(_y), new Coordinate(_z));
-        if (_point3D.getX().equals(Coordinate.ZERO) && _point3D.get_y().equals(Coordinate.ZERO) && _point3D.get_z().equals(Coordinate.ZERO)) {
+        if (_point3D.getX().equals(Coordinate.ZERO) && _point3D.getY().equals(Coordinate.ZERO) && _point3D.getZ().equals(Coordinate.ZERO)) {
             throw new IllegalArgumentException("Vector Zero");
         }
         this._point3D = _point3D;
@@ -49,7 +49,7 @@ public class Vector {
      *
      * @return the value
      */
-    public Point3D get_point3D() {
+    public Point3D getPoint3D() {
         return _point3D;
     }
 
@@ -98,8 +98,8 @@ public class Vector {
     public Vector scale(double num) {
         return new Vector(new Point3D(
                 this._point3D.getX().scale(num),
-                this._point3D.get_y().scale(num),
-                this._point3D.get_z().scale(num))
+                this._point3D.getY().scale(num),
+                this._point3D.getZ().scale(num))
         );
     }
 
@@ -110,9 +110,9 @@ public class Vector {
      * @return the value
      */
     public double dot_product(Vector other) {
-        return (this._point3D.getX().multiply(other.get_point3D().getX())).get() +
-                (this._point3D.get_y().multiply(other.get_point3D().get_y())).get() +
-                (this._point3D.get_z().multiply(other.get_point3D().get_z())).get();
+        return (this._point3D.getX().multiply(other.getPoint3D().getX())).get() +
+                (this._point3D.getY().multiply(other.getPoint3D().getY())).get() +
+                (this._point3D.getZ().multiply(other.getPoint3D().getZ())).get();
 
     }
 
@@ -124,12 +124,12 @@ public class Vector {
      */
     public Vector cross_product(Vector other) {
         return new Vector(new Point3D(
-                (this._point3D.get_y().multiply(other.get_point3D().get_z())).subtract(
-                        this._point3D.get_z().multiply(other.get_point3D().get_y())),
-                (this._point3D.get_z().multiply(other.get_point3D().getX())).subtract(
-                        this._point3D.getX().multiply(other.get_point3D().get_z())),
-                (this._point3D.getX().multiply(other.get_point3D().get_y())).subtract(
-                        this._point3D.get_y().multiply(other.get_point3D().getX())))
+                (this._point3D.getY().multiply(other.getPoint3D().getZ())).subtract(
+                        this._point3D.getZ().multiply(other.getPoint3D().getY())),
+                (this._point3D.getZ().multiply(other.getPoint3D().getX())).subtract(
+                        this._point3D.getX().multiply(other.getPoint3D().getZ())),
+                (this._point3D.getX().multiply(other.getPoint3D().getY())).subtract(
+                        this._point3D.getY().multiply(other.getPoint3D().getX())))
         );
     }
 
@@ -140,8 +140,8 @@ public class Vector {
      */
     public double length() {
         return Math.sqrt((this._point3D.getX().multiply(this._point3D.getX())).get() +
-                (this._point3D.get_y().multiply(this._point3D.get_y())).get() +
-                (this._point3D.get_z().multiply(this._point3D.get_z())).get()
+                (this._point3D.getY().multiply(this._point3D.getY())).get() +
+                (this._point3D.getZ().multiply(this._point3D.getZ())).get()
         );
     }
 
@@ -152,8 +152,8 @@ public class Vector {
      */
     public double length2() {
         return (this._point3D.getX().multiply(this._point3D.getX())).get() +
-                (this._point3D.get_y().multiply(this._point3D.get_y())).get() +
-                (this._point3D.get_z().multiply(this._point3D.get_z())).get()
+                (this._point3D.getY().multiply(this._point3D.getY())).get() +
+                (this._point3D.getZ().multiply(this._point3D.getZ())).get()
                 ;
     }
 
@@ -165,8 +165,8 @@ public class Vector {
     public Vector normal() {
         return new Vector(new Point3D(
                 this._point3D.getX().scale(1 / this.length()),
-                this._point3D.get_y().scale(1 / this.length()),
-                this._point3D.get_z().scale(1 / this.length()))
+                this._point3D.getY().scale(1 / this.length()),
+                this._point3D.getZ().scale(1 / this.length()))
         );
     }
 }

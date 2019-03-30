@@ -26,16 +26,6 @@ public class Triangle {
         this._point3 = new Point3D(_point3);
     }
 
-    /**
-     * A new Triangle
-     *
-     * @param other other Triangle
-     */
-    public Triangle(Triangle other) {
-        this._point1 = new Point3D(other._point1);
-        this._point2 = new Point3D(other._point2);
-        this._point3 = new Point3D(other._point3);
-    }
 
     /************** Getters/Setters *******/
 

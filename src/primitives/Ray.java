@@ -15,12 +15,12 @@ public class Ray {
     /**
      * A new Ray
      *
-     * @param _point3D the start point
-     * @param _vector  the _vector
+     * @param point3D the start point
+     * @param vector  the _vector
      */
-    public Ray(Point3D _point3D, Vector _vector) {
-        this._point3D = _point3D;
-        this._vector = _vector;
+    public Ray(Point3D point3D, Vector vector) {
+        _point3D = point3D;
+        _vector = vector.normal();
     }
 
     /**
@@ -29,8 +29,8 @@ public class Ray {
      * @param other Ray to copy from
      */
     public Ray(Ray other) {
-        this._point3D = new Point3D(other._point3D);
-        this._vector = new Vector(other._vector);
+        _point3D = new Point3D(other._point3D);
+        _vector = new Vector(other._vector);
     }
 
     /************** Getters/Setters *******/
@@ -66,40 +66,9 @@ public class Ray {
     @Override
     public String toString() {
         return "Ray{" +
-                "_point3D=" + _point3D +
-                ", _vector=" + _vector +
+                "P=" + _point3D +
+                ", V=" + _vector +
                 '}';
     }
 
-    /************** Operations ***************/
-
-    /**
-     * add a _vector to the ray
-     *
-     * @param vec the _vector to add
-     * @return a new ray
-     */
-    public Ray add(Vector vec) {
-        return new Ray(_point3D, _vector.add(vec));
-    }
-
-    /**
-     * subtract a _vector to the ray
-     *
-     * @param vec the _vector to subtract
-     * @return a new ray
-     */
-    public Ray subtract(Vector vec) {
-        return new Ray(_point3D, _vector.subtract(vec));
-    }
-
-    /**
-     * scale the ray
-     *
-     * @param scale the scale
-     * @return a new ray
-     */
-    public Ray scale(double scale) {
-        return new Ray(_point3D, _vector.scale(scale));
-    }
 }

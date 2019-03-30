@@ -4,6 +4,9 @@ package primitives;
  * Point in 3D
  */
 public class Point3D {
+    /**
+     * Point Zero
+     */
     public static final Point3D ZERO = new Point3D(0,0,0);
 
     private Coordinate _x;
@@ -14,27 +17,27 @@ public class Point3D {
     /**
      * A new Point in 3D
      *
-     * @param _x X coordinate
-     * @param _y Y coordinate
-     * @param _z Z coordinate
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @param z Z coordinate
      */
-    public Point3D(Coordinate _x, Coordinate _y, Coordinate _z) {
-        this._x = _x;
-        this._y = _y;
-        this._z = _z;
+    public Point3D(Coordinate x, Coordinate y, Coordinate z) {
+        _x = x;
+        _y = y;
+        _z = z;
     }
 
     /**
      * A new Point3D
      *
-     * @param _x
-     * @param _y
-     * @param _z
+     * @param x
+     * @param y
+     * @param z
      */
-    public Point3D(double _x, double _y, double _z) {
-        this._x = new Coordinate(_x);
-        this._y = new Coordinate(_y);
-        this._z = new Coordinate(_z);
+    public Point3D(double x, double y, double z) {
+        _x = new Coordinate(x);
+        _y = new Coordinate(y);
+        _z = new Coordinate(z);
     }
 
     /**
@@ -43,9 +46,9 @@ public class Point3D {
      * @param other
      */
     public Point3D(Point3D other) {
-        this._x = new Coordinate(other._x);
-        this._y = new Coordinate(other._y);
-        this._z = new Coordinate(other._z);
+        _x = new Coordinate(other._x);
+        _y = new Coordinate(other._y);
+        _z = new Coordinate(other._z);
     }
 
     /************** Getters/Setters *******/
@@ -55,6 +58,7 @@ public class Point3D {
      * @return the value
      */
     public Coordinate getX() {
+
         return _x;
     }
 
@@ -63,7 +67,8 @@ public class Point3D {
      *
      * @return the value
      */
-    public Coordinate get_y() {
+    public Coordinate getY()
+    {
         return _y;
     }
 
@@ -72,7 +77,8 @@ public class Point3D {
      *
      * @return the value
      */
-    public Coordinate get_z() {
+    public Coordinate getZ()
+    {
         return _z;
     }
 
@@ -83,14 +89,15 @@ public class Point3D {
         if (obj == null) return false;
         if (!(obj instanceof Point3D)) return false;
         Point3D other = (Point3D) obj;
-        return this._z.equals(other._z) &&
-                this._y.equals(other._y) &&
-                this._x.equals(other._x);
+        return _z.equals(other._z) &&
+                _y.equals(other._y) &&
+                _x.equals(other._x);
     }
 
     @Override
     public String toString() {
-        return "( " + this._x + ", " + this._y + ", " + this._z + " )";
+
+        return "P( " + _x + ", " + _y + ", " + _z + " )";
     }
 
     /************** Operations ***************/
@@ -102,9 +109,9 @@ public class Point3D {
      */
     public Point3D add(Vector vec) {
         return new Point3D(
-                this._x.add(vec.get_point3D().getX()),
-                this._y.add(vec.get_point3D().get_y()),
-                this._z.add(vec.get_point3D().get_z())
+                _x.add(vec.getPoint3D().getX()),
+                _y.add(vec.getPoint3D().getY()),
+                _z.add(vec.getPoint3D().getZ())
         );
     }
 
@@ -116,9 +123,9 @@ public class Point3D {
      */
     public Point3D subtract(Vector vec) {
         return new Point3D(
-                this._x.subtract(vec.get_point3D().getX()),
-                this._y.subtract(vec.get_point3D().get_y()),
-                this._z.subtract(vec.get_point3D().get_z())
+                _x.subtract(vec.getPoint3D().getX()),
+                _y.subtract(vec.getPoint3D().getY()),
+                _z.subtract(vec.getPoint3D().getZ())
         );
     }
 
@@ -131,9 +138,9 @@ public class Point3D {
     public Vector subtract(Point3D other) {
         return new Vector(
                 new Point3D(
-                        this._x.subtract(other.getX()),
-                        this._y.subtract(other.get_y()),
-                        this._z.subtract(other.get_z())
+                        _x.subtract(other.getX()),
+                        _y.subtract(other.getY()),
+                        _z.subtract(other.getZ())
 
                 )
         );
@@ -146,10 +153,12 @@ public class Point3D {
      * @return the distance in the power of 2
      */
     public double distance2(Point3D other) {
-        return
-                (this._x.subtract(other.getX())).multiply(this._x.subtract(other.getX())).add(
-                        (this._y.subtract(other.get_y())).multiply(this._y.subtract(other.get_y()))).add(
-                        (this._z.subtract(other.get_z())).multiply(this._z.subtract(other.get_z()))).get();
+        Coordinate x= other.getX();
+        Coordinate y= other.getY();
+        Coordinate z= other.getZ();
+        return  (_x.subtract(x)).multiply(_x.subtract(x)).add(
+                    (_y.subtract(y)).multiply(_y.subtract(y))).add(
+                        (_z.subtract(z)).multiply(_z.subtract(z))).get();
     }
 
     /**
