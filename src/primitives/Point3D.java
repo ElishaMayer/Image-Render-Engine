@@ -63,7 +63,7 @@ public class Point3D {
      *
      * @return the value
      */
-    public Coordinate get_y() {
+    public Coordinate getY() {
         return _y;
     }
 
@@ -72,7 +72,7 @@ public class Point3D {
      *
      * @return the value
      */
-    public Coordinate get_z() {
+    public Coordinate getZ() {
         return _z;
     }
 
@@ -102,9 +102,9 @@ public class Point3D {
      */
     public Point3D add(Vector vec) {
         return new Point3D(
-                this._x.add(vec.get_point3D().getX()),
-                this._y.add(vec.get_point3D().get_y()),
-                this._z.add(vec.get_point3D().get_z())
+                this._x.add(vec.getPoint3D().getX()),
+                this._y.add(vec.getPoint3D().getY()),
+                this._z.add(vec.getPoint3D().getZ())
         );
     }
 
@@ -116,9 +116,9 @@ public class Point3D {
      */
     public Point3D subtract(Vector vec) {
         return new Point3D(
-                this._x.subtract(vec.get_point3D().getX()),
-                this._y.subtract(vec.get_point3D().get_y()),
-                this._z.subtract(vec.get_point3D().get_z())
+                this._x.subtract(vec.getPoint3D().getX()),
+                this._y.subtract(vec.getPoint3D().getY()),
+                this._z.subtract(vec.getPoint3D().getZ())
         );
     }
 
@@ -132,8 +132,8 @@ public class Point3D {
         return new Vector(
                 new Point3D(
                         this._x.subtract(other.getX()),
-                        this._y.subtract(other.get_y()),
-                        this._z.subtract(other.get_z())
+                        this._y.subtract(other.getY()),
+                        this._z.subtract(other.getZ())
 
                 )
         );
@@ -148,8 +148,8 @@ public class Point3D {
     public double distance2(Point3D other) {
         return
                 (this._x.subtract(other.getX())).multiply(this._x.subtract(other.getX())).add(
-                        (this._y.subtract(other.get_y())).multiply(this._y.subtract(other.get_y()))).add(
-                        (this._z.subtract(other.get_z())).multiply(this._z.subtract(other.get_z()))).get();
+                        (this._y.subtract(other.getY())).multiply(this._y.subtract(other.getY()))).add(
+                        (this._z.subtract(other.getZ())).multiply(this._z.subtract(other.getZ()))).get();
     }
 
     /**

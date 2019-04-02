@@ -10,28 +10,28 @@ public class Vector {
     /**
      * A new vector
      *
-     * @param _point3D the end of the vector
+     * @param p the end of the vector
      */
-    public Vector(Point3D _point3D) {
-        if (Point3D.ZERO.equals(_point3D)) {
+    public Vector(Point3D p) {
+        if (Point3D.ZERO.equals(p)) {
             throw new IllegalArgumentException("Vector Zero");
         }
-        this._point3D = _point3D;
+        _point3D = new Point3D(p);
     }
 
     /**
      * A new Vector
      *
-     * @param _x
-     * @param _y
-     * @param _z
+     * @param x
+     * @param y
+     * @param z
      */
-    public Vector(double _x, double _y, double _z) {
-        Point3D _point3D = new Point3D(new Coordinate(_x), new Coordinate(_y), new Coordinate(_z));
-        if (_point3D.getX().equals(Coordinate.ZERO) && _point3D.get_y().equals(Coordinate.ZERO) && _point3D.get_z().equals(Coordinate.ZERO)) {
+    public Vector(double x, double y, double z) {
+        Point3D p = new Point3D(new Coordinate(x), new Coordinate(y), new Coordinate(z));
+        if (p.getX().equals(Coordinate.ZERO) && p.getY().equals(Coordinate.ZERO) && p.getZ().equals(Coordinate.ZERO)) {
             throw new IllegalArgumentException("Vector Zero");
         }
-        this._point3D = _point3D;
+        _point3D = p;
     }
 
     /**
@@ -40,7 +40,7 @@ public class Vector {
      * @param other
      */
     public Vector(Vector other) {
-        this._point3D = new Point3D(other._point3D);
+        _point3D = new Point3D(other._point3D);
     }
 
     /************** Getters/Setters *******/
@@ -49,7 +49,7 @@ public class Vector {
      *
      * @return the value
      */
-    public Point3D get_point3D() {
+    public Point3D getPoint3D() {
         return _point3D;
     }
 
@@ -60,12 +60,12 @@ public class Vector {
         if (obj == null) return false;
         if (!(obj instanceof Vector)) return false;
         Vector other = (Vector) obj;
-        return this._point3D.equals(other._point3D);
+        return _point3D.equals(other._point3D);
     }
 
     @Override
     public String toString() {
-        return "v: " + this._point3D;
+        return "v: " + _point3D;
     }
 
     /************** Operations ***************/
@@ -76,7 +76,7 @@ public class Vector {
      * @return a new vector
      */
     public Vector add(Vector other) {
-        return new Vector(this._point3D.add(other));
+        return new Vector(_point3D.add(other));
     }
 
     /**
@@ -86,7 +86,7 @@ public class Vector {
      * @return a new vector
      */
     public Vector subtract(Vector other) {
-        return new Vector(this._point3D.subtract(other));
+        return new Vector(_point3D.subtract(other));
     }
 
     /**
@@ -97,9 +97,9 @@ public class Vector {
      */
     public Vector scale(double num) {
         return new Vector(new Point3D(
-                this._point3D.getX().scale(num),
-                this._point3D.get_y().scale(num),
-                this._point3D.get_z().scale(num))
+                _point3D.getX().scale(num),
+                _point3D.getY().scale(num),
+                _point3D.getZ().scale(num))
         );
     }
 
@@ -109,10 +109,10 @@ public class Vector {
      * @param other the vector to dot-product with
      * @return the value
      */
-    public double dot_product(Vector other) {
-        return (this._point3D.getX().multiply(other.get_point3D().getX())).get() +
-                (this._point3D.get_y().multiply(other.get_point3D().get_y())).get() +
-                (this._point3D.get_z().multiply(other.get_point3D().get_z())).get();
+    public double dotProduct(Vector other) {
+        return (_point3D.getX().multiply(other.getPoint3D().getX())).get() +
+                (_point3D.getY().multiply(other.getPoint3D().getY())).get() +
+                (_point3D.getZ().multiply(other.getPoint3D().getZ())).get();
 
     }
 
@@ -122,15 +122,14 @@ public class Vector {
      * @param other the vector to cross-product with
      * @return a new vector
      */
-    public Vector cross_product(Vector other) {
+    public Vector crossProduct(Vector other) {
+        Coordinate thisX = _point3D.getX(), thisY = _point3D.getY(), thisZ = _point3D.getZ(),
+                otherX = other.getPoint3D().getX(), otherY = other.getPoint3D().getY(), otherZ = other.getPoint3D().getZ();
+
         return new Vector(new Point3D(
-                (this._point3D.get_y().multiply(other.get_point3D().get_z())).subtract(
-                        this._point3D.get_z().multiply(other.get_point3D().get_y())),
-                (this._point3D.get_z().multiply(other.get_point3D().getX())).subtract(
-                        this._point3D.getX().multiply(other.get_point3D().get_z())),
-                (this._point3D.getX().multiply(other.get_point3D().get_y())).subtract(
-                        this._point3D.get_y().multiply(other.get_point3D().getX())))
-        );
+                (thisY.multiply(otherZ)).subtract(thisZ.multiply(otherY)),
+                (thisZ.multiply(otherX)).subtract(thisX.multiply(otherZ)),
+                (thisX.multiply(otherY)).subtract(thisY.multiply(otherX))));
     }
 
     /**
@@ -139,10 +138,7 @@ public class Vector {
      * @return the value
      */
     public double length() {
-        return Math.sqrt((this._point3D.getX().multiply(this._point3D.getX())).get() +
-                (this._point3D.get_y().multiply(this._point3D.get_y())).get() +
-                (this._point3D.get_z().multiply(this._point3D.get_z())).get()
-        );
+        return Math.sqrt(length2());
     }
 
     /**
@@ -151,10 +147,9 @@ public class Vector {
      * @return the value
      */
     public double length2() {
-        return (this._point3D.getX().multiply(this._point3D.getX())).get() +
-                (this._point3D.get_y().multiply(this._point3D.get_y())).get() +
-                (this._point3D.get_z().multiply(this._point3D.get_z())).get()
-                ;
+        Coordinate x = _point3D.getX(), y = _point3D.getY(), z = _point3D.getZ();
+
+        return (x.multiply(x)).get()+(y.multiply(y)).get()+(z.multiply(z)).get();
     }
 
     /**
@@ -163,10 +158,11 @@ public class Vector {
      * @return a new vector
      */
     public Vector normal() {
+        double len = length();
+
         return new Vector(new Point3D(
-                this._point3D.getX().scale(1 / this.length()),
-                this._point3D.get_y().scale(1 / this.length()),
-                this._point3D.get_z().scale(1 / this.length()))
-        );
+                this._point3D.getX().scale(1 / len),
+                this._point3D.getY().scale(1 / len),
+                this._point3D.getZ().scale(1 / len)));
     }
 }

@@ -3,7 +3,6 @@ package test;
 import org.junit.Test;
 import primitives.Vector;
 
-import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class VectorTest {
@@ -53,21 +52,21 @@ public class VectorTest {
     public void dot_product() {
         Vector vec1 = new Vector(1, 1, 1);
         Vector vec2 = new Vector(3, -2, 5);
-        assertEquals(6, vec1.dot_product(vec2));
+        assertEquals(6, vec1.dotProduct(vec2));
     }
 
     @org.junit.Test
     public void cross_product() {
         Vector vec1 = new Vector(1, 1, 1);
         Vector vec2 = new Vector(3, -2, 5);
-        assertEquals(new Vector(7, -2, -5), vec1.cross_product(vec2));
+        assertEquals(new Vector(7, -2, -5), vec1.crossProduct(vec2));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void cross_productExc() {
         Vector vec1 = new Vector(1, 1, 1);
         Vector vec2 = new Vector(2, 2, 2);
-        vec1.cross_product(vec2);
+        vec1.crossProduct(vec2);
     }
 
     @org.junit.Test
