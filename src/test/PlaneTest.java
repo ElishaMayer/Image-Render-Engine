@@ -24,7 +24,5 @@ public class PlaneTest {
     @Test(expected = IllegalArgumentException.class)
     public void InvalidPlane(){
         Plane plane = new Plane(new Point3D(0,2,0),new Point3D(2,0,0),new Point3D(2,0,0));
-
     }
-
 }

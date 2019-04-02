@@ -6,7 +6,6 @@ import primitives.Point3D;
  * Triangle
  */
 public class Triangle extends Plane implements Geometry{
-
     private Point3D _point2;
     private Point3D _point3;
 
@@ -21,8 +20,8 @@ public class Triangle extends Plane implements Geometry{
      */
     public Triangle(Point3D p1, Point3D p2, Point3D p3) {
         super(p1,p2,p3);
-        this._point2 = new Point3D(p2);
-        this._point3 = new Point3D(p3);
+        _point2 = new Point3D(p2);
+        _point3 = new Point3D(p3);
     }
 
 
@@ -34,7 +33,6 @@ public class Triangle extends Plane implements Geometry{
      * @return the point
      */
     public Point3D getPoint1() {
-
         return super._point;
     }
 
@@ -43,8 +41,7 @@ public class Triangle extends Plane implements Geometry{
      *
      * @return the point
      */
-    public Point3D getPoint2()
-    {
+    public Point3D getPoint2() {
         return _point2;
     }
 
@@ -53,8 +50,7 @@ public class Triangle extends Plane implements Geometry{
      *
      * @return the point
      */
-    public Point3D getPoint3()
-    {
+    public Point3D getPoint3() {
         return _point3;
     }
 
@@ -70,5 +66,4 @@ public class Triangle extends Plane implements Geometry{
     }
 
     /*************** Operations ***************/
-
 }

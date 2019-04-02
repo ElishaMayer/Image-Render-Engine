@@ -58,7 +58,6 @@ public class Point3D {
      * @return the value
      */
     public Coordinate getX() {
-
         return _x;
     }
 
@@ -95,7 +94,7 @@ public class Point3D {
     @Override
     public String toString() {
 
-        return "P( " + _x + ", " + _y + ", " + _z + " )";
+        return "(" + _x + "," + _y + "," + _z + ")";
     }
 
     /************** Operations ***************/
@@ -153,6 +152,7 @@ public class Point3D {
         Coordinate x= other.getX();
         Coordinate y= other.getY();
         Coordinate z= other.getZ();
+
         return  (_x.subtract(x)).multiply(_x.subtract(x)).add(
                     (_y.subtract(y)).multiply(_y.subtract(y))).add(
                         (_z.subtract(z)).multiply(_z.subtract(z))).get();

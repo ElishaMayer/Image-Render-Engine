@@ -15,12 +15,12 @@ public class Ray {
     /**
      * A new Ray
      *
-     * @param point3D the start point
-     * @param vector  the _vector
+     * @param p the start point
+     * @param vec  the _vector
      */
-    public Ray(Point3D point3D, Vector vector) {
-        _point3D = new Point3D(point3D);
-        _vector = vector.normal();
+    public Ray(Point3D p, Vector vec) {
+        _point3D = new Point3D(p);
+        _vector = vec.normal();
     }
 
     /**
@@ -41,7 +41,6 @@ public class Ray {
      * @return the point
      */
     public Point3D getPoint3D() {
-
         return _point3D;
     }
 
@@ -51,7 +50,6 @@ public class Ray {
      * @return the vector
      */
     public Vector getVector() {
-
         return _vector;
     }
 
@@ -67,10 +65,6 @@ public class Ray {
 
     @Override
     public String toString() {
-        return "Ray{" +
-                "P=" + _point3D +
-                ", V=" + _vector +
-                '}';
+        return "Ray{" + _point3D + "," + _vector + "}";
     }
-
 }

@@ -15,12 +15,12 @@ public abstract class RadialGeometry {
     /**
      * A new RadialGeometry
      *
-     * @param radius the radios
+     * @param radius the radius
      */
     public RadialGeometry(double radius) {
         if(Util.isZero(radius) || radius < 0)
-            throw new IllegalArgumentException("Zero or negative radius ");
-        this._radius = radius;
+            throw new IllegalArgumentException("Zero or negative radius");
+        _radius = radius;
     }
 
 
@@ -36,22 +36,17 @@ public abstract class RadialGeometry {
 
     @Override
     public String toString() {
-        return
-                "_radios=" + _radius
-                ;
+        return "R=" + _radius;
     }
 
     /************** Getters/Setters *******/
 
     /**
-     * Get radios
+     * Get radius
      *
      * @return
      */
-    public double getRadios()
-    {
+    public double getRadius() {
         return _radius;
     }
-
-
 }

@@ -16,12 +16,12 @@ public class Plane implements Geometry{
     /**
      * A new Plane
      *
-     * @param _point  a point on the plane
-     * @param _vector a vector in the plane
+     * @param p  a point on the plane
+     * @param vec a vector in the plane
      */
-    public Plane(Point3D _point, Vector _vector) {
-        this._point = new Point3D(_point);
-        this._vector = _vector.normal();
+    public Plane(Point3D p, Vector vec) {
+        _point = new Point3D(p);
+        _vector = vec.normal();
     }
 
     /**
@@ -34,19 +34,14 @@ public class Plane implements Geometry{
         _point = new Point3D(p1);
         Vector v1 = p2.subtract(p3);
         Vector v2 = p2.subtract(p1);
-        _vector = v1.cross_product(v2).normal();
+        _vector = v1.crossProduct(v2).normal();
     }
-
-
 
     /*************** Admin *****************/
 
     @Override
     public String toString() {
-        return "Plane{" +
-                "_point=" + _point +
-                ", _vector=" + _vector +
-                '}';
+        return "Plane{" + _point + ", " + _vector + "}";
     }
 
     /************** Getters/Setters *******/
@@ -57,7 +52,6 @@ public class Plane implements Geometry{
      * @return point
      */
     public Point3D getPoint() {
-
         return _point;
     }
 
@@ -67,7 +61,6 @@ public class Plane implements Geometry{
      * @return vector
      */
     public Vector getVector() {
-
         return _vector;
     }
 

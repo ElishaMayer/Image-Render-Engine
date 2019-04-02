@@ -28,10 +28,10 @@ public class Vector {
      */
     public Vector(double x, double y, double z) {
         Point3D p = new Point3D(new Coordinate(x), new Coordinate(y), new Coordinate(z));
-        if (p.getX().equals(Coordinate.ZERO) && p.getY().equals(Coordinate.ZERO) && p.getZ().equals(Coordinate.ZERO)) {
+        if (Point3D.ZERO.equals(p)) {
             throw new IllegalArgumentException("Vector Zero");
         }
-        _point3D = p;
+        _point3D = new Point3D(p);
     }
 
     /**
@@ -65,7 +65,7 @@ public class Vector {
 
     @Override
     public String toString() {
-        return "v: " + _point3D;
+        return "V=" + _point3D;
     }
 
     /************** Operations ***************/
@@ -160,8 +160,8 @@ public class Vector {
         double len = length();
 
         return new Vector(new Point3D(
-                this._point3D.getX().scale(1 / len),
-                this._point3D.getY().scale(1 / len),
-                this._point3D.getZ().scale(1 / len)));
+                _point3D.getX().scale(1 / len),
+                _point3D.getY().scale(1 / len),
+                _point3D.getZ().scale(1 / len)));
     }
 }

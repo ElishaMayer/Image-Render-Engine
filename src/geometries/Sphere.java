@@ -7,7 +7,6 @@ import primitives.Vector;
  * Sphere
  */
 public class Sphere extends RadialGeometry implements Geometry{
-
     private Point3D _point;
 
     /********** Constructors ***********/
@@ -15,12 +14,12 @@ public class Sphere extends RadialGeometry implements Geometry{
     /**
      * A new Sphere
      *
-     * @param radius the radios
-     * @param _point  the middle point
+     * @param radius the radius
+     * @param point the middle point
      */
-    public Sphere(double radius, Point3D _point) {
+    public Sphere(double radius, Point3D point) {
         super(radius);
-        this._point = new Point3D(_point);
+        _point = new Point3D(point);
     }
 
 
@@ -31,8 +30,7 @@ public class Sphere extends RadialGeometry implements Geometry{
      *
      * @return point
      */
-    public Point3D get_point() {
-
+    public Point3D getPoint() {
         return _point;
     }
 
@@ -41,8 +39,8 @@ public class Sphere extends RadialGeometry implements Geometry{
     @Override
     public String toString() {
         return "Sphere{" + super.toString() +
-                "_point=" + _point +
-                '}';
+                "P=" + _point +
+                "}";
     }
 
     /**
@@ -55,6 +53,6 @@ public class Sphere extends RadialGeometry implements Geometry{
     public Vector getNormal(Point3D p) {
         return p.subtract(_point).normal();
     }
-    /************** Operations ***************/
 
+    /************** Operations ***************/
 }

@@ -8,20 +8,19 @@ import primitives.Vector;
  * Tube
  */
 public class Tube extends RadialGeometry implements Geometry{
-
-    private Ray _ray;
+    protected Ray _ray;
 
     /********** Constructors ***********/
 
     /**
      * A new Tube
      *
-     * @param radius the radios
+     * @param radius the radius
      * @param ray the direction
      */
     public Tube(double radius, Ray ray) {
         super(radius);
-        this._ray = new Ray(ray);
+        _ray = new Ray(ray);
     }
 
 
@@ -32,8 +31,7 @@ public class Tube extends RadialGeometry implements Geometry{
      *
      * @return vector
      */
-    public Ray getRay()
-    {
+    public Ray getRay() {
         return _ray;
     }
 
@@ -42,8 +40,8 @@ public class Tube extends RadialGeometry implements Geometry{
     @Override
     public String toString() {
         return "Tube{" + super.toString() +
-                "ray=" + _ray +
-                '}';
+                ", " + _ray +
+                "}";
     }
 
     /**
@@ -54,10 +52,11 @@ public class Tube extends RadialGeometry implements Geometry{
      */
     @Override
     public Vector getNormal(Point3D p) {
-        return null;
+        double t = _ray.getVector().dotProduct(p.subtract(_ray.getPoint3D()));
+        Point3D o = _ray.getPoint3D().add(_ray.getVector().scale(t));
+
+        return p.subtract(o).normal();
     }
 
     /************** Operations ***************/
-
-
 }
