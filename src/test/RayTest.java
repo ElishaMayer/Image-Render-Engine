@@ -11,44 +11,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RayTest {
 
+    //check that vector is normalized
     @org.junit.Test
-    public void add() {
-        Ray ray = new Ray(new Point3D(1, 2, 3), new Vector(1, 1, 1));
-        Vector vec = new Vector(3, -2, 5);
-        assertEquals(new Ray(new Point3D(1, 2, 3), new Vector(4, -1, 6)), ray.add(vec));
+    public void newRay() {
+        Ray ray = new Ray(new Point3D(1, 2, 3), new Vector(10, 10, 10));
+        double num = 10/Math.sqrt(300);
+        Vector vec = new Vector(num, num, num);
+        assertEquals(vec,ray.getVector());
     }
 
+    //check that vector 0 is not accepted
     @Test(expected = IllegalArgumentException.class)
-    public void addExc() {
-        Ray ray = new Ray(new Point3D(1, 2, 3), new Vector(1, 1, 1));
-        Vector vec = new Vector(-1, -1, -1);
-        ray.add(vec);
-    }
-
-    @Test
-    public void subtract() {
-        Ray ray = new Ray(new Point3D(1, 2, 3), new Vector(1, 1, 1));
-        Vector vec = new Vector(3, -2, 5);
-        assertEquals(new Ray(new Point3D(1, 2, 3), new Vector(-2, 3, -4)), ray.subtract(vec));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void subtractExc() {
-        Ray ray = new Ray(new Point3D(1, 2, 3), new Vector(1, 1, 1));
-        Vector vec = new Vector(1, 1, 1);
-        ray.subtract(vec);
-    }
-
-    @Test
-    public void scale() {
-        Ray ray = new Ray(new Point3D(1, 2, 3), new Vector(1, 1, 1));
-        assertEquals(new Ray(new Point3D(1, 2, 3), new Vector(2, 2, 2)), ray.scale(2));
-        assertEquals(new Ray(new Point3D(1, 2, 3), new Vector(-2, -2, -2)), ray.scale(-2));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void scaleExc() {
-        Ray ray = new Ray(new Point3D(1, 2, 3), new Vector(1, 1, 1));
-        ray.scale(0);
+    public void vecZero(){
+        Ray ray = new Ray(new Point3D(1,1,1),new Vector(0,0,0));
     }
 }

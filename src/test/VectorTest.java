@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class VectorTest {
 
+    //check add vector to vector
     @Test
     public void add() {
         Vector vec1 = new Vector(1, 1, 1);
@@ -14,6 +15,7 @@ public class VectorTest {
         assertEquals(new Vector(4, -1, 6), vec1.add(vec2));
     }
 
+    //check exception in add
     @Test(expected = IllegalArgumentException.class)
     public void addExc() {
         Vector vec1 = new Vector(1, 1, 1);
@@ -21,6 +23,7 @@ public class VectorTest {
         vec1.add(vec2);
     }
 
+    //check subtract vector
     @Test
     public void subtract() {
         Vector vec1 = new Vector(1, 1, 1);
@@ -28,6 +31,7 @@ public class VectorTest {
         assertEquals(new Vector(-2, 3, -4), vec1.subtract(vec2));
     }
 
+    //check zero exception thrown in subtract
     @Test(expected = IllegalArgumentException.class)
     public void subtractExc() {
         Vector vec1 = new Vector(1, 1, 1);
@@ -35,6 +39,7 @@ public class VectorTest {
         vec1.subtract(vec2);
     }
 
+    //check scale
     @Test
     public void scale() {
         Vector vec1 = new Vector(1, 1, 1);
@@ -42,33 +47,38 @@ public class VectorTest {
         assertEquals(new Vector(-2, -2, -2), vec1.scale(-2));
     }
 
+    //check zero exception in scale
     @Test(expected = IllegalArgumentException.class)
     public void scaleExc() {
         Vector vec1 = new Vector(1, 1, 1);
         vec1.scale(0);
     }
 
+    //check dot product
     @org.junit.Test
-    public void dot_product() {
+    public void dotProduct() {
         Vector vec1 = new Vector(1, 1, 1);
         Vector vec2 = new Vector(3, -2, 5);
         assertEquals(6, vec1.dotProduct(vec2));
     }
 
+    //check cross product
     @org.junit.Test
-    public void cross_product() {
+    public void crossProduct() {
         Vector vec1 = new Vector(1, 1, 1);
         Vector vec2 = new Vector(3, -2, 5);
         assertEquals(new Vector(7, -2, -5), vec1.crossProduct(vec2));
     }
 
+    //check vector zero in cross product
     @Test(expected = IllegalArgumentException.class)
-    public void cross_productExc() {
+    public void crossProductExc() {
         Vector vec1 = new Vector(1, 1, 1);
         Vector vec2 = new Vector(2, 2, 2);
         vec1.crossProduct(vec2);
     }
 
+    //check vector length
     @org.junit.Test
     public void length() {
         Vector vec1 = new Vector(0, -3, 4);
@@ -79,6 +89,7 @@ public class VectorTest {
         assertEquals(5, vec3.length());
     }
 
+    //check vector length in pow 2
     @org.junit.Test
     public void length2() {
         Vector vec1 = new Vector(0, -3, 4);
@@ -89,6 +100,7 @@ public class VectorTest {
         assertEquals(25, vec3.length2());
     }
 
+    //check vector normal
     @org.junit.Test
     public void normal() {
         Vector vec1 = new Vector(0, -3, 4);
@@ -97,5 +109,8 @@ public class VectorTest {
         assertEquals(new Vector(0, -3.0 / 5.0, 4.0 / 5.0), vec1.normal());
         assertEquals(new Vector(3.0 / 5.0, 0, -4.0 / 5.0), vec2.normal());
         assertEquals(new Vector(-3.0 / 5.0, 4.0 / 5.0, 0), vec3.normal());
+        assertEquals(1,vec1.normal().length());
+        assertEquals(1,vec2.normal().length());
+        assertEquals(1,vec3.normal().length());
     }
 }

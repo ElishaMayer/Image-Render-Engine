@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Point3DTest {
 
+    //check add vector ot point
     @Test
     public void add() {
         Point3D p = new Point3D(1, 1, 1);
@@ -16,20 +17,23 @@ public class Point3DTest {
         assertEquals(new Point3D(4, -1, 6), p.add(vec));
     }
 
+    //check subtract vector from point
     @Test
-    public void subtract_Vector() {
+    public void subtractVector() {
         Point3D p = new Point3D(1, 1, 1);
         Vector vec = new Vector(3, -2, 5);
         assertEquals(new Point3D(-2, 3, -4), p.subtract(vec));
     }
 
+    //check subtract point from point
     @Test
-    public void subtract_Point3D() {
+    public void subtractPoint3D() {
         Point3D p1 = new Point3D(1, 1, 1);
         Point3D p2 = new Point3D(3, -2, 5);
         assertEquals(new Vector(-2, 3, -4), p1.subtract(p2));
     }
 
+    //check distance between two points in pow 2
     @Test
     public void distance2() {
         Point3D p1 = new Point3D(8, 6, 5);
@@ -43,6 +47,7 @@ public class Point3DTest {
         assertEquals(25, p5.distance2(p6));
     }
 
+    //check distance between two points
     @Test
     public void distance() {
         Point3D p1 = new Point3D(8, 6, 5);

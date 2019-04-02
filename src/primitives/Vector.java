@@ -113,7 +113,6 @@ public class Vector {
         return (_point3D.getX().multiply(other.getPoint3D().getX())).get() +
                 (_point3D.getY().multiply(other.getPoint3D().getY())).get() +
                 (_point3D.getZ().multiply(other.getPoint3D().getZ())).get();
-
     }
 
     /**

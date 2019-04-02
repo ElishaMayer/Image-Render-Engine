@@ -1,36 +1,29 @@
 package geometries;
 
+import primitives.Point3D;
+import primitives.Ray;
 import primitives.Vector;
 
 /**
  * Tube
  */
-public class Tube extends RadialGeometry {
+public class Tube extends RadialGeometry implements Geometry{
 
-    private Vector _vector;
+    private Ray _ray;
 
     /********** Constructors ***********/
 
     /**
      * A new Tube
      *
-     * @param _radios the radios
-     * @param _vector the direction
+     * @param radius the radios
+     * @param ray the direction
      */
-    public Tube(double _radios, Vector _vector) {
-        super(_radios);
-        this._vector = _vector;
+    public Tube(double radius, Ray ray) {
+        super(radius);
+        this._ray = new Ray(ray);
     }
 
-    /**
-     * A new Tube
-     *
-     * @param other other Tube
-     */
-    public Tube(Tube other) {
-        super(other.get_radios());
-        this._vector = new Vector(other._vector);
-    }
 
     /************** Getters/Setters *******/
 
@@ -39,8 +32,9 @@ public class Tube extends RadialGeometry {
      *
      * @return vector
      */
-    public Vector get_vector() {
-        return _vector;
+    public Ray getRay()
+    {
+        return _ray;
     }
 
     /*************** Admin *****************/
@@ -48,8 +42,19 @@ public class Tube extends RadialGeometry {
     @Override
     public String toString() {
         return "Tube{" + super.toString() +
-                "_vector=" + _vector +
+                "ray=" + _ray +
                 '}';
+    }
+
+    /**
+     * Get the normal from the point in the shape
+     *
+     * @param p the point
+     * @return the normal
+     */
+    @Override
+    public Vector getNormal(Point3D p) {
+        return null;
     }
 
     /************** Operations ***************/
