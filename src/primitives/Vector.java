@@ -11,6 +11,7 @@ public class Vector {
      * A new vector
      *
      * @param p the end of the vector
+     * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
      */
     public Vector(Point3D p) {
         if (Point3D.ZERO.equals(p)) {
@@ -48,6 +49,7 @@ public class Vector {
      * Get point3D
      *
      * @return the value
+     * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
      */
     public Point3D getPoint3D() {
         return _point3D;
