@@ -29,7 +29,7 @@ public abstract class RadialGeometry {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !(o instanceof RadialGeometry)) return false;
         RadialGeometry other = (RadialGeometry) o;
         return usubtract(other._radius, _radius) == 0.0;
     }

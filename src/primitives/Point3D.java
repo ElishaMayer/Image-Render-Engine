@@ -20,6 +20,7 @@ public class Point3D {
      * @param x X coordinate
      * @param y Y coordinate
      * @param z Z coordinate
+     * @see Coordinate#Coordinate(double)
      */
     public Point3D(Coordinate x, Coordinate y, Coordinate z) {
         _x = new Coordinate(x);
@@ -56,6 +57,7 @@ public class Point3D {
      * Get X coordinate
      *
      * @return the value
+     * @see Coordinate
      */
     public Coordinate getX() {
         return _x;
@@ -65,6 +67,7 @@ public class Point3D {
      * Get Y coordinate
      *
      * @return the value
+     * @see Coordinate#Coordinate(double)
      */
     public Coordinate getY() {
         return _y;
@@ -74,6 +77,7 @@ public class Point3D {
      * Get Z coordinate
      *
      * @return the value
+     * @see Coordinate
      */
     public Coordinate getZ() {
         return _z;
@@ -103,6 +107,7 @@ public class Point3D {
      *
      * @param vec the vector
      * @return a new point
+     * @see Vector#Vector(Point3D)
      */
     public Point3D add(Vector vec) {
         return new Point3D(
@@ -117,6 +122,7 @@ public class Point3D {
      *
      * @param vec the vector
      * @return a new point
+     * @see Vector#Vector(Point3D)
      */
     public Point3D subtract(Vector vec) {
         return new Point3D(
@@ -149,9 +155,9 @@ public class Point3D {
      * @return the distance in the power of 2
      */
     public double distance2(Point3D other) {
-        Coordinate x= other.getX();
-        Coordinate y= other.getY();
-        Coordinate z= other.getZ();
+        Coordinate x= other._x;
+        Coordinate y= other._y;
+        Coordinate z= other._z;
 
         return  (_x.subtract(x)).multiply(_x.subtract(x)).add(
                     (_y.subtract(y)).multiply(_y.subtract(y))).add(

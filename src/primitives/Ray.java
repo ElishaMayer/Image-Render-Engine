@@ -16,7 +16,9 @@ public class Ray {
      * A new Ray
      *
      * @param p the start point
-     * @param vec  the _vector
+     * @param vec  the vector
+     * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
+     * @see Vector#Vector(Point3D)
      */
     public Ray(Point3D p, Vector vec) {
         _point3D = new Point3D(p);
@@ -39,6 +41,7 @@ public class Ray {
      * Get start point
      *
      * @return the point
+     * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
      */
     public Point3D getPoint3D() {
         return _point3D;
@@ -48,6 +51,7 @@ public class Ray {
      * Get Vector
      *
      * @return the vector
+     * @see Vector#Vector(Point3D)
      */
     public Vector getVector() {
         return _vector;
