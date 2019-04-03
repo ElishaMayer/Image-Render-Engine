@@ -149,9 +149,9 @@ public class Point3D {
      * @return the distance in the power of 2
      */
     public double distance2(Point3D other) {
-        Coordinate x= other.getX();
-        Coordinate y= other.getY();
-        Coordinate z= other.getZ();
+        Coordinate x= other._x;
+        Coordinate y= other._y;
+        Coordinate z= other._z;
 
         return  (_x.subtract(x)).multiply(_x.subtract(x)).add(
                     (_y.subtract(y)).multiply(_y.subtract(y))).add(
