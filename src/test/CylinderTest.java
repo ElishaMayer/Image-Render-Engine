@@ -12,7 +12,7 @@ public class CylinderTest {
 
     /**
      * check cylinder normal,
-     * test for {@link Cylinder#getNormal getNormal()} method
+     * test for {@link Cylinder#getNormal getNormal} method
      */
     @Test
     public void getNormal() {
@@ -24,7 +24,7 @@ public class CylinderTest {
 
     /**
      * check 0 radius,
-     * test for {@link Cylinder#Cylinder(double, Ray, double) Cylinder(double, Ray, double)} constructor
+     * test for {@link Cylinder#Cylinder Cylinder} constructor
      */
     @Test(expected = IllegalArgumentException.class)
     public void radiusZeroExc(){
@@ -33,7 +33,7 @@ public class CylinderTest {
 
     /**
      * check negative radius,
-     * test for {@link Cylinder#Cylinder(double, Ray, double) Cylinder(double, Ray, double)} constructor
+     * test for {@link Cylinder#Cylinder Cylinder} constructor
      */
     @Test(expected = IllegalArgumentException.class)
     public void radiusNegativeExc(){
@@ -42,7 +42,7 @@ public class CylinderTest {
 
     /**
      * check 0 height,
-     * test for {@link Cylinder#Cylinder(double, Ray, double) Cylinder(double, Ray, double)} constructor
+     * test for {@link Cylinder#Cylinder Cylinder} constructor
      */
     @Test(expected = IllegalArgumentException.class)
     public void heightZeroExc(){
@@ -51,7 +51,7 @@ public class CylinderTest {
 
     /**
      * check negative height,
-     * test for {@link Cylinder#Cylinder(double, Ray, double) Cylinder(double, Ray, double)} constructor
+     * test for {@link Cylinder#Cylinder Cylinder} constructor
      */
     @Test(expected = IllegalArgumentException.class)
     public void heightNegativeExc(){

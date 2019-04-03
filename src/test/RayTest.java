@@ -11,7 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RayTest {
 
-    //check that vector is normalized
+    /**
+     * check that vector is normalized,
+     * test for {@link Ray#Ray(Point3D,Vector) Ray(Point3D,Vector)} constructor
+     */
     @org.junit.Test
     public void newRay() {
         Ray ray = new Ray(new Point3D(1, 2, 3), new Vector(10, 10, 10));
@@ -20,7 +23,10 @@ public class RayTest {
         assertEquals(vec,ray.getVector());
     }
 
-    //check that vector 0 is not accepted
+    /**
+     * check that vector 0 is not accepted,
+     * test for {@link Ray#Ray(Point3D,Vector) Ray(Point3D,Vector)} constructor
+     */
     @Test(expected = IllegalArgumentException.class)
     public void vecZero(){
         Ray ray = new Ray(new Point3D(1,1,1),new Vector(0,0,0));

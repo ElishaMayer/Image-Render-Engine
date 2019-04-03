@@ -10,7 +10,10 @@ import static org.junit.Assert.*;
 
 public class TriangleTest {
 
-    //check plane normal
+    /**
+     * check triangle normal,
+     * test for {@link Triangle#getNormal getNormal} method
+     */
     @Test
     public void getNormal() {
         Triangle tri = new Triangle(new Point3D(2,0,0),new Point3D(0,2,0),new Point3D(0,0,0));

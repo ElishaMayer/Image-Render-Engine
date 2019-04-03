@@ -10,7 +10,10 @@ import static org.junit.Assert.*;
 
 public class PlaneTest {
 
-    //check plane normal
+    /**
+     * check plane normal,
+     * test for {@link Plane#getNormal getNormal} method
+     */
     @Test
     public void getNormal() {
         Plane plane = new Plane(new Point3D(2,0,0),new Point3D(0,2,0),new Point3D(0,0,0));
@@ -20,7 +23,10 @@ public class PlaneTest {
         assertEquals(new Vector(1,2,3).normal(),plane.getNormal(null));
     }
 
-    //check invalid plane
+    /**
+     * check invalid plane,
+     * test for {@link Plane#Plane(Point3D, Point3D, Point3D) Plane(Point3D, Point3D, Point3D)} constructor
+     */
     @Test(expected = IllegalArgumentException.class)
     public void InvalidPlane(){
         Plane plane = new Plane(new Point3D(0,2,0),new Point3D(2,0,0),new Point3D(2,0,0));

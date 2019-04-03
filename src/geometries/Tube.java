@@ -53,9 +53,12 @@ public class Tube extends RadialGeometry implements Geometry{
     @Override
     public Vector getNormal(Point3D p) {
         double t = _ray.getVector().dotProduct(p.subtract(_ray.getPoint3D()));
-        Point3D o = _ray.getPoint3D().add(_ray.getVector().scale(t));
+        if(t!=0){
+            Point3D o = _ray.getPoint3D().add(_ray.getVector().scale(t));
+            return p.subtract(o).normal();
+        }
 
-        return p.subtract(o).normal();
+        return p.subtract(_ray.getPoint3D()).normal();
     }
 
     /************** Operations ***************/
