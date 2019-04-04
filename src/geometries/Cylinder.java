@@ -1,9 +1,8 @@
 package geometries;
 
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Util;
-import primitives.Vector;
+import primitives.*;
+
+import java.util.List;
 
 import static primitives.Util.isZero;
 
@@ -65,6 +64,19 @@ public class Cylinder extends Tube implements Geometry {
             return _ray.getVector().scale(-1);
 
         return super.getNormal(p);
+    }
+
+    /**
+     * All intections with ray
+     *
+     * @param ray The ray
+     * @return List of intersactions
+     * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
+     * @see Ray#Ray(Point3D, Vector)
+     */
+    @Override
+    public List<Point3D> findIntersections(Ray ray) {
+        return null;
     }
 
     /************** Operations ***************/

@@ -1,6 +1,11 @@
 package geometries;
 
+import primitives.Coordinate;
 import primitives.Point3D;
+import primitives.Ray;
+import primitives.Vector;
+
+import java.util.List;
 
 /**
  * Triangle
@@ -66,4 +71,16 @@ public class Triangle extends Plane implements Geometry{
     }
 
     /*************** Operations ***************/
+    /**
+     * All intections with ray
+     *
+     * @param ray The ray
+     * @return List of intersactions
+     * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
+     * @see Ray#Ray(Point3D, Vector)
+     */
+    @Override
+    public List<Point3D> findIntersections(Ray ray) {
+        return super.findIntersections(ray);
+    }
 }

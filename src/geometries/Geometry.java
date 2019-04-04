@@ -6,7 +6,7 @@ import primitives.Vector;
 /**
  * A Geometry Shape
  */
-public interface Geometry {
+public interface Geometry extends Intersectable{
     /**
      * Get the normal from the point in the shape
      * @param p the point
