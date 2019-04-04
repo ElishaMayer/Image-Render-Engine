@@ -38,7 +38,11 @@ public class Plane implements Geometry{
         _point = new Point3D(p1);
         Vector v1 = p2.subtract(p3);
         Vector v2 = p2.subtract(p1);
-        _vector = v1.crossProduct(v2).normal();
+        try {
+            _vector = v1.crossProduct(v2).normal();
+        }catch (IllegalArgumentException exc){
+            throw new IllegalArgumentException("This is not a Plane/Triangle");
+        }
     }
 
     /*************** Admin *****************/
