@@ -44,7 +44,7 @@ public class Cylinder extends Tube implements Geometry {
     @Override
     public String toString() {
         return "C{" + super.toString() +
-                "h=" + _height +
+                " ,h=" + _height +
                 "}";
     }
 

@@ -132,6 +132,6 @@ public class TubeTest {
         list.add(new Point3D(0,0,-2));
         assertEquals("ray is going in a different direction and starting before the tube",list,tb.findIntersections(new Ray(new Point3D(0,0,-5),new Vector(0,0,1))));
 
-    
+
     }
 }
