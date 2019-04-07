@@ -88,6 +88,7 @@ public class TubeTest {
         assertEquals("ray going through under right pixel",list,tb.findIntersections(rightDown));
 
 
+        //Tube at (0,0,-3) and going upwards
         tb = new Tube(1,new Ray(new Point3D(0,0,-3),new Vector(0,1,0)));
 
         //ray going strait up with the z
@@ -116,5 +117,21 @@ public class TubeTest {
         list = new ArrayList<>();
         assertEquals("ray tangent to tube and starts after there",list,tb.findIntersections(new Ray(new Point3D(1,0,-4),new Vector(0,0,-1))));
 
+        //ray is going in a different direction
+        list = new ArrayList<>();
+        assertEquals("ray is going in a different direction",list,tb.findIntersections(new Ray(new Point3D(0,0,0),new Vector(0,0,1))));
+
+        //ray is going in a different direction and starting at the middle
+        list = new ArrayList<>();
+        list.add(new Point3D(0,0,-2));
+        assertEquals("ray is going in a different direction and starting at the middle",list,tb.findIntersections(new Ray(new Point3D(0,0,-3),new Vector(0,0,1))));
+
+        //ray is going in a different direction and starting before the tube
+        list = new ArrayList<>();
+        list.add(new Point3D(0,0,-4));
+        list.add(new Point3D(0,0,-2));
+        assertEquals("ray is going in a different direction and starting before the tube",list,tb.findIntersections(new Ray(new Point3D(0,0,-5),new Vector(0,0,1))));
+
+    
     }
 }

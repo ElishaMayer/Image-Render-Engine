@@ -176,26 +176,21 @@ public class Tube extends RadialGeometry implements Geometry{
         //the ray starts at point1
         if(p1.equals(ray.getPoint3D())){
             list.add(p1);
-            list.add(p2);
-            return list;
-        }
+        }else
+            //the ray starts before point 1
+            if(!(p1.subtract(ray.getPoint3D()).dotProduct(ray.getVector())<0.0)){
+                list.add(p1);
+            }
+
         //the ray starts at point2
         if(p2.equals(ray.getPoint3D())){
             list.add(p2);
-            return list;
-        }
-        //the ray starts between the two points
-        if(p1.subtract(ray.getPoint3D()).dotProduct(ray.getVector())<0.0){
-            list.add(p2);
-            return list;
-        }
-        //the ray starts after the two points
-        if(p2.subtract(ray.getPoint3D()).dotProduct(ray.getVector())<0.0){
-            return list;
-        }
-        //the ray starts before the two points
-        list.add(p1);
-        list.add(p2);
+        }else
+            //the ray starts before point 2
+            if(!(p2.subtract(ray.getPoint3D()).dotProduct(ray.getVector())<0.0)){
+                list.add(p2);
+            }
+
         return list;
 
     }
