@@ -17,6 +17,7 @@ public class Geometries implements Intersectable {
     private List<Intersectable> _geometries = new ArrayList<>();
 
     /********** Constructors ***********/
+
     /**
      * A new Container
      * @param geometries the geometries
@@ -60,6 +61,7 @@ public class Geometries implements Intersectable {
             list.addAll(item.findIntersections(ray));
         }
         List<Point3D> disList= new ArrayList<>();
+
         //distinct list
         for (Point3D p:list
              ) {
