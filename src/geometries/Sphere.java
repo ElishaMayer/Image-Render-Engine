@@ -57,10 +57,10 @@ public class Sphere extends RadialGeometry implements Geometry{
     }
 
     /**
-     * All intections with ray
+     * All intersections with ray
      *
      * @param ray The ray
-     * @return List of intersactions
+     * @return List of intersections
      * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
      * @see Ray#Ray(Point3D, Vector)
      */

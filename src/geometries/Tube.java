@@ -54,7 +54,7 @@ public class Tube extends RadialGeometry implements Geometry{
     @Override
     public Vector getNormal(Point3D p) {
         double t = _ray.getVector().dotProduct(p.subtract(_ray.getPoint3D()));
-        if(t!=0){
+        if(!Util.isZero(t)){
             Point3D o = _ray.getPoint3D().add(_ray.getVector().scale(t));
             return p.subtract(o).normal();
         }
@@ -63,10 +63,10 @@ public class Tube extends RadialGeometry implements Geometry{
     }
 
     /**
-     * All intections with ray
+     * All intersections with ray
      *
      * @param ray The ray
-     * @return List of intersactions
+     * @return List of intersections
      * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
      * @see Ray#Ray(Point3D, Vector)
      */
@@ -147,7 +147,7 @@ public class Tube extends RadialGeometry implements Geometry{
         }
 
         /*We know that the ray goes through the tube.
-         *Let cut the tube parallel to the ray.
+         *Lets cut the tube parallel to the ray.
          * We will get a ellipse where the height is _radius.
          * We need to calculate the width
          */
@@ -162,7 +162,7 @@ public class Tube extends RadialGeometry implements Geometry{
             //ellipse width
             width = Math.sqrt(heightOnTube * heightOnTube + _radius * _radius);
         }
-        //ellipse equlation x^2/k^2 + y^2 = _radius^2
+        //ellipse equation x^2/k^2 + y^2 = _radius^2
         //if the width is w then k is w/r
         double k = width/_radius;
         //y is d for our ray x^2/k^2 + k^2 = _radius^2 => x^2/k^2 = _radius^2 -d^2 =>

@@ -47,10 +47,10 @@ public class Geometries implements Intersectable {
 
     /************** Operations ***************/
     /**
-     * All intections with ray
+     * All intersections with ray
      *
      * @param ray The ray
-     * @return List of intersactions
+     * @return List of intersections
      * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
      * @see Ray#Ray(Point3D, Vector)
      */
@@ -63,8 +63,7 @@ public class Geometries implements Intersectable {
         List<Point3D> disList= new ArrayList<>();
 
         //distinct list
-        for (Point3D p:list
-             ) {
+        for (Point3D p:list) {
             if(!disList.contains(p)){
                 disList.add(p);
             }
