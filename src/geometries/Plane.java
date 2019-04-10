@@ -85,7 +85,7 @@ public class Plane implements Geometry{
     }
 
     /**
-     * All intections with ray
+     * All intersections with ray
      *
      * @param ray The ray
      * @return List of intersactions
@@ -96,6 +96,16 @@ public class Plane implements Geometry{
     public List<Point3D> findIntersections(Ray ray) {
         //list to return
         List<Point3D> list = new ArrayList<>();
+
+        // check BVA - the ray point is equal to the plane point
+        if(_point.equals(ray.getPoint3D()))
+            if(isZero(ray.getVector().dotProduct(_vector.normal()))) // dotProduct with normal = 0 => parallel
+                throw new IllegalArgumentException("ray is included in the plane");
+            else{ // not parallel
+                list.add(_point);
+                return list;
+            }
+
 
         // the ray is parallel to the plane
         if (isZero(ray.getVector().dotProduct(_vector.normal()))) // dotProduct with normal = 0 => parallel
