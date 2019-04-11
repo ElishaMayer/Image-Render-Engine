@@ -100,7 +100,7 @@ public class Plane implements Geometry{
         // check BVA - the ray point is equal to the plane point
         if(_point.equals(ray.getPoint3D()))
             if(isZero(ray.getVector().dotProduct(_vector.normal()))) // dotProduct with normal = 0 => parallel
-                throw new IllegalArgumentException("ray is included in the plane");
+                return list;
             else{ // not parallel
                 list.add(_point);
                 return list;
@@ -109,10 +109,7 @@ public class Plane implements Geometry{
 
         // the ray is parallel to the plane
         if (isZero(ray.getVector().dotProduct(_vector.normal()))) // dotProduct with normal = 0 => parallel
-            if (isZero(_vector.dotProduct(_point.subtract(ray.getPoint3D())))) //the starting point of the ray is on the plane
-                throw new IllegalArgumentException("ray is included in the plane");
-            else
-                return list;
+            return list;
 
         /*
         Ray points: P=P0+t∙v, , t≥0

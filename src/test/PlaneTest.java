@@ -61,12 +61,7 @@ public class PlaneTest {
         // BVA: Ray is parallel to the plane
         // the ray is included in the plane
         r = new Ray(new Point3D(1, 2, -3), new Vector(2, 1, 0));
-        try {
-            pl.findIntersections(r);
-            fail("Didn't throw included in plane exception");
-        } catch (IllegalArgumentException e) {
-            assertTrue(true);
-        }
+        assertEquals("BVA - the ray is parallel and included in the plane", list, pl.findIntersections(r));
         // the ray is not included in the plane
         r = new Ray(new Point3D(1, 2, -4), new Vector(2, 1, 0));
         list.clear();

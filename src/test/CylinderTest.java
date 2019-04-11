@@ -31,13 +31,20 @@ public class CylinderTest {
      */
     @Test
     public void findIntersections(){
-        Cylinder c = new Cylinder(1,new Ray(new Point3D(0,0,-3),new Vector(0,1,0)),1);
-        Ray r = new Ray(new Point3D(0,0,0),new Vector(0,0,-1));
         List<Point3D> list =new ArrayList<>();
+
+        Ray r = new Ray(new Point3D(0,0,0),new Vector(0,0,-1));
+
+        r = new Ray(new Point3D(0,0,0),new Vector(0,0,-1));
+
+
+        Cylinder c = new Cylinder(1,new Ray(new Point3D(0,0,-3),new Vector(0,1,0)),1);
+        r = new Ray(new Point3D(0,0,0),new Vector(0,0,-1));
         list.add(new Point3D(0,0,-2));
         list.add(new Point3D(0,0,-4));
         //ray goes in the middle of cylinder
         assertEquals(list,c.findIntersections(r));
+
 
         //ray goes on button of cylinder
         c = new Cylinder(1,new Ray(new Point3D(0,1,-3),new Vector(0,1,0)),2);

@@ -1,7 +1,7 @@
 package com.miniproject;
 
 /**
- * Home Work 1.
+ * Home Work 3.
  * Written by:
  * Elisha Mayer ,319185997 ,elisja.mayer@gmail.com .
  * Menachem Natanson , 207134859, menachem.natanson@gmail.com
