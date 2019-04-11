@@ -6,6 +6,9 @@ import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class CylinderTest {
@@ -20,6 +23,41 @@ public class CylinderTest {
         assertEquals(new Vector(-1,0,0).normal(),cy.getNormal(new Point3D(0,3,0)));
         assertEquals(new Vector(0,1,0).normal(),cy.getNormal(new Point3D(1,5,0)));
         assertEquals(new Vector(0,-1,0).normal(),cy.getNormal(new Point3D(3,-5,0)));
+    }
+
+    /**
+     * check findIntersections
+     * test for {@link Cylinder#findIntersections(Ray)} method
+     */
+    @Test
+    public void findIntersections(){
+        Cylinder c = new Cylinder(1,new Ray(new Point3D(0,0,-3),new Vector(0,1,0)),1);
+        Ray r = new Ray(new Point3D(0,0,0),new Vector(0,0,-1));
+        List<Point3D> list =new ArrayList<>();
+        list.add(new Point3D(0,0,-2));
+        list.add(new Point3D(0,0,-4));
+        //ray goes in the middle of cylinder
+        assertEquals(list,c.findIntersections(r));
+
+        //ray goes on button of cylinder
+        c = new Cylinder(1,new Ray(new Point3D(0,1,-3),new Vector(0,1,0)),2);
+        assertEquals(list,c.findIntersections(r));
+
+        r =  new Ray(new Point3D(0,-3,-3),new Vector(0,1,0));
+        list.clear();
+        list.add(new Point3D(0,2,-3));
+        list.add(new Point3D(0,0,-3));
+        //ray goes thorough middle of cylinder top and button
+        assertEquals(list,c.findIntersections(r));
+
+
+        r =  new Ray(new Point3D(0,-3,-2),new Vector(0,1,0));
+        list.clear();
+        list.add(new Point3D(0,2,-2));
+        list.add(new Point3D(0,0,-2));
+        //ray goes thorough middle of cylinder top and button
+        assertEquals(list,c.findIntersections(r));
+
     }
 
     /**

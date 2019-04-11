@@ -120,9 +120,6 @@ public class Tube extends RadialGeometry implements Geometry{
         }
         //if is parallel to tube
         if(Util.isOne(ab)){
-            if(Util.usubtract(d,_radius)==0.0)
-                throw new IllegalArgumentException("ray is parallel to tube");
-            else
                 return list;
         }
 

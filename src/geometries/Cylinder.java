@@ -2,6 +2,7 @@ package geometries;
 
 import primitives.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static primitives.Util.isZero;
@@ -76,7 +77,35 @@ public class Cylinder extends Tube implements Geometry {
      */
     @Override
     public List<Point3D> findIntersections(Ray ray) {
-        return null;
+        List<Point3D> list = new ArrayList<>();
+
+        //get tube intersections
+        for (Point3D p:super.findIntersections(ray)) {
+            double d = Math.abs(_ray.getVector().dotProduct(p.subtract(_ray.getPoint3D())));
+            if(Util.usubtract(_height/2,d)>=0.0)
+                list.add(p);
+        }
+        try {
+            //get upper plane intersections
+            Point3D upperPoint = _ray.getPoint3D().add(_ray.getVector().scale(_height / 2));
+            Plane upperPlane = new Plane(upperPoint, _ray.getVector());
+            for (Point3D p : upperPlane.findIntersections(ray)) {
+                if (Util.usubtract(_radius, upperPoint.distance(p)) >= 0)
+                    list.add(p);
+            }
+        }catch (Exception ex){}
+
+        try {
+            //get under plane intersections
+            Point3D underPoint = _ray.getPoint3D().subtract(_ray.getVector().scale(_height / 2));
+            Plane underPlane = new Plane(underPoint, _ray.getVector());
+            for (Point3D p : underPlane.findIntersections(ray)) {
+                if (Util.usubtract(_radius, underPoint.distance(p)) >= 0)
+                    list.add(p);
+            }
+        }catch (Exception ex){}
+
+        return list;
     }
 
     /************** Operations ***************/

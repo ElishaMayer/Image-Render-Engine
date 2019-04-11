@@ -27,15 +27,7 @@ public class Geometries implements Intersectable {
         _geometries.addAll(Arrays.asList(geometries));
     }
 
-    /************** Getters/Setters *******/
-    /**
-     * add geometries
-     * @param geometry the geometries
-     * @see Intersectable
-     */
-    public void add(Intersectable geometry){
-        _geometries.add(geometry);
-    }
+    /************** Operations ***************/
 
     /**
      * add geometry
@@ -45,7 +37,6 @@ public class Geometries implements Intersectable {
         _geometries.addAll(Arrays.asList(geometries));
     }
 
-    /************** Operations ***************/
     /**
      * All intersections with ray
      *
