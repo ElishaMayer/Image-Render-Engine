@@ -69,7 +69,7 @@ public class Sphere extends RadialGeometry implements Geometry{
         //list to return
         List<Point3D> list = new ArrayList<>();
 
-        //if Sphere is on (0,0,0)
+        //if Sphere is on ray start point
         if(_point.equals(ray.getPoint3D())){
             list.add(ray.getPoint3D().add(ray.getVector().scale(_radius)));
             return list;
@@ -101,7 +101,7 @@ public class Sphere extends RadialGeometry implements Geometry{
         double t2 = Util.uadd(tm,th);
         if(Util.usubtract(t1,0.0) > 0.0)
             list.add(ray.getPoint3D().add(ray.getVector().scale(t1)));
-        if(Util.usubtract(t1,0.0) == 0.0)
+        else if(Util.usubtract(t1,0.0) == 0.0)
             list.add(ray.getPoint3D());
         if(Util.usubtract(t2,0.0) > 0.0)
             list.add(ray.getPoint3D().add(ray.getVector().scale(t2)));

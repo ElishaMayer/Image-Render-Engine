@@ -115,8 +115,7 @@ public class Triangle extends Plane implements Geometry{
         if (isOne(v1.normal().dotProduct(v2.normal())) || isOne(-1*v1.normal().dotProduct(v2.normal())) ||
                 isOne(v2.normal().dotProduct(v3.normal())) || isOne(-1*v2.normal().dotProduct(v3.normal())) ||
                 isOne(v3.normal().dotProduct(v1.normal())) || isOne(-1*v3.normal().dotProduct(v1.normal()))){
-            list.clear();
-            return list;
+            return Intersectable.EMPTY_LIST;
         }
 
         n1 = v1.crossProduct(v2).normal();
