@@ -53,12 +53,21 @@ public class Tube extends RadialGeometry implements Geometry{
      */
     @Override
     public Vector getNormal(Point3D p) {
-        double t = _ray.getVector().dotProduct(p.subtract(_ray.getPoint3D()));
+        //get ray point and vector
+        Point3D rayP = _ray.getPoint3D();
+        Vector rayV = _ray.getVector();
+
+        //get point on the same level as the given point
+        double t = rayV.dotProduct(p.subtract(rayP));
+
+        //if the point is not on the same level then get the point
+        //and retur the normal
         if(!Util.isZero(t)){
-            Point3D o = _ray.getPoint3D().add(_ray.getVector().scale(t));
+            Point3D o = rayP.add(rayV.scale(t));
             return p.subtract(o).normal();
         }
 
+        //if the pint is on hte same level then return normal
         return p.subtract(_ray.getPoint3D()).normal();
     }
 
@@ -73,49 +82,50 @@ public class Tube extends RadialGeometry implements Geometry{
     @Override
     public List<Point3D> findIntersections(Ray ray) {
         List<Point3D> list = new ArrayList<>();
-        Point3D D;
-        Point3D E;
-        double d;
+
+        Point3D d;
+        Point3D e;
+        double dis;
         double ab;
 
         //Given ray (A + ta)
-        Point3D A = ray.getPoint3D();
-        Vector a = ray.getVector();
+        Point3D pointA = ray.getPoint3D();
+        Vector vectorA = ray.getVector();
         //Tube ray (B + tb)
-        Point3D B = _ray.getPoint3D();
-        Vector b = _ray.getVector();
+        Point3D pointB = _ray.getPoint3D();
+        Vector vectorB = _ray.getVector();
         //If A and B are the same
-        if(B.equals(A)){
-            E = new Point3D(ray.getPoint3D());
-            D = new Point3D(ray.getPoint3D());
-            ab = a.dotProduct(b);
-            d=0;
+        if(pointB.equals(pointA)){
+            e = new Point3D(ray.getPoint3D());
+            d = new Point3D(ray.getPoint3D());
+            ab = vectorA.dotProduct(vectorB);
+            dis=0;
         }else{
             //Vector AB
-            Vector c = B.subtract(A);
+            Vector c = pointB.subtract(pointA);
             //dot-product calc
-            ab = a.dotProduct(b);
-            double bc = b.dotProduct(c);
-            double ac = a.dotProduct(c);
-            double bb = b.dotProduct(b);
-            double aa = a.dotProduct(a);
+            ab = vectorA.dotProduct(vectorB);
+            double bc = vectorB.dotProduct(c);
+            double ac = vectorA.dotProduct(c);
+            double bb = vectorB.dotProduct(vectorB);
+            double aa = vectorA.dotProduct(vectorA);
 
             //The closest point on (A + t1a)
             double t1 = (-ab*bc+ac*bb)/(aa*bb - ab*ab);
             if(Util.isZero(t1))
-                D = A;
+                d = pointA;
             else
-                D = A.add(a.scale(t1));
+                d = pointA.add(vectorA.scale(t1));
 
             //The closest point on (B + t2b)
             double t2 =(ab*ac-bc*aa)/(aa*bb-ab*ab);
             if(Util.isZero(t2))
-                E = B;
+                e = pointB;
             else
-                E = B.add(b.scale(t2));
+                e = pointB.add(vectorB.scale(t2));
 
             //distance between two rays
-            d = D.distance(E);
+            dis = d.distance(e);
 
         }
         //if is parallel to tube
@@ -124,22 +134,22 @@ public class Tube extends RadialGeometry implements Geometry{
         }
 
         //The ray doesn't touch the Tube
-        if(Util.usubtract(d,_radius)>0.0)
+        if(Util.usubtract(dis,_radius)>0.0)
             return list;
 
         //The ray is tangent to the Tube
-        if(Util.usubtract(d,_radius) == 0.0){
+        if(Util.usubtract(dis,_radius) == 0.0){
             //The ray starts at the point
-            if(D.equals(ray.getPoint3D())){
-                list.add(D);
+            if(d.equals(pointA)){
+                list.add(d);
                 return list;
             }
             //The ray starts after the point
-            if(D.subtract(ray.getPoint3D()).dotProduct(ray.getVector())<0.0){
+            if(d.subtract(pointA).dotProduct(vectorA)<0.0){
                 return list;
             }
             //The ray starts before the point
-            list.add(D);
+            list.add(d);
             return list;
         }
 
@@ -154,7 +164,7 @@ public class Tube extends RadialGeometry implements Geometry{
             width = _radius;
         else {
             //tang's between (B + tb) and (A + ta) is |VxU|/V.U
-            double tanA = (a.crossProduct(b).length() / a.dotProduct(b));
+            double tanA = (vectorA.crossProduct(vectorB).length() / vectorA.dotProduct(vectorB));
             double heightOnTube = _radius / tanA;
             //ellipse width
             width = Math.sqrt(heightOnTube * heightOnTube + _radius * _radius);
@@ -164,27 +174,27 @@ public class Tube extends RadialGeometry implements Geometry{
         double k = width/_radius;
         //y is d for our ray x^2/k^2 + k^2 = _radius^2 => x^2/k^2 = _radius^2 -d^2 =>
         // x^2 = (_radius^2 -d^2)*k^2 => x = sqrt(_radius^2 -d^2)*k
-        double th = Math.sqrt(_radius*_radius - d*d)*k;
+        double th = Math.sqrt(_radius*_radius - dis*dis)*k;
 
         //the two points
-        Point3D p1 = D.subtract(a.scale(th));
-        Point3D p2 = D.add(a.scale(th));
+        Point3D p1 = d.subtract(vectorA.scale(th));
+        Point3D p2 = d.add(vectorA.scale(th));
 
         //the ray starts at point1
-        if(p1.equals(ray.getPoint3D())){
+        if(p1.equals(pointA)){
             list.add(p1);
         }else
             //the ray starts before point 1
-            if(!(p1.subtract(ray.getPoint3D()).dotProduct(ray.getVector())<0.0)){
+            if(!(p1.subtract(pointA).dotProduct(vectorA)<0.0)){
                 list.add(p1);
             }
 
         //the ray starts at point2
-        if(p2.equals(ray.getPoint3D())){
+        if(p2.equals(pointA)){
             list.add(p2);
         }else
             //the ray starts before point 2
-            if(!(p2.subtract(ray.getPoint3D()).dotProduct(ray.getVector())<0.0)){
+            if(!(p2.subtract(pointA).dotProduct(vectorA)<0.0)){
                 list.add(p2);
             }
 

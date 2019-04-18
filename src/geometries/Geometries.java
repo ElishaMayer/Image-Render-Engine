@@ -51,15 +51,8 @@ public class Geometries implements Intersectable {
         for (Intersectable item :_geometries) {
             list.addAll(item.findIntersections(ray));
         }
-        List<Point3D> disList= new ArrayList<>();
 
-        //distinct list
-        for (Point3D p:list) {
-            if(!disList.contains(p)){
-                disList.add(p);
-            }
-        }
-        return disList;
+        return list;
     }
 
     /*************** Admin *****************/

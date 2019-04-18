@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Sphere
  */
-public class Sphere extends RadialGeometry implements Geometry{
+public class Sphere extends RadialGeometry implements Geometry {
     private Point3D _point;
 
     /********** Constructors ***********/
@@ -17,7 +17,7 @@ public class Sphere extends RadialGeometry implements Geometry{
      * A new Sphere
      *
      * @param radius the radius
-     * @param point the middle point
+     * @param point  the middle point
      */
     public Sphere(double radius, Point3D point) {
         super(radius);
@@ -67,46 +67,60 @@ public class Sphere extends RadialGeometry implements Geometry{
     @Override
     public List<Point3D> findIntersections(Ray ray) {
         //list to return
-        List<Point3D> list = new ArrayList<>();
+        List<Point3D> list;
 
-        //if Sphere is on ray start point
-        if(_point.equals(ray.getPoint3D())){
-            list.add(ray.getPoint3D().add(ray.getVector().scale(_radius)));
+        //get ray points
+        Point3D rayP = ray.getPoint3D();
+        Vector rayV = ray.getVector();
+
+        //if Sphere is on ray start point then return p0 + r*V
+        if (_point.equals(rayP)) {
+            list = new ArrayList<>();
+            list.add(rayP.add(rayV.scale(_radius)));
             return list;
         }
 
         //vector between ray start and sphere center
-        Vector L = _point.subtract(ray.getPoint3D());
-        //the scale for the ray in order to get parallel to the sphere center
-        double tm = L.dotProduct(ray.getVector());
+        Vector l = _point.subtract(rayP);
 
-        double lengthL = L.length();
+        //the scale for the ray in order to get parallel to the sphere center
+        double tm = l.dotProduct(rayV);
+
+        double lengthL = l.length();
+
         //get the distance between the ray and the sphere center
-        double d = Math.sqrt(Util.usubtract( lengthL*lengthL,tm*tm));
+        double d2 = Util.usubtract(lengthL * lengthL, tm * tm);
+        double d = Math.sqrt(d2);
 
         //the ray doesn't cross the sphere
-        if(Util.usubtract(d,_radius) > 0.0)
-            return list;
+        if (Util.usubtract(d, _radius) > 0.0)
+            return EMPTY_LIST;
+
         //the ray tangent the sphere
-        if(Util.usubtract(d,_radius) == 0.0) {
-            if(Util.isZero(tm))
-                list.add(ray.getPoint3D());
-            else if(Util.usubtract(tm,0.0)>0.0)
-                list.add(ray.getPoint3D().add(ray.getVector().scale(tm)));
+        if (Util.usubtract(d, _radius) == 0.0) {
+            list = new ArrayList<>();
+            if (Util.isZero(tm))
+                list.add(rayP);
+            else if (Util.usubtract(tm, 0.0) > 0.0)
+                list.add(rayP.add(rayV.scale(tm)));
             return list;
         }
         //the ray crosses the sphere is two places
-        double th = Math.sqrt(Util.usubtract(_radius*_radius,d*d));
-        double t1 = Util.usubtract(tm,th);
-        double t2 = Util.uadd(tm,th);
-        if(Util.usubtract(t1,0.0) > 0.0)
-            list.add(ray.getPoint3D().add(ray.getVector().scale(t1)));
-        else if(Util.usubtract(t1,0.0) == 0.0)
-            list.add(ray.getPoint3D());
-        if(Util.usubtract(t2,0.0) > 0.0)
-            list.add(ray.getPoint3D().add(ray.getVector().scale(t2)));
-        if(Util.usubtract(t2,0.0) == 0.0)
-            list.add(ray.getPoint3D());
+        double th = Math.sqrt(Util.usubtract(_radius * _radius, d2));
+        //get the distance to the two points
+        double t1 = Util.usubtract(tm, th);
+        double t2 = Util.uadd(tm, th);
+
+        //return the points that are after the ray
+        list = new ArrayList<>();
+        if (Util.usubtract(t1, 0.0) > 0.0)
+            list.add(rayP.add(rayV.scale(t1)));
+        else if (Util.usubtract(t1, 0.0) == 0.0)
+            list.add(rayP);
+        if (Util.usubtract(t2, 0.0) > 0.0)
+            list.add(rayP.add(rayV.scale(t2)));
+        if (Util.usubtract(t2, 0.0) == 0.0)
+            list.add(rayP);
 
         return list;
     }

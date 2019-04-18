@@ -36,6 +36,9 @@ public class GeometriesTest {
         g.add(new Sphere(1,new Point3D(0,0,-3)),new Sphere(1,new Point3D(0,0,-3)));
 
         //Check add two geometries at the same place
+        list.add(new Point3D(0,0,-2));
+        list.add(new Point3D(0,0,-4));     list.add(new Point3D(0,0,-2));
+        list.add(new Point3D(0,0,-4));
         List<Point3D> l = g.findIntersections(new Ray(new Point3D(0,0,0),new Vector(0,0,-1)));
         assertEquals("Check add two geometries at the same place",list,l);
 
@@ -43,6 +46,9 @@ public class GeometriesTest {
         g.add(new Sphere(1,new Point3D(0,0,-3)),new Sphere(1,new Point3D(0,0,-2)));
 
         //Check add two geometries not at the same place
+        list.clear();
+        list.add(new Point3D(0,0,-2));
+        list.add(new Point3D(0,0,-4));
         list.add(new Point3D(0,0,-1));
         list.add(new Point3D(0,0,-3));
         l = g.findIntersections(new Ray(new Point3D(0,0,0),new Vector(0,0,-1)));
@@ -66,12 +72,16 @@ public class GeometriesTest {
         //Check add two geometries at the same place
         list.add(new Point3D(0,0,-2));
         list.add(new Point3D(0,0,-4));
+        list.add(new Point3D(0,0,-2));
+        list.add(new Point3D(0,0,-4));
         List<Point3D> l = g.findIntersections(new Ray(new Point3D(0,0,0),new Vector(0,0,-1)));
         assertEquals("Check add two geometries at the same place",list,l);
 
         g = new Geometries(new Sphere(1,new Point3D(0,0,-3)),new Sphere(1,new Point3D(0,0,-2)));
-
+        list.clear();
         //Check add two geometries not at the same place
+        list.add(new Point3D(0,0,-2));
+        list.add(new Point3D(0,0,-4));
         list.add(new Point3D(0,0,-1));
         list.add(new Point3D(0,0,-3));
         l = g.findIntersections(new Ray(new Point3D(0,0,0),new Vector(0,0,-1)));

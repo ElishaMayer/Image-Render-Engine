@@ -19,6 +19,11 @@ public interface Intersectable {
      * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
      * @see Ray#Ray(Point3D, Vector)
      */
-    public static final List<Point3D> EMPTY_LIST = new ArrayList<>();
     List<Point3D> findIntersections(Ray ray);
+
+    /**
+     * An empty list
+     */
+    List<Point3D> EMPTY_LIST = new ArrayList<>();
+
 }
