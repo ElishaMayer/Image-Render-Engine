@@ -87,11 +87,19 @@ public class Camera {
      * @return Ray that goes through pixel
      */
     public Ray constructRayThroughPixel(int nX,int nY,int i,int j ,double screenDistance ,double screenWidth , double screenHeight){
+        if(screenDistance <=0)
+            throw new IllegalArgumentException("Zero or negative distance");
         Point3D pointC = _p0.add(_vTo.scale(screenDistance));
-        Vector vecX = _vRight.scale((i - (nX - 1)/2)*screenWidth/nX);
-        Vector vecY = _vUp.scale((j - (nY - 1)/2)*screenHeight/nY);
-        Point3D pointIJ = pointC.add(vecX.subtract(vecY));
-        Vector vectorIJ = pointIJ.subtract(pointC);
-        return  new Ray(_p0,vectorIJ.normal());
+        double xToMove = (i - (nX - 1)/2);
+        double yToMove = (j - (nY - 1)/2);
+        Point3D pointIJ = pointC;
+
+        if(!Util.isZero(xToMove))
+            pointIJ = pointIJ.add(_vRight.scale(xToMove*screenWidth/nX));
+        if(!Util.isZero(yToMove))
+            pointIJ = pointIJ.add(_vUp.scale(-1*yToMove*screenHeight/nY));
+
+        Vector vectorIJ = pointIJ.subtract(_p0);
+        return  new Ray(_p0,vectorIJ);
     }
 }
