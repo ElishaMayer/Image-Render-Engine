@@ -89,6 +89,13 @@ public class Camera {
     public Ray constructRayThroughPixel(int nX,int nY,int i,int j ,double screenDistance ,double screenWidth , double screenHeight){
         if(screenDistance <=0)
             throw new IllegalArgumentException("Zero or negative distance");
+        if(nX <= 0 && nY <= 0)
+            throw new IllegalArgumentException("Zero or negative pixels");
+        if(i == nX)
+            throw new IllegalArgumentException("i out of range");
+        if(j == nY)
+            throw new IllegalArgumentException("j out of range");
+
         Point3D pointC = _p0.add(_vTo.scale(screenDistance));
         double xToMove = (i - (nX - 1)/2);
         double yToMove = (j - (nY - 1)/2);
