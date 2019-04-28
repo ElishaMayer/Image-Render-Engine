@@ -9,11 +9,11 @@ import primitives.Vector;
  * A Camera
  */
 public class Camera {
-    Point3D _p0;
-    Vector _vUp;
-    Vector _vRight;
-    Vector _vTo;
-    /********** Constructors ***********/
+    private Point3D _p0;
+    private Vector _vUp;
+    private Vector _vRight;
+    private Vector _vTo;
+    /* ********* Constructors ***********/
     /**
      * A new Camera. vUp and vTo need to be orthogonal
      * @param p0 camera location
@@ -28,7 +28,7 @@ public class Camera {
         _vTo = vTo.normal();
         _vRight = vTo.crossProduct(vUp).normal();
     }
-    /************** Getters/Setters *******/
+    /* ************* Getters/Setters *******/
 
     /**
      * Get camera location
@@ -62,7 +62,7 @@ public class Camera {
         return _vTo;
     }
 
-    /*************** Admin *****************/
+    /* ************** Admin *****************/
 
     @Override
     public String toString() {
@@ -73,7 +73,7 @@ public class Camera {
                 ", vTo=" + _vTo +
                 '}';
     }
-    /************** Operations ***************/
+    /* ************* Operations ***************/
 
     /**
      * Get a ray that goes through pixel in plane
@@ -87,6 +87,7 @@ public class Camera {
      * @return Ray that goes through pixel
      */
     public Ray constructRayThroughPixel(int nX,int nY,int i,int j ,double screenDistance ,double screenWidth , double screenHeight){
+        //check if the values are ok
         if(screenDistance <=0)
             throw new IllegalArgumentException("Zero or negative distance");
         if(nX <= 0 && nY <= 0)
@@ -101,11 +102,13 @@ public class Camera {
         double yToMove = (j - (nY - 1.0)/2.0);
         Point3D pointIJ = pointC;
 
+        //find the point on the plane
         if(!Util.isZero(xToMove))
             pointIJ = pointIJ.add(_vRight.scale(xToMove*screenWidth/nX));
         if(!Util.isZero(yToMove))
             pointIJ = pointIJ.add(_vUp.scale(-1*yToMove*screenHeight/nY));
 
+        //create ray and return
         Vector vectorIJ = pointIJ.subtract(_p0);
         return  new Ray(_p0,vectorIJ);
     }

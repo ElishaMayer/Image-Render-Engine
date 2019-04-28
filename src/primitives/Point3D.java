@@ -13,7 +13,7 @@ public class Point3D {
     private Coordinate _y;
     private Coordinate _z;
 
-    /********** Constructors ***********/
+    /* ********* Constructors ***********/
     /**
      * A new Point in 3D
      *
@@ -31,9 +31,9 @@ public class Point3D {
     /**
      * A new Point3D
      *
-     * @param x
-     * @param y
-     * @param z
+     * @param x x
+     * @param y y
+     * @param z z
      */
     public Point3D(double x, double y, double z) {
         _x = new Coordinate(x);
@@ -44,7 +44,7 @@ public class Point3D {
     /**
      * Copy Point
      *
-     * @param other
+     * @param other other point
      */
     public Point3D(Point3D other) {
         _x = new Coordinate(other._x);
@@ -52,7 +52,7 @@ public class Point3D {
         _z = new Coordinate(other._z);
     }
 
-    /************** Getters/Setters *******/
+    /* ************* Getters/Setters *******/
     /**
      * Get X coordinate
      *
@@ -83,7 +83,7 @@ public class Point3D {
         return _z;
     }
 
-    /*************** Admin *****************/
+    /* ************** Admin *****************/
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -101,7 +101,7 @@ public class Point3D {
         return "(" + _x + "," + _y + "," + _z + ")";
     }
 
-    /************** Operations ***************/
+    /* ************* Operations ***************/
     /**
      * Add a vector to a point in 3D
      *

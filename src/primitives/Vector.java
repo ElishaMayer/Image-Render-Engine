@@ -6,7 +6,7 @@ package primitives;
 public class Vector {
     private Point3D _point3D;
 
-    /********** Constructors ***********/
+    /* ********* Constructors ***********/
     /**
      * A new vector
      *
@@ -23,9 +23,9 @@ public class Vector {
     /**
      * A new Vector
      *
-     * @param x
-     * @param y
-     * @param z
+     * @param x x
+     * @param y y
+     * @param z z
      */
     public Vector(double x, double y, double z) {
         Point3D p = new Point3D(new Coordinate(x), new Coordinate(y), new Coordinate(z));
@@ -38,13 +38,13 @@ public class Vector {
     /**
      * Copy vector
      *
-     * @param other
+     * @param other other coordinate
      */
     public Vector(Vector other) {
         _point3D = new Point3D(other._point3D);
     }
 
-    /************** Getters/Setters *******/
+    /* ************* Getters/Setters *******/
     /**
      * Get point3D
      *
@@ -55,7 +55,7 @@ public class Vector {
         return _point3D;
     }
 
-    /*************** Admin *****************/
+    /* ************** Admin *****************/
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -70,7 +70,7 @@ public class Vector {
         return "V=" + _point3D;
     }
 
-    /************** Operations ***************/
+    /* ************* Operations ***************/
     /**
      * Add vector to the vector
      *

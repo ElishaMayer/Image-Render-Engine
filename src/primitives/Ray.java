@@ -10,7 +10,7 @@ public class Ray {
     private Point3D _point3D;
     private Vector _vector;
 
-    /********** Constructors ***********/
+    /* ********* Constructors ***********/
 
     /**
      * A new Ray
@@ -35,7 +35,7 @@ public class Ray {
         _vector = new Vector(other._vector);
     }
 
-    /************** Getters/Setters *******/
+    /* ************* Getters/Setters *******/
 
     /**
      * Get start point
@@ -57,11 +57,11 @@ public class Ray {
         return _vector;
     }
 
-    /*************** Admin *****************/
+    /* ************** Admin *****************/
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof Ray)) return false;
+        if (!(o instanceof Ray)) return false;
         Ray ray = (Ray) o;
         return _point3D.equals(ray._point3D) &&
                 _vector.equals(ray._vector);

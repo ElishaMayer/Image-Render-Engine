@@ -5,7 +5,6 @@ import primitives.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static primitives.Util.isOne;
 import static primitives.Util.isZero;
 
 /**
@@ -46,7 +45,7 @@ public class Plane implements Geometry{
         }
     }
 
-    /*************** Admin *****************/
+    /* ************** Admin *****************/
 
     @Override
     public String toString() {

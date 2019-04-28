@@ -11,9 +11,9 @@ public final class Coordinate {
      */
     public static Coordinate ZERO = new Coordinate(0.0);
     //private static final double EPSILON = 0.0000001;
-    protected double _coord;
+    private double _coord;
 
-    /********** Constructors ***********/
+    /* ********* Constructors ***********/
     /**
      * A new coordinate
      *
@@ -27,13 +27,13 @@ public final class Coordinate {
     /**
      * Copy coordinate
      *
-     * @param other
+     * @param other other coordinate
      */
     public Coordinate(Coordinate other) {
         _coord = other._coord;
     }
 
-    /************** Getters/Setters *******/
+    /* ************* Getters/Setters *******/
     /**
      * Get coordinate
      *
@@ -43,7 +43,7 @@ public final class Coordinate {
         return _coord;
     }
 
-    /*************** Admin *****************/
+    /* ************** Admin *****************/
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -57,7 +57,7 @@ public final class Coordinate {
         return "" + _coord;
     }
 
-    /************** Operations ***************/
+    /* ************* Operations ***************/
     /**
      * Subtract from the coordinate
      *
