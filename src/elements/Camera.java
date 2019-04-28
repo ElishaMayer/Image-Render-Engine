@@ -97,8 +97,8 @@ public class Camera {
             throw new IllegalArgumentException("j out of range");
 
         Point3D pointC = _p0.add(_vTo.scale(screenDistance));
-        double xToMove = (i - (nX - 1)/2);
-        double yToMove = (j - (nY - 1)/2);
+        double xToMove = (i - (nX - 1.0)/2.0);
+        double yToMove = (j - (nY - 1.0)/2.0);
         Point3D pointIJ = pointC;
 
         if(!Util.isZero(xToMove))
