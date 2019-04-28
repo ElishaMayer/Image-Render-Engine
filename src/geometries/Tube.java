@@ -93,12 +93,8 @@ public class Tube extends RadialGeometry implements Geometry{
         //Tube ray (B + tb)
         Point3D pointB = _ray.getPoint3D();
         Vector vectorB = _ray.getVector();
-        //If A and B are the same
-        if(pointB.equals(pointA)){
-            d = new Point3D(ray.getPoint3D());
-            ab = vectorA.dotProduct(vectorB);
-            dis=0;
-        }else{
+
+        try {
             //Vector AB
             Vector c = pointB.subtract(pointA);
             //dot-product calc
@@ -109,43 +105,51 @@ public class Tube extends RadialGeometry implements Geometry{
             double aa = vectorA.dotProduct(vectorA);
 
             //The closest point on (A + t1a)
-            double t1 = (-ab*bc+ac*bb)/(aa*bb - ab*ab);
-            try{
+            double t1 = (-ab * bc + ac * bb) / (aa * bb - ab * ab);
+            try {
                 d = pointA.add(vectorA.scale(t1));
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 d = pointA;
             }
 
             //The closest point on (B + t2b)
-            double t2 =(ab*ac-bc*aa)/(aa*bb-ab*ab);
-            if(Util.isZero(t2))
-                e = pointB;
-            else
+            double t2 = (ab * ac - bc * aa) / (aa * bb - ab * ab);
+
+
+            try {
                 e = pointB.add(vectorB.scale(t2));
+            } catch (Exception ex) {
+                e = pointB;
+            }
 
             //distance between two rays
             dis = d.distance(e);
 
+        } catch (Exception ex) {
+            //If A and B are the same
+            d = new Point3D(ray.getPoint3D());
+            ab = vectorA.dotProduct(vectorB);
+            dis = 0;
         }
         //if is parallel to tube
-        if(Util.isOne(ab)){
-                return EMPTY_LIST;
+        if (Util.isOne(ab)) {
+            return EMPTY_LIST;
         }
 
         //The ray doesn't touch the Tube
-        if(Util.usubtract(dis,_radius)>0.0)
+        if (Util.usubtract(dis, _radius) > 0.0)
             return EMPTY_LIST;
 
         //The ray is tangent to the Tube
-        if(Util.usubtract(dis,_radius) == 0.0){
+        if (Util.usubtract(dis, _radius) == 0.0) {
             //The ray starts at the point
-            if(d.equals(pointA)){
+            if (d.equals(pointA)) {
                 List<Point3D> list = new ArrayList<>();
                 list.add(d);
                 return list;
             }
             //The ray starts after the point
-            if(d.subtract(pointA).dotProduct(vectorA)<0.0){
+            if (d.subtract(pointA).dotProduct(vectorA) < 0.0) {
                 return EMPTY_LIST;
             }
             List<Point3D> list = new ArrayList<>();
@@ -161,21 +165,21 @@ public class Tube extends RadialGeometry implements Geometry{
          */
         double width;
         //if the ray is orthogonal to the tube
-        try{
+        try {
             //tang's between (B + tb) and (A + ta) is |VxU|/V.U
             double tanA = (vectorA.crossProduct(vectorB).length() / vectorA.dotProduct(vectorB));
             double heightOnTube = _radius / tanA;
             //ellipse width
             width = Math.sqrt(heightOnTube * heightOnTube + _radius * _radius);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             width = _radius;
         }
         //ellipse equation x^2/k^2 + y^2 = _radius^2
         //if the width is w then k is w/r
-        double k = width/_radius;
+        double k = width / _radius;
         //y is d for our ray x^2/k^2 + k^2 = _radius^2 => x^2/k^2 = _radius^2 -d^2 =>
         // x^2 = (_radius^2 -d^2)*k^2 => x = sqrt(_radius^2 -d^2)*k
-        double th = Math.sqrt(_radius*_radius - dis*dis)*k;
+        double th = Math.sqrt(_radius * _radius - dis * dis) * k;
 
         //the two points
         Point3D p1 = d.subtract(vectorA.scale(th));
@@ -183,23 +187,27 @@ public class Tube extends RadialGeometry implements Geometry{
 
         //Check if the points are in range and return them
         List<Point3D> list = new ArrayList<>();
-        //the ray starts at point1
-        if(p1.equals(pointA)){
-            list.add(p1);
-        }else
+
+        try {
             //the ray starts before point 1
-            if(!(p1.subtract(pointA).dotProduct(vectorA)<0.0)){
+            if (!(p1.subtract(pointA).dotProduct(vectorA) < 0.0)) {
                 list.add(p1);
             }
+        } catch (Exception ex) {
+            //the ray starts at point1
+            list.add(p1);
+        }
 
-        //the ray starts at point2
-        if(p2.equals(pointA)){
-            list.add(p2);
-        }else
+
+        try {
             //the ray starts before point 2
-            if(!(p2.subtract(pointA).dotProduct(vectorA)<0.0)){
+            if (!(p2.subtract(pointA).dotProduct(vectorA) < 0.0)) {
                 list.add(p2);
             }
+        } catch (Exception ex) {
+            //the ray starts at point2
+            list.add(p2);
+        }
 
         return list;
 

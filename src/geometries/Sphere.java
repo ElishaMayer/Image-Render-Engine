@@ -73,15 +73,16 @@ public class Sphere extends RadialGeometry implements Geometry {
         Point3D rayP = ray.getPoint3D();
         Vector rayV = ray.getVector();
 
-        //if Sphere is on ray start point then return p0 + r*V
-        if (_point.equals(rayP)) {
+        //vector between ray start and sphere center
+        Vector l;
+        try {
+            l = _point.subtract(rayP);
+        }catch(Exception ex){
+            //if Sphere is on ray start point then return p0 + r*V
             list = new ArrayList<>();
             list.add(rayP.add(rayV.scale(_radius)));
             return list;
         }
-
-        //vector between ray start and sphere center
-        Vector l = _point.subtract(rayP);
 
         //the scale for the ray in order to get parallel to the sphere center
         double tm = l.dotProduct(rayV);
@@ -99,10 +100,12 @@ public class Sphere extends RadialGeometry implements Geometry {
         //the ray tangent the sphere
         if (Util.usubtract(d, _radius) == 0.0) {
             list = new ArrayList<>();
-            if (Util.isZero(tm))
-                list.add(rayP);
-            else if (Util.usubtract(tm, 0.0) > 0.0)
-                list.add(rayP.add(rayV.scale(tm)));
+            if (Util.usubtract(tm, 0.0) >= 0.0)
+                try {
+                    list.add(rayP.add(rayV.scale(tm)));
+                }catch(Exception ex){
+                    list.add(rayP);
+                }
             return list;
         }
         //the ray crosses the sphere is two places
@@ -113,14 +116,18 @@ public class Sphere extends RadialGeometry implements Geometry {
 
         //return the points that are after the ray
         list = new ArrayList<>();
-        if (Util.usubtract(t1, 0.0) > 0.0)
-            list.add(rayP.add(rayV.scale(t1)));
-        else if (Util.isZero(t1))
-            list.add(rayP);
-        if (Util.usubtract(t2, 0.0) > 0.0)
-            list.add(rayP.add(rayV.scale(t2)));
-        if (Util.isZero(t2))
-            list.add(rayP);
+        if (Util.usubtract(t1, 0.0) >= 0.0)
+            try {
+                list.add(rayP.add(rayV.scale(t1)));
+            }catch (Exception ex){
+                list.add(rayP);
+            }
+        if (Util.usubtract(t2, 0.0) >= 0.0)
+            try {
+                list.add(rayP.add(rayV.scale(t2)));
+            }catch (Exception ex){
+                list.add(rayP);
+            }
         return list;
     }
 
