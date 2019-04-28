@@ -110,10 +110,11 @@ public class Tube extends RadialGeometry implements Geometry{
 
             //The closest point on (A + t1a)
             double t1 = (-ab*bc+ac*bb)/(aa*bb - ab*ab);
-            if(Util.isZero(t1))
-                d = pointA;
-            else
+            try{
                 d = pointA.add(vectorA.scale(t1));
+            }catch (Exception ex){
+                d = pointA;
+            }
 
             //The closest point on (B + t2b)
             double t2 =(ab*ac-bc*aa)/(aa*bb-ab*ab);
@@ -160,14 +161,14 @@ public class Tube extends RadialGeometry implements Geometry{
          */
         double width;
         //if the ray is orthogonal to the tube
-        if(Util.isZero(ab))
-            width = _radius;
-        else {
+        try{
             //tang's between (B + tb) and (A + ta) is |VxU|/V.U
             double tanA = (vectorA.crossProduct(vectorB).length() / vectorA.dotProduct(vectorB));
             double heightOnTube = _radius / tanA;
             //ellipse width
             width = Math.sqrt(heightOnTube * heightOnTube + _radius * _radius);
+        }catch (Exception ex){
+            width = _radius;
         }
         //ellipse equation x^2/k^2 + y^2 = _radius^2
         //if the width is w then k is w/r
