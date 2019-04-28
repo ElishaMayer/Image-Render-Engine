@@ -1,13 +1,11 @@
 package geometries;
 
-import javafx.beans.binding.BooleanBinding;
 import primitives.Coordinate;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * A container for Geometries (Intersectables)
@@ -16,7 +14,7 @@ public class Geometries implements Intersectable {
 
     private List<Intersectable> _geometries = new ArrayList<>();
 
-    /********** Constructors ***********/
+    /* ********* Constructors ***********/
 
     /**
      * A new Container
@@ -27,7 +25,7 @@ public class Geometries implements Intersectable {
         _geometries.addAll(Arrays.asList(geometries));
     }
 
-    /************** Operations ***************/
+    /* ************* Operations ***************/
 
     /**
      * add geometry
@@ -38,10 +36,10 @@ public class Geometries implements Intersectable {
     }
 
     /**
-     * All intersections with ray
+     * Intersections of all Geometries with ray
      *
      * @param ray The ray
-     * @return List of intersections
+     * @return List of intersections (Points)
      * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
      * @see Ray#Ray(Point3D, Vector)
      */
@@ -51,18 +49,17 @@ public class Geometries implements Intersectable {
         for (Intersectable item :_geometries) {
             list.addAll(item.findIntersections(ray));
         }
-
         return list;
     }
 
-    /*************** Admin *****************/
+    /* ************** Admin *****************/
     @Override
     public String toString() {
-        String str = "( ";
+        StringBuilder str = new StringBuilder("( ");
         for (Intersectable item:_geometries) {
-            str += item.toString() + " ,";
+            str.append(item.toString()).append(" ,");
         }
-        str+=" )";
-        return str;
+        str.append(" )");
+        return str.toString();
     }
 }

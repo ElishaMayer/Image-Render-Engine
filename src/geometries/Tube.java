@@ -9,9 +9,9 @@ import java.util.List;
  * Tube
  */
 public class Tube extends RadialGeometry implements Geometry{
-    protected Ray _ray;
+    Ray _ray;
 
-    /********** Constructors ***********/
+    /* ******* Constructors ***********/
 
     /**
      * A new Tube
@@ -25,7 +25,7 @@ public class Tube extends RadialGeometry implements Geometry{
     }
 
 
-    /************** Getters/Setters *******/
+    /* ************* Getters/Setters *******/
 
     /**
      * Get Vector
@@ -36,7 +36,7 @@ public class Tube extends RadialGeometry implements Geometry{
         return _ray;
     }
 
-    /*************** Admin *****************/
+    /* ************** Admin *****************/
 
     @Override
     public String toString() {
@@ -72,16 +72,15 @@ public class Tube extends RadialGeometry implements Geometry{
     }
 
     /**
-     * All intersections with ray
+     * Returns all intersections with ray
      *
      * @param ray The ray
-     * @return List of intersections
+     * @return List of intersections (Points)
      * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
      * @see Ray#Ray(Point3D, Vector)
      */
     @Override
     public List<Point3D> findIntersections(Ray ray) {
-        List<Point3D> list = new ArrayList<>();
 
         Point3D d;
         Point3D e;
@@ -96,7 +95,6 @@ public class Tube extends RadialGeometry implements Geometry{
         Vector vectorB = _ray.getVector();
         //If A and B are the same
         if(pointB.equals(pointA)){
-            e = new Point3D(ray.getPoint3D());
             d = new Point3D(ray.getPoint3D());
             ab = vectorA.dotProduct(vectorB);
             dis=0;
@@ -130,24 +128,26 @@ public class Tube extends RadialGeometry implements Geometry{
         }
         //if is parallel to tube
         if(Util.isOne(ab)){
-                return list;
+                return EMPTY_LIST;
         }
 
         //The ray doesn't touch the Tube
         if(Util.usubtract(dis,_radius)>0.0)
-            return list;
+            return EMPTY_LIST;
 
         //The ray is tangent to the Tube
         if(Util.usubtract(dis,_radius) == 0.0){
             //The ray starts at the point
             if(d.equals(pointA)){
+                List<Point3D> list = new ArrayList<>();
                 list.add(d);
                 return list;
             }
             //The ray starts after the point
             if(d.subtract(pointA).dotProduct(vectorA)<0.0){
-                return list;
+                return EMPTY_LIST;
             }
+            List<Point3D> list = new ArrayList<>();
             //The ray starts before the point
             list.add(d);
             return list;
@@ -180,6 +180,8 @@ public class Tube extends RadialGeometry implements Geometry{
         Point3D p1 = d.subtract(vectorA.scale(th));
         Point3D p2 = d.add(vectorA.scale(th));
 
+        //Check if the points are in range and return them
+        List<Point3D> list = new ArrayList<>();
         //the ray starts at point1
         if(p1.equals(pointA)){
             list.add(p1);
@@ -202,5 +204,5 @@ public class Tube extends RadialGeometry implements Geometry{
 
     }
 
-    /************** Operations ***************/
+    /* ************* Operations ***************/
 }

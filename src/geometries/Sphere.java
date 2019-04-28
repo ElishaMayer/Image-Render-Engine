@@ -11,7 +11,7 @@ import java.util.List;
 public class Sphere extends RadialGeometry implements Geometry {
     private Point3D _point;
 
-    /********** Constructors ***********/
+    /* ********* Constructors ***********/
 
     /**
      * A new Sphere
@@ -25,7 +25,7 @@ public class Sphere extends RadialGeometry implements Geometry {
     }
 
 
-    /************** Getters/Setters *******/
+    /* ************* Getters/Setters *******/
 
     /**
      * Get Point
@@ -36,7 +36,7 @@ public class Sphere extends RadialGeometry implements Geometry {
         return _point;
     }
 
-    /*************** Admin *****************/
+    /* ************** Admin *****************/
 
     @Override
     public String toString() {
@@ -57,10 +57,10 @@ public class Sphere extends RadialGeometry implements Geometry {
     }
 
     /**
-     * All intersections with ray
+     * Returns All intersections with ray
      *
      * @param ray The ray
-     * @return List of intersections
+     * @return List of intersections (Points)
      * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
      * @see Ray#Ray(Point3D, Vector)
      */
@@ -115,15 +115,14 @@ public class Sphere extends RadialGeometry implements Geometry {
         list = new ArrayList<>();
         if (Util.usubtract(t1, 0.0) > 0.0)
             list.add(rayP.add(rayV.scale(t1)));
-        else if (Util.usubtract(t1, 0.0) == 0.0)
+        else if (Util.isZero(t1))
             list.add(rayP);
         if (Util.usubtract(t2, 0.0) > 0.0)
             list.add(rayP.add(rayV.scale(t2)));
-        if (Util.usubtract(t2, 0.0) == 0.0)
+        if (Util.isZero(t2))
             list.add(rayP);
-
         return list;
     }
 
-    /************** Operations ***************/
+    /* ************* Operations ***************/
 }

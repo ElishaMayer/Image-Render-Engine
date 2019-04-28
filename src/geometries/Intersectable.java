@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An Intersectable object
+ * An Intersectable interface
  */
 public interface Intersectable {
     /**
-     * All intersections with ray
+     * All intersections between the ray and the object
      * @param ray The ray
-     * @return List of intersections
+     * @return List of intersections (Points)
      * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
      * @see Ray#Ray(Point3D, Vector)
      */

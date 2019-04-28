@@ -14,7 +14,7 @@ public class Triangle extends Plane implements Geometry{
     private Point3D _point2;
     private Point3D _point3;
 
-    /********** Constructors ***********/
+    /* ********* Constructors ***********/
 
     /**
      * A new Triangle
@@ -30,7 +30,7 @@ public class Triangle extends Plane implements Geometry{
     }
 
 
-    /************** Getters/Setters *******/
+    /* ************* Getters/Setters *******/
 
     /**
      * Get First point
@@ -59,7 +59,7 @@ public class Triangle extends Plane implements Geometry{
         return _point3;
     }
 
-    /*************** Admin *****************/
+    /* ************** Admin *****************/
 
     @Override
     public String toString() {
@@ -70,12 +70,12 @@ public class Triangle extends Plane implements Geometry{
                 '}';
     }
 
-    /*************** Operations ***************/
+    /* ************** Operations ***************/
     /**
-     * All intersections with ray
+     * Returns all intersections with ray
      *
      * @param ray The ray
-     * @return List of intersections
+     * @return List of intersections (Points)
      * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
      * @see Ray#Ray(Point3D, Vector)
      */

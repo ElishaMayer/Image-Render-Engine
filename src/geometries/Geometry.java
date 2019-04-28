@@ -4,7 +4,7 @@ import primitives.Point3D;
 import primitives.Vector;
 
 /**
- * A Geometry Shape
+ * A Geometry Shape (interface)
  */
 public interface Geometry extends Intersectable{
     /**

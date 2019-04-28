@@ -117,7 +117,7 @@ public class CameraTest {
     }
 
     @Test
-    public void checkPTriangleIntersections() {
+    public void checkTriangleIntersections() {
         Camera cam = new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1));
         List<Point3D> list = new ArrayList<>();
 

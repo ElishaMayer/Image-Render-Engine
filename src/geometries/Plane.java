@@ -13,10 +13,10 @@ import static primitives.Util.isZero;
  */
 public class Plane implements Geometry{
 
-    protected Point3D _point;
+    Point3D _point;
     private Vector _vector;
 
-    /********** Constructors ***********/
+    /* ********* Constructors ***********/
 
     /**
      * A new Plane
@@ -53,7 +53,7 @@ public class Plane implements Geometry{
         return "Plane{" + _point + ", " + _vector + "}";
     }
 
-    /************** Getters/Setters *******/
+    /* ************* Getters/Setters *******/
 
     /**
      * Get Point
@@ -85,10 +85,10 @@ public class Plane implements Geometry{
     }
 
     /**
-     * All intersections with ray
+     * Returns All intersections with ray
      *
      * @param ray The ray
-     * @return List of intersactions
+     * @return List of intersactions (Points)
      * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
      * @see Ray#Ray(Point3D, Vector)
      */
@@ -129,6 +129,6 @@ public class Plane implements Geometry{
         return list;
     }
 
-    /************** Operations ***************/
+    /* ************* Operations ***************/
 
 }

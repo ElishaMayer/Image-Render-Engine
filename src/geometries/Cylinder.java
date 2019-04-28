@@ -13,13 +13,13 @@ import static primitives.Util.isZero;
 public class Cylinder extends Tube implements Geometry {
     private double _height;
 
-    /********** Constructors ***********/
+    /* ********* Constructors ***********/
 
     /**
      * A new Cylinder
      *
      * @param radius the radius
-     * @param ray    the direction vector
+     * @param ray    the direction vector and middle point
      * @param height the height
      */
     public Cylinder(double radius, Ray ray, double height) {
@@ -29,7 +29,7 @@ public class Cylinder extends Tube implements Geometry {
         this._height = height;
     }
 
-    /************** Getters/Setters *******/
+    /* ************* Getters/Setters *******/
 
     /**
      * Get Height
@@ -40,7 +40,7 @@ public class Cylinder extends Tube implements Geometry {
         return _height;
     }
 
-    /*************** Admin *****************/
+    /* ************** Admin *****************/
 
     @Override
     public String toString() {
@@ -68,10 +68,10 @@ public class Cylinder extends Tube implements Geometry {
     }
 
     /**
-     * All intersections with ray
+     *  Return All intersections with ray
      *
      * @param ray The ray
-     * @return List of intersections
+     * @return List of intersections (Points)
      * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
      * @see Ray#Ray(Point3D, Vector)
      */
@@ -84,6 +84,7 @@ public class Cylinder extends Tube implements Geometry {
         //get tube intersections
         for (Point3D p : super.findIntersections(ray)) {
             double d = Math.abs(rayV.dotProduct(p.subtract(rayP)));
+            //if point is in the range
             if (Util.usubtract(_height / 2, d) >= 0.0)
                 list.add(p);
         }
@@ -92,6 +93,7 @@ public class Cylinder extends Tube implements Geometry {
         Point3D upperPoint = rayP.add(rayV.scale(_height / 2));
         Plane upperPlane = new Plane(upperPoint, rayV);
         for (Point3D p : upperPlane.findIntersections(ray)) {
+            //if point is in the range
             if (Util.usubtract(_radius, upperPoint.distance(p)) >= 0)
                 list.add(p);
         }
@@ -100,6 +102,7 @@ public class Cylinder extends Tube implements Geometry {
         Point3D underPoint = rayP.subtract(rayV.scale(_height / 2));
         Plane underPlane = new Plane(underPoint, rayV);
         for (Point3D p : underPlane.findIntersections(ray)) {
+            //if point is in the range
             if (Util.usubtract(_radius, underPoint.distance(p)) >= 0)
                 list.add(p);
         }
@@ -107,5 +110,5 @@ public class Cylinder extends Tube implements Geometry {
         return list;
     }
 
-    /************** Operations ***************/
+    /* ************* Operations ***************/
 }
