@@ -86,7 +86,10 @@ public class Triangle extends Plane implements Geometry{
 
         // check if there is any intersection with the plane of the triangle
         if(list.isEmpty())
-            return list;
+            return EMPTY_LIST;
+
+        Point3D planeP = list.get(0); // intersection point with the plane of the triangle
+        Point3D rayP = ray.getPoint3D(); //get ray point
 
         /*
         check if the intersection point is inside the triangle
@@ -98,46 +101,39 @@ public class Triangle extends Plane implements Geometry{
         N2 = normalize(V2×V3)
         N3 = normalize(V3×V1)
         */
-        Point3D rayPoint = ray.getPoint3D(), planePoint = list.get(0);
         Vector v1,v2,v3,n1,n2,n3;
 
-        // check BVA - the ray starts on one of the vertexes
-        if(_point.equals(rayPoint) || _point2.equals(rayPoint) || _point3.equals(rayPoint)) {
-            list.clear();
-            return list;
+        try {
+            v1 = _point.subtract(rayP);
+            v2 = _point2.subtract(rayP);
+            v3 = _point3.subtract(rayP);
+
+            n1 = v1.crossProduct(v2).normal();
+            n2 = v2.crossProduct(v3).normal();
+            n3 = v3.crossProduct(v1).normal();
+        } catch(Exception ex){
+            // we got vector zero because one of those reasons:
+            // 1) the ray starts on one of the vertexes, so subtract will give vector zero
+            // 2) the ray starts on one of the sides, which make them parallel, and then crossProduct will give vector zero
+            return EMPTY_LIST;
         }
 
-        v1 = _point.subtract(rayPoint);
-        v2 = _point2.subtract(rayPoint);
-        v3 = _point3.subtract(rayPoint);
 
-        // check BVA - the ray start on sides, which make it orthogonal, and then cross will make vector zero
-        if (isOne(v1.normal().dotProduct(v2.normal())) || isOne(-1*v1.normal().dotProduct(v2.normal())) ||
-                isOne(v2.normal().dotProduct(v3.normal())) || isOne(-1*v2.normal().dotProduct(v3.normal())) ||
-                isOne(v3.normal().dotProduct(v1.normal())) || isOne(-1*v3.normal().dotProduct(v1.normal()))){
-            return Intersectable.EMPTY_LIST;
-        }
+        try {
+            // The point is inside if all (P−P0)∙N𝒊 have the same sign (+/-)
+            // checking if got the same sign (+/-)
+            // Constraint compromise: if one or more are 0.0 – no intersection
+            double n1Sign = planeP.subtract(rayP).dotProduct(n1),
+                    n2Sign = planeP.subtract(rayP).dotProduct(n2),
+                    n3Sign = planeP.subtract(rayP).dotProduct(n3);
 
-        n1 = v1.crossProduct(v2).normal();
-        n2 = v2.crossProduct(v3).normal();
-        n3 = v3.crossProduct(v1).normal();
-
-        // check BVA - the ray point is equal to the plane point
-        if(rayPoint.equals(planePoint))
+            if (Util.alignZero(n1Sign) > 0.0 && Util.alignZero(n2Sign) > 0.0 && Util.alignZero(n3Sign) > 0.0 ||
+                    Util.alignZero(n1Sign) < 0.0 && Util.alignZero(n2Sign) < 0.0 && Util.alignZero(n3Sign) < 0.0)
                 return list;
-
-        // The point is inside if all (P−P0)∙N𝒊 have the same sign (+/-)
-        // checking if got the same sign (+/-)
-        // Constraint compromise: if one or more are 0.0 – no intersection
-        if(Util.usubtract(planePoint.subtract(rayPoint).dotProduct(n1),0.0) > 0.0 &&
-                Util.usubtract(planePoint.subtract(rayPoint).dotProduct(n2),0.0) > 0.0 &&
-                Util.usubtract(planePoint.subtract(rayPoint).dotProduct(n3),0.0) > 0.0 ||
-                Util.usubtract(planePoint.subtract(rayPoint).dotProduct(n1),0.0) < 0.0 &&
-                        Util.usubtract(planePoint.subtract(rayPoint).dotProduct(n2),0.0) < 0.0 &&
-                        Util.usubtract(planePoint.subtract(rayPoint).dotProduct(n3),0.0) < 0.0)
-            return list;
-        else {
-            list.clear();
+            else
+                return EMPTY_LIST;
+        } catch(Exception ex){
+            // we got vector zero because the ray point is equal to the plane point (ray start on triangle)
             return list;
         }
     }

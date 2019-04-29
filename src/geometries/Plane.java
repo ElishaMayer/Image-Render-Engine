@@ -87,7 +87,7 @@ public class Plane implements Geometry{
      * Returns All intersections with ray
      *
      * @param ray The ray
-     * @return List of intersactions (Points)
+     * @return List of intersections (Points)
      * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
      * @see Ray#Ray(Point3D, Vector)
      */
@@ -96,34 +96,37 @@ public class Plane implements Geometry{
         //list to return
         List<Point3D> list = new ArrayList<>();
 
-        // check BVA - the ray point is equal to the plane point
-        if(_point.equals(ray.getPoint3D()))
-            if(isZero(ray.getVector().dotProduct(_vector.normal()))) // dotProduct with normal = 0 => parallel
-                return list;
-            else{ // not parallel
-                list.add(_point);
-                return list;
-            }
+        //get ray point and vector
+        Point3D rayP = ray.getPoint3D();
+        Vector rayV = ray.getVector();
 
+        // check if the ray is parallel to the plane
+        if (isZero(_vector.dotProduct(rayV))) // dotProduct = 0 => parallel
+            return EMPTY_LIST;
 
-        // the ray is parallel to the plane
-        if (isZero(ray.getVector().dotProduct(_vector.normal()))) // dotProduct with normal = 0 => parallel
-            return list;
+        try {
+            /*
+            Ray points: P=P0+t∙v, , t≥0
+            Plane points: Plane points: N∙(Q0−P)=0
+            N∙(Q0−t∙v−P0)=0
+            N∙(Q0−P0)−t∙N∙v=0
+            t=N∙(Q0−P0)/(N∙v)
 
-        /*
-        Ray points: P=P0+t∙v, , t≥0
-        Plane points: Plane points: N∙(Q0−P)=0
-        N∙(Q0−t∙v−P0)=0
-        N∙(Q0−P0)−t∙N∙v=0
-        t=N∙(Q0−P0)/(N∙v)
-        */
-        double t = (_vector.dotProduct(_point.subtract(ray.getPoint3D())))/
-                (_vector.dotProduct(ray.getVector()));
+            t is the distance between the ray starting point and the plane
+            */
+            double t = (_vector.dotProduct(_point.subtract(rayP))) / (_vector.dotProduct(rayV));
 
-        if(isZero(t)) // the ray starts on the plane
-            list.add(ray.getPoint3D());
-        else if(Util.usubtract(t,0.0) > 0.0) // the ray crosses the plane
-            list.add(ray.getPoint3D().add(ray.getVector().scale(t)));
+            if(isZero(t)) // the ray starts on the plane
+                list.add(rayP);
+            else if(t > 0.0) // the ray crosses the plane
+                list.add(rayP.add(rayV.scale(t)));
+            else // the ray doesn't cross the plane
+                return EMPTY_LIST;
+
+        } catch(Exception ex){
+            // _point.subtract(rayP) is vector zero, which means the ray point is equal to the plane point (ray start on plane)
+            list.add(_point);
+        }
 
         return list;
     }

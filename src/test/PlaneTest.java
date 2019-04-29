@@ -63,8 +63,7 @@ public class PlaneTest {
         r = new Ray(new Point3D(1, 2, -3), new Vector(2, 1, 0));
         assertEquals("BVA - the ray is parallel and included in the plane", list, pl.findIntersections(r));
         // the ray is not included in the plane
-        r = new Ray(new Point3D(1, 2, -4), new Vector(2, 1, 0));
-        list.clear();
+        r = new Ray(new Point3D(1, 2, -2), new Vector(2, 1, 0));
         assertEquals("BVA - the ray is parallel and not included in the plane", list, pl.findIntersections(r));
 
 
@@ -88,5 +87,12 @@ public class PlaneTest {
         r = new Ray(new Point3D(1, 1, -3), new Vector(2, 1, -1));
         list.add(new Point3D(1, 1, -3));
         assertEquals("BVA - Starting point on the plane, but the rest of the ray is not", list, pl.findIntersections(r));
+
+
+        // BVA: Starting point is equal to the plane point
+        r = new Ray(new Point3D(0, 0, -3), new Vector(2, 1, -1));
+        list.clear();
+        list.add(new Point3D(0, 0, -3));
+        assertEquals("BVA - Starting point is equal to the plane point", list, pl.findIntersections(r));
     }
 }
