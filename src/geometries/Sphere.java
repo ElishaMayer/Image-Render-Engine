@@ -100,7 +100,7 @@ public class Sphere extends RadialGeometry implements Geometry {
         //the ray tangent the sphere
         if (Util.usubtract(d, _radius) == 0.0) {
             list = new ArrayList<>();
-            if (Util.usubtract(tm, 0.0) >= 0.0)
+            if (Util.alignZero(tm) >= 0.0)
                 try {
                     list.add(rayP.add(rayV.scale(tm)));
                 }catch(Exception ex){
@@ -116,13 +116,13 @@ public class Sphere extends RadialGeometry implements Geometry {
 
         //return the points that are after the ray
         list = new ArrayList<>();
-        if (Util.usubtract(t1, 0.0) >= 0.0)
+        if (Util.alignZero(t1) >= 0.0)
             try {
                 list.add(rayP.add(rayV.scale(t1)));
             }catch (Exception ex){
                 list.add(rayP);
             }
-        if (Util.usubtract(t2, 0.0) >= 0.0)
+        if (Util.alignZero(t2) >= 0.0)
             try {
                 list.add(rayP.add(rayV.scale(t2)));
             }catch (Exception ex){
