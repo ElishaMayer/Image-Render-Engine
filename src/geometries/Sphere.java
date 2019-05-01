@@ -69,7 +69,7 @@ public class Sphere extends RadialGeometry implements Geometry {
         //list to return
         List<Point3D> list;
 
-        //get ray points
+        //get ray point and vector
         Point3D rayP = ray.getPoint3D();
         Vector rayV = ray.getVector();
 
