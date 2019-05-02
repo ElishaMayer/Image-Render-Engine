@@ -25,7 +25,7 @@ public class Main {
         Camera cam = new Camera(startP,new Vector(0,1,0),new Vector(0,0,-1));
         Geometries geo = new Geometries(new Tube(54.96,new Ray(new Point3D(0,-100,-200),new Vector(1,1,-0.9))));
         geo.add(new Cylinder(54.96,new Ray(new Point3D(-10,90,-200),new Vector(0.2,1,-0.4)),100));
-        geo.add(new Sphere(80,new Point3D(120,0,-175)));
+        geo.add(new Sphere(60,new Point3D(120,0,-175)));
         geo.add(new Triangle(new Point3D(50,-50,-110),new Point3D(200,0,-110),new Point3D(0,-200,-110)));
 
         for(int x = 0;x<width;x++){

@@ -110,6 +110,6 @@ public class Camera {
 
         //create ray and return
         Vector vectorIJ = pointIJ.subtract(_p0);
-        return  new Ray(_p0,vectorIJ);
+        return  new Ray(pointIJ,vectorIJ);
     }
 }

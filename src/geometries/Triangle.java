@@ -89,7 +89,7 @@ public class Triangle extends Plane implements Geometry{
             return EMPTY_LIST;
 
         Point3D planeP = list.get(0); // intersection point with the plane of the triangle
-        Point3D rayP = ray.getPoint3D(); //get ray point
+        Point3D rayP = ray.getPoint3D().subtract(ray.getVector()); //get a point before the original ray point
 
         /*
         check if the intersection point is inside the triangle

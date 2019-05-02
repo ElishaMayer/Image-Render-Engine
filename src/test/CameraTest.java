@@ -18,15 +18,15 @@ public class CameraTest {
     public void constructRayThroughPixel() {
         //Test 3x3 plane
         Camera cam = new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1));
-        Ray r1 = new Ray(new Point3D(0, 0, 0), new Vector(-3, 3, -1));
-        Ray r2 = new Ray(new Point3D(0, 0, 0), new Vector(0, 3, -1));
-        Ray r3 = new Ray(new Point3D(0, 0, 0), new Vector(3, 3, -1));
-        Ray r4 = new Ray(new Point3D(0, 0, 0), new Vector(-3, 0, -1));
-        Ray r5 = new Ray(new Point3D(0, 0, 0), new Vector(0, 0, -1));
-        Ray r6 = new Ray(new Point3D(0, 0, 0), new Vector(3, 0, -1));
-        Ray r7 = new Ray(new Point3D(0, 0, 0), new Vector(-3, -3, -1));
-        Ray r8 = new Ray(new Point3D(0, 0, 0), new Vector(0, -3, -1));
-        Ray r9 = new Ray(new Point3D(0, 0, 0), new Vector(3, -3, -1));
+        Ray r1 = new Ray(new Point3D(-3.0,3.0,-1.0), new Vector(-3, 3, -1));
+        Ray r2 = new Ray(new Point3D(0.0,3.0,-1.0), new Vector(0, 3, -1));
+        Ray r3 = new Ray(new Point3D(3.0,3.0,-1.0), new Vector(3, 3, -1));
+        Ray r4 = new Ray(new Point3D(-3.0,0.0,-1.0), new Vector(-3, 0, -1));
+        Ray r5 = new Ray(new Point3D(0.0,0.0,-1.0), new Vector(0, 0, -1));
+        Ray r6 = new Ray(new Point3D(3.0,0.0,-1.0), new Vector(3, 0, -1));
+        Ray r7 = new Ray(new Point3D(-3.0,-3.0,-1.0), new Vector(-3, -3, -1));
+        Ray r8 = new Ray(new Point3D(0.0,-3.0,-1.0), new Vector(0, -3, -1));
+        Ray r9 = new Ray(new Point3D(3.0,-3.0,-1.0), new Vector(3, -3, -1));
 
         assertEquals("Test 3x3 plane 0,0", r1, cam.constructRayThroughPixel(3, 3, 0, 0, 1, 9, 9));
         assertEquals("Test 3x3 plane 1,0", r2, cam.constructRayThroughPixel(3, 3, 1, 0, 1, 9, 9));
@@ -40,10 +40,10 @@ public class CameraTest {
 
         //test 4x4 plane
         cam = new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1));
-        r1 = new Ray(new Point3D(0, 0, 0), new Vector(-4.5, 4.5, -1));
-        r2 = new Ray(new Point3D(0, 0, 0), new Vector(-1.5, 1.5, -1));
-        r3 = new Ray(new Point3D(0, 0, 0), new Vector(1.5, -1.5, -1));
-        r4 = new Ray(new Point3D(0, 0, 0), new Vector(4.5, -4.5, -1));
+        r1 = new Ray(new Point3D(-4.5,4.5,-1.0), new Vector(-4.5, 4.5, -1));
+        r2 = new Ray(new Point3D(-1.5,1.5,-1.0), new Vector(-1.5, 1.5, -1));
+        r3 = new Ray(new Point3D(1.5,-1.5,-1.0), new Vector(1.5, -1.5, -1));
+        r4 = new Ray(new Point3D(4.5,-4.5,-1.0), new Vector(4.5, -4.5, -1));
 
         assertEquals("Test 4x4 plane 0,0", r1, cam.constructRayThroughPixel(4, 4, 0, 0, 1, 12, 12));
         assertEquals("Test 4x4 plane 1,1", r2, cam.constructRayThroughPixel(4, 4, 1, 1, 1, 12, 12));
@@ -68,7 +68,7 @@ public class CameraTest {
         }
 
         //Check all rays intersect Sphere
-        Sphere sp = new Sphere(30, new Point3D(0, 0, -30.5));
+        Sphere sp = new Sphere(100, new Point3D(0, 0, -101));
         for (int i = 0; i < 9; i++) {
             list.addAll(sp.findIntersections(rays[i]));
         }
@@ -76,7 +76,7 @@ public class CameraTest {
 
         //Check 5 rays intersect Sphere
         list.clear();
-        sp = new Sphere(10, new Point3D(0, 0, -10.5));
+        sp = new Sphere(19, new Point3D(0, 0, -20));
         for (int i = 0; i < 9; i++) {
             list.addAll(sp.findIntersections(rays[i]));
         }
@@ -84,7 +84,7 @@ public class CameraTest {
 
         //Check only middle ray intersects Sphere
         list.clear();
-        sp = new Sphere(5, new Point3D(0, 0, -5.5));
+        sp = new Sphere(4.5, new Point3D(0, 0, -5.5));
         for (int i = 0; i < 9; i++) {
             list.addAll(sp.findIntersections(rays[i]));
         }
@@ -104,7 +104,7 @@ public class CameraTest {
         for (int i = 0; i < 9; i++) {
             list.addAll(sp.findIntersections(rays[i]));
         }
-        assertEquals("Check view plane inside Sphere 2", 2, list.size());
+        assertEquals("Check view plane inside Sphere 2", 1, list.size());
 
         //Check Sphere behind view plane
         list.clear();
