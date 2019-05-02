@@ -92,9 +92,9 @@ public class Camera {
             throw new IllegalArgumentException("Zero or negative distance");
         if(nX <= 0 && nY <= 0)
             throw new IllegalArgumentException("Zero or negative pixels");
-        if(i >= nX)
+        if(i >= nX || i<0)
             throw new IllegalArgumentException("i out of range");
-        if(j >= nY)
+        if(j >= nY || j<0)
             throw new IllegalArgumentException("j out of range");
 
         Point3D pointC = _p0.add(_vTo.scale(screenDistance));

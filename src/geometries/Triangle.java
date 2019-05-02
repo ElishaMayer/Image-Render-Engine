@@ -91,6 +91,8 @@ public class Triangle extends Plane implements Geometry{
         Point3D planeP = list.get(0); // intersection point with the plane of the triangle
         Point3D rayP = ray.getPoint3D().subtract(ray.getVector()); //get a point before the original ray point
 
+        // we will never get vector zero, because we took a point that located before the original ray point
+
         /*
         check if the intersection point is inside the triangle
 
@@ -103,38 +105,25 @@ public class Triangle extends Plane implements Geometry{
         */
         Vector v1,v2,v3,n1,n2,n3;
 
-        try {
-            v1 = _point.subtract(rayP);
-            v2 = _point2.subtract(rayP);
-            v3 = _point3.subtract(rayP);
+        v1 = _point.subtract(rayP);
+        v2 = _point2.subtract(rayP);
+        v3 = _point3.subtract(rayP);
 
-            n1 = v1.crossProduct(v2).normal();
-            n2 = v2.crossProduct(v3).normal();
-            n3 = v3.crossProduct(v1).normal();
-        } catch(Exception ex){
-            // we got vector zero because one of those reasons:
-            // 1) the ray starts on one of the vertexes, so subtract will give vector zero
-            // 2) the ray starts on one of the sides, which make them parallel, and then crossProduct will give vector zero
-            return EMPTY_LIST;
-        }
+        n1 = v1.crossProduct(v2).normal();
+        n2 = v2.crossProduct(v3).normal();
+        n3 = v3.crossProduct(v1).normal();
 
+        // The point is inside if all (P−P0)∙N𝒊 have the same sign (+/-)
+        // checking if got the same sign (+/-)
+        // Constraint compromise: if one or more are 0.0 – no intersection
+        double n1Sign = planeP.subtract(rayP).dotProduct(n1),
+                n2Sign = planeP.subtract(rayP).dotProduct(n2),
+                n3Sign = planeP.subtract(rayP).dotProduct(n3);
 
-        try {
-            // The point is inside if all (P−P0)∙N𝒊 have the same sign (+/-)
-            // checking if got the same sign (+/-)
-            // Constraint compromise: if one or more are 0.0 – no intersection
-            double n1Sign = planeP.subtract(rayP).dotProduct(n1),
-                    n2Sign = planeP.subtract(rayP).dotProduct(n2),
-                    n3Sign = planeP.subtract(rayP).dotProduct(n3);
-
-            if (Util.alignZero(n1Sign) > 0.0 && Util.alignZero(n2Sign) > 0.0 && Util.alignZero(n3Sign) > 0.0 ||
-                    Util.alignZero(n1Sign) < 0.0 && Util.alignZero(n2Sign) < 0.0 && Util.alignZero(n3Sign) < 0.0)
-                return list;
-            else
-                return EMPTY_LIST;
-        } catch(Exception ex){
-            // we got vector zero because the ray point is equal to the plane point (ray start on triangle)
+        if (Util.alignZero(n1Sign) > 0.0 && Util.alignZero(n2Sign) > 0.0 && Util.alignZero(n3Sign) > 0.0 ||
+                Util.alignZero(n1Sign) < 0.0 && Util.alignZero(n2Sign) < 0.0 && Util.alignZero(n3Sign) < 0.0)
             return list;
-        }
+        else
+            return EMPTY_LIST;
     }
 }

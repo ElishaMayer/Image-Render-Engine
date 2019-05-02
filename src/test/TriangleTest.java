@@ -51,7 +51,7 @@ public class TriangleTest {
 
         // BVA:
 
-        // the ray begins anywhere at the plane
+        // the ray begins anywhere on the plane
         r = new Ray(new Point3D(1, 1, -3), new Vector(-2, 0.5, -1));
         list.add(new Point3D(1, 1, -3));
         assertEquals("BVA - the ray begins anywhere at the plane", list, tr.findIntersections(r));
