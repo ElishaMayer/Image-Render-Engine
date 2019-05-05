@@ -13,7 +13,7 @@ public class Color {
 	 * The internal fields tx`o maintain RGB components as double numbers from 0 to
 	 * whatever...
 	 */
-	double _r = 0.0, _g = 0.0, _b = 0.0;
+	private double _r = 0.0, _g = 0.0, _b = 0.0;
 
 	final static Color BLACK = new Color();
 
@@ -178,4 +178,12 @@ public class Color {
 		return new Color(r, g, b);
 	}
 
+	@Override
+	public String toString() {
+		return "{" +
+				"r=" + _r +
+				", g=" + _g +
+				", b=" + _b +
+				'}';
+	}
 }
