@@ -39,7 +39,7 @@ public class Main {
                     image.writePixel(x, y, 240,c,c);
                 }
                 else if(isGrid(x,y,100,100))
-                    image.writePixel(x,y,255,0,0);
+                    image.writePixel(x,y,0,255,0);
                 else
                     image.writePixel(x,y,0,0,0);
 
