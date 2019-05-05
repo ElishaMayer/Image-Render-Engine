@@ -1,36 +1,34 @@
 package renderer;
 import elements.AmbientLight;
 import elements.Camera;
-import geometries.Geometries;
-import geometries.Geometry;
-import geometries.Sphere;
-import geometries.Triangle;
+import geometries.*;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import primitives.Color;
 import primitives.Point3D;
+import primitives.Ray;
 import primitives.Vector;
 import scene.Scene;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * a handler for xml extract
+ */
 public class SAXHandler extends DefaultHandler {
-    List<Geometries> _geometries = new ArrayList<>();
-    Geometry _geometry = null;
+    //variables
     Scene _scene = null;
-    String _content = null;
     ImageWriter _imageWriter =null;
 
     //Triggered when the start of tag is found.
     @Override
     public void startElement(String uri, String localName,
-                             String qName, Attributes attributes)
-            throws SAXException {
+                             String qName, Attributes attributes) {
 
         switch(qName){
-            //Create a new Employee object when the start tag is found
+            //Create new scene
             case "scene": {
                 _scene = new Scene(attributes.getValue("name"));
                 String color = attributes.getValue("background-color");
@@ -41,10 +39,12 @@ public class SAXHandler extends DefaultHandler {
                 _imageWriter = new ImageWriter(_scene.getName(), width, heigth, width, heigth);
             }
                 break;
+            //Create new light
             case "ambient-light":
                 double[] colors = parse3Numbers(attributes.getValue("color"));
                 _scene.setLight(new AmbientLight(new Color(colors),Double.parseDouble(attributes.getValue("ka"))));
                 break;
+            //Create new camera
             case "camera": {
                 double[] points = parse3Numbers(attributes.getValue("p0"));
                 Point3D p0 = new Point3D(points[0], points[1], points[2]);
@@ -56,6 +56,7 @@ public class SAXHandler extends DefaultHandler {
                 _scene.setCamera(cam, Double.parseDouble(attributes.getValue("Screen-dist")));
             }
                 break;
+            //Create new sphere
             case "sphere": {
                 double[] points = parse3Numbers(attributes.getValue("center"));
                 Point3D center = new Point3D(points[0], points[1], points[2]);
@@ -63,6 +64,7 @@ public class SAXHandler extends DefaultHandler {
                 _scene.addGeometries(sp);
             }
                 break;
+            //Create new triangle
             case "triangle":
             {
                 double[] points = parse3Numbers(attributes.getValue("p0"));
@@ -74,10 +76,48 @@ public class SAXHandler extends DefaultHandler {
                 _scene.addGeometries(new Triangle(p0,p1,p2));
             }
                 break;
+            //create new cylinder
+            case "cylinder":
+            {
+                double[] points = parse3Numbers(attributes.getValue("Ray-p"));
+                Point3D rayP = new Point3D(points[0], points[1], points[2]);
+                points = parse3Numbers(attributes.getValue("Ray-v"));
+                Vector rayV = new Vector(points[0], points[1], points[2]);
+                double radius = Double.parseDouble(attributes.getValue("radius"));
+                double heigth = Double.parseDouble(attributes.getValue("heigth"));
+                _scene.addGeometries(new Cylinder(radius,new Ray(rayP,rayV),heigth));
+            }
+            break;
+            //create new tube
+            case "tube":
+            {
+                double[] points = parse3Numbers(attributes.getValue("Ray-p"));
+                Point3D rayP = new Point3D(points[0], points[1], points[2]);
+                points = parse3Numbers(attributes.getValue("Ray-v"));
+                Vector rayV = new Vector(points[0], points[1], points[2]);
+                double radius = Double.parseDouble(attributes.getValue("radius"));
+                _scene.addGeometries(new Tube(radius,new Ray(rayP,rayV)));
+            }
+            break;
+            //create new plane
+            case "plane":
+            {
+                double[] points = parse3Numbers(attributes.getValue("p"));
+                Point3D p = new Point3D(points[0], points[1], points[2]);
+                points = parse3Numbers(attributes.getValue("v"));
+                Vector v = new Vector(points[0], points[1], points[2]);
+                _scene.addGeometries(new Plane(p,v));
+            }
+            break;
 
         }
     }
 
+    /**
+     * parse 3 number from string
+     * @param s string
+     * @return the 3 numbers
+     */
     private double[] parse3Numbers(String s){
         String[] numbers = s.split(" ");
         double[] num = new double[3];
@@ -86,24 +126,6 @@ public class SAXHandler extends DefaultHandler {
         num[2] = Double.parseDouble(numbers[2]);
         return num;
     }
-
-    @Override
-    public void characters(char[] ch, int start, int length)
-            throws SAXException {
-        _content = String.copyValueOf(ch, start, length).trim();
-    }
-
 }
 
-class Employee {
 
-    String id;
-    String firstName;
-    String lastName;
-    String location;
-
-    @Override
-    public String toString() {
-        return firstName + " " + lastName + "(" + id + ")" + location;
-    }
-}

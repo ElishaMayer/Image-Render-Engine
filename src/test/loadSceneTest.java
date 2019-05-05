@@ -12,9 +12,28 @@ import java.io.IOException;
 import static org.junit.Assert.*;
 
 public class loadSceneTest {
+    /**
+     * Check load render from xml
+     * @throws IOException
+     * @throws SAXException
+     * @throws ParserConfigurationException
+     */
     @Test
     public void checkLoadXml() throws IOException, SAXException, ParserConfigurationException {
 
-        Render render = loadScene.loadFromXML("scene");
-    }
+        Render render= null;
+        render = loadScene.loadFromXML("sceneTest");
+        if(render == null)
+            fail("render is null");
+        if(render.getImageWriter()==null)
+            fail("image writer is null");
+        if(render.getScene()==null)
+            fail("scene is null");
+        if(render.getScene().getCamera()==null)
+            fail("fail loading camera");
+        if(render.getScene().getLight()==null)
+            fail("fail loading light");
+        if(render.getScene().getGeometries()==null)
+            fail("fail loading geometries");
+      }
 }

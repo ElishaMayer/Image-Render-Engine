@@ -27,7 +27,16 @@ public class Render {
         return null;
     }
 
+    public ImageWriter getImageWriter() {
+        return _imageWriter;
+    }
+
+    public Scene getScene() {
+        return _scene;
+    }
+
     public void printGrid(int interval){
+
 
     }
 

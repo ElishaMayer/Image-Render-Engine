@@ -4,10 +4,15 @@ import org.junit.Test;
 
 import elements.Camera;
 import geometries.*;
+import org.xml.sax.SAXException;
 import primitives.*;
 import renderer.ImageWriter;
 import renderer.Render;
+import renderer.loadScene;
 import scene.Scene;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 public class RenderTest {
 	@Test
@@ -40,5 +45,13 @@ public class RenderTest {
 		render.renderImage();
 		render.printGrid(50);
 		imageWriter.writeToimage();
+	}
+
+	@Test
+	public void fromXmlRendering() throws IOException, SAXException, ParserConfigurationException {
+		Render render = loadScene.loadFromXML("scene");
+		render.renderImage();
+		render.printGrid(50);
+		render.getImageWriter().writeToimage();
 	}
 }
