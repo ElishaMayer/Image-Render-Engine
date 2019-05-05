@@ -41,6 +41,22 @@ public class Color {
 	}
 
 	/**
+	 * A new color
+	 * @param colors the colors r,g,b
+	 */
+	public Color(double[] colors) {
+		double r = colors[0];
+		double g = colors[1];
+		double b = colors[2];
+		if (r < 0 || g < 0 || b < 0)
+			throw new IllegalArgumentException(
+					"Negative color component is illegal");
+		_r = r;
+		_g = g;
+		_b = b;
+	}
+
+	/**
 	 * Copy constructor for Color
 	 *
 	 * @param other the source color
