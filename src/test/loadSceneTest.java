@@ -22,7 +22,7 @@ public class loadSceneTest {
     public void checkLoadXml() throws IOException, SAXException, ParserConfigurationException {
 
         Render render= null;
-        render = loadScene.loadFromXML("sceneTest");
+        render = loadScene.loadFromXML("xml\\sceneTest");
         if(render == null)
             fail("render is null");
         if(render.getImageWriter()==null)
@@ -34,6 +34,8 @@ public class loadSceneTest {
         if(render.getScene().getLight()==null)
             fail("fail loading light");
         if(render.getScene().getGeometries()==null)
+            fail("fail loading geometries");
+        if(render.getScene().getGeometries().getGeometries().size()!=8)
             fail("fail loading geometries");
       }
 }

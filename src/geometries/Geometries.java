@@ -35,6 +35,12 @@ public class Geometries implements Intersectable {
         _geometries.addAll(Arrays.asList(geometries));
     }
 
+
+    public List<Intersectable> getGeometries(){
+        return _geometries;
+    }
+
+
     /**
      * Intersections of all Geometries with ray
      *

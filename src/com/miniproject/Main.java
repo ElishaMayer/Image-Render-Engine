@@ -21,7 +21,7 @@ public class Main {
     public static Point3D startP = new Point3D(0,0,0);
 
     public static void main(String[] args) {
-        ImageWriter image = new ImageWriter("Img_0001",width,height,width,height);
+        ImageWriter image = new ImageWriter("images\\IMG_0001",width,height,width,height);
         Camera cam = new Camera(startP,new Vector(0,1,0),new Vector(0,0,-1));
         Geometries geo = new Geometries(new Tube(54.96,new Ray(new Point3D(0,-150,-200),new Vector(1,1,-1.5))));
         geo.add(new Cylinder(54.96,new Ray(new Point3D(-10,90,-240),new Vector(0.2,1,-0.4)),100));

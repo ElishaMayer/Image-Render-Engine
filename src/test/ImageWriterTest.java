@@ -14,7 +14,7 @@ public class ImageWriterTest {
      */
     @Test
     public void createGrid(){
-        ImageWriter imageWriter = new ImageWriter("IMG_0002",500,500,500,500);
+        ImageWriter imageWriter = new ImageWriter("images\\IMG_0002_Grid",500,500,500,500);
         for(int i=0;i<500;i++){
             for(int j=0;j<500;j++){
                 if(isGrid(i,j,50,50) && i!=499&&j!=499)
