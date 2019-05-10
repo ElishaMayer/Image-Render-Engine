@@ -21,6 +21,7 @@ public class SAXHandler extends DefaultHandler {
     //variables
     Scene _scene = null;
     ImageWriter _imageWriter =null;
+    String version=null;
 
     //Triggered when the start of tag is found.
     @Override
@@ -31,6 +32,7 @@ public class SAXHandler extends DefaultHandler {
             //Create new scene
             case "scene": {
                 _scene = new Scene(attributes.getValue("name"));
+                version = attributes.getValue("version");
                 String color = attributes.getValue("background-color");
                 double[] colors = parse3Numbers(color);
                 _scene.setBackground(new Color(colors));
