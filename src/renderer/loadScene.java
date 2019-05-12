@@ -15,7 +15,7 @@ import scene.Scene;
  */
 public class loadScene {
     /**
-     * Load a renger object from xml
+     * Load a render object from xml
      *
      * @param fileName the xml file name
      * @return a render object with the data
