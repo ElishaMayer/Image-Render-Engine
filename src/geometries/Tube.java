@@ -132,7 +132,7 @@ public class Tube extends RadialGeometry implements Geometry{
             dis = 0;
         }
         //if is parallel to tube
-        if (Util.isOne(ab)) {
+        if (Util.isOne(Math.abs(ab))) {
             return EMPTY_LIST;
         }
 
@@ -166,11 +166,10 @@ public class Tube extends RadialGeometry implements Geometry{
         double width;
         //if the ray is orthogonal to the tube
         try {
-            //tang's between (B + tb) and (A + ta) is |VxU|/V.U
-            double tanA = (vectorA.crossProduct(vectorB).length() / vectorA.dotProduct(vectorB));
-            double heightOnTube = _radius / tanA;
+            //sin's between (B + tb) and (A + ta) is |VxU|
+            double sinA = vectorA.crossProduct(vectorB).length() ;
             //ellipse width
-            width = Math.sqrt(heightOnTube * heightOnTube + _radius * _radius);
+            width = _radius / sinA;
         } catch (Exception ex) {
             width = _radius;
         }
