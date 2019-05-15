@@ -8,6 +8,7 @@ import primitives.Color;
 public class AmbientLight {
     //variables
     private Color _color;
+    private Color _calcColor;
     private double _ka;
 
     /* ********* Constructors ***********/
@@ -19,7 +20,8 @@ public class AmbientLight {
     public AmbientLight(Color color, double ka) {
         if(ka<0)
             throw new IllegalArgumentException("Negative Ka");
-        _color = color.scale(ka);
+        _calcColor = color.scale(ka);
+        _color = new Color(color);
         _ka = ka;
     }
 
@@ -30,6 +32,8 @@ public class AmbientLight {
     public AmbientLight(AmbientLight ambientLight){
         _color = new Color(ambientLight._color);
         _ka = ambientLight._ka;
+        _calcColor = _color.scale(_ka);
+
     }
 
     /* ************* Getters/Setters *******/
@@ -46,7 +50,7 @@ public class AmbientLight {
      * @return color intensity
      */
     public Color GetIntensity(){
-        return _color;
+        return _calcColor;
     }
 
     /* ************** Admin *****************/
