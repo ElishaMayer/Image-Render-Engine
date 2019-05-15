@@ -28,11 +28,12 @@ public class ImageWriterTest {
 
     /**
      * Check if the Location is a grid line
+     * 
      * @param x the x location
      * @param y the y location
      * @param columnWidth width of column
      * @param rowWidth width of row
-     * @return
+     * @return true if the location is a grid line, and false otherwise
      */
     private static Boolean isGrid(int x, int y, int columnWidth, int rowWidth){
         return (x+1)%columnWidth == 0 || (y+1)%rowWidth == 0;
