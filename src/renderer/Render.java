@@ -1,5 +1,7 @@
 package renderer;
 
+import elements.Camera;
+import geometries.Geometries;
 import primitives.Point3D;
 import primitives.Ray;
 import scene.Scene;
@@ -51,14 +53,23 @@ public class Render {
      * render the scene into the imageWriter
      */
     public void renderImage(){
-        for(int i=0;i<_imageWriter.getWidth();i++){
-            for(int j=0;j<_imageWriter.getHeight();j++){
+        //variables
+        int nx = _imageWriter.getNx();
+        int ny = _imageWriter.getNy();
+        double width = _imageWriter.getWidth();
+        double height = _imageWriter.getHeight();
+        Camera camera = _scene.getCamera();
+        double distance = _scene.getCameraDistance();
+        Geometries geometries = _scene.getGeometries();
+        Color background = _scene.getBackground().getColor();
+
+        for(int i=0;i<nx;i++){
+            for(int j=0;j<ny;j++){
                 // get all the rays who goes through every pixel and see if they intersects any geometries
-                Ray ray = _scene.getCamera().constructRayThroughPixel(_imageWriter.getNx(),_imageWriter.getNy(),i,j,
-                        _scene.getCameraDistance(),_imageWriter.getWidth(),_imageWriter.getHeight());
-                Point3D intersection = getClosestPoint(_scene.getGeometries().findIntersections(ray));
+                Ray ray = camera.constructRayThroughPixel(nx,ny,i,j,distance,width,height);
+                Point3D intersection = getClosestPoint(geometries.findIntersections(ray));
                 if(intersection == null)
-                    _imageWriter.writePixel(i,j,_scene.getBackground().getColor()); // no intersection = background color
+                    _imageWriter.writePixel(i,j,background); // no intersection = background color
                 else{
                     _imageWriter.writePixel(i,j,calcColor(intersection)); // intersection = calculate the right color
                 }
@@ -102,8 +113,10 @@ public class Render {
      * @param interval the distance between the lines of the grid
      */
     public void printGrid(int interval){
-        for(int i=0;i<_imageWriter.getWidth();i++){
-            for(int j=0;j<_imageWriter.getHeight();j++){
+        int nx = _imageWriter.getNx();
+        int ny = _imageWriter.getNy();
+        for(int i=0;i<nx;i++){
+            for(int j=0;j<ny;j++){
                 if((i+1)%interval == 0 || (j+1)%interval == 0)
                     _imageWriter.writePixel(i,j,Color.WHITE);
             }

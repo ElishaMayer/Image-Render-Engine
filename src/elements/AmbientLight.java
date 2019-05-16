@@ -25,17 +25,6 @@ public class AmbientLight {
         _ka = ka;
     }
 
-    /**
-     * A new Ambient light
-     * @param ambientLight other ambient light
-     */
-    public AmbientLight(AmbientLight ambientLight){
-        _color = new Color(ambientLight._color);
-        _ka = ambientLight._ka;
-        _calcColor = _color.scale(_ka);
-
-    }
-
     /* ************* Getters/Setters *******/
     /**
      * get ka

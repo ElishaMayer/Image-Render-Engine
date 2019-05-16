@@ -16,6 +16,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
 public class RenderTest {
+	/**
+	 * Render Scene with 4 Triangles and a circle
+	 */
 	@Test
 	public void basicRendering(){
 		Scene scene = new Scene("Test scene");
@@ -48,6 +51,9 @@ public class RenderTest {
 		imageWriter.writeToimage();
 	}
 
+	/**
+	 * Render cylinder standing
+	 */
 	@Test
 	public void cylinderRendering1(){
 		Scene scene = new Scene("Test scene");
@@ -69,6 +75,9 @@ public class RenderTest {
 		imageWriter.writeToimage();
 	}
 
+	/**
+	 * Render lying cylinder
+	 */
 	@Test
 	public void cylinderRendering2(){
 		Scene scene = new Scene("Test scene");
@@ -89,6 +98,9 @@ public class RenderTest {
 		imageWriter.writeToimage();
 	}
 
+	/**
+	 * Render standing Tube
+	 */
 	@Test
 	public void tubeRendering1(){
 		Scene scene = new Scene("Test scene");
@@ -109,6 +121,9 @@ public class RenderTest {
 		imageWriter.writeToimage();
 	}
 
+	/**
+	 * Render lying Tube
+	 */
 	@Test
 	public void tubeRendering2(){
 		Scene scene = new Scene("Test scene");
@@ -127,6 +142,13 @@ public class RenderTest {
 		render.printGrid(50);
 		imageWriter.writeToimage();
 	}
+
+	/**
+	 * Render from xml scene
+	 * @throws IOException
+	 * @throws SAXException
+	 * @throws ParserConfigurationException
+	 */
 	@Test
 	public void fromXmlRendering() throws IOException, SAXException, ParserConfigurationException {
 		Render render = loadScene.loadFromXML("xml\\scene");
