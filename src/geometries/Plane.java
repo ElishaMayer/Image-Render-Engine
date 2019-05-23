@@ -92,9 +92,9 @@ public class Plane implements Geometry{
      * @see Ray#Ray(Point3D, Vector)
      */
     @Override
-    public List<Point3D> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray) {
         //list to return
-        List<Point3D> list = new ArrayList<>();
+        List<GeoPoint> list = new ArrayList<>();
 
         //get ray point and vector
         Point3D rayP = ray.getPoint3D();
@@ -117,15 +117,15 @@ public class Plane implements Geometry{
             double t = (_vector.dotProduct(_point.subtract(rayP))) / (_vector.dotProduct(rayV));
 
             if(isZero(t)) // the ray starts on the plane
-                list.add(rayP);
+                list.add(new GeoPoint(this,rayP));
             else if(t > 0.0) // the ray crosses the plane
-                list.add(rayP.add(rayV.scale(t)));
+                list.add(new GeoPoint(this,rayP.add(rayV.scale(t))));
             else // the ray doesn't cross the plane
                 return EMPTY_LIST;
 
         } catch(Exception ex){
             // _point.subtract(rayP) is vector zero, which means the ray point is equal to the plane point (ray start on plane)
-            list.add(_point);
+            list.add(new GeoPoint(this,_point));
         }
 
         return list;

@@ -7,6 +7,7 @@ import primitives.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * An Intersectable interface
@@ -19,11 +20,32 @@ public interface Intersectable {
      * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
      * @see Ray#Ray(Point3D, Vector)
      */
-    List<Point3D> findIntersections(Ray ray);
+    List<GeoPoint> findIntersections(Ray ray);
 
     /**
      * An empty list
      */
-    List<Point3D> EMPTY_LIST = new ArrayList<>();
+    List<GeoPoint> EMPTY_LIST = new ArrayList<>();
+
+
+    static class GeoPoint {
+        public Geometry geometry;
+        public Point3D point;
+        public GeoPoint(Geometry geometry,Point3D point){
+            this.geometry = geometry;
+            this.point = point;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            GeoPoint geoPoint = (GeoPoint) o;
+            return Objects.equals(geometry, geoPoint.geometry) &&
+                    point.equals( geoPoint.point);
+        }
+
+
+    }
 
 }

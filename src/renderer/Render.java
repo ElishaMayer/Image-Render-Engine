@@ -2,6 +2,7 @@ package renderer;
 
 import elements.Camera;
 import geometries.Geometries;
+import geometries.Intersectable;
 import primitives.Point3D;
 import primitives.Ray;
 import scene.Scene;
@@ -67,7 +68,7 @@ public class Render {
             for(int j=0;j<ny;j++){
                 // get all the rays who goes through every pixel and see if they intersects any geometries
                 Ray ray = camera.constructRayThroughPixel(nx,ny,i,j,distance,width,height);
-                Point3D intersection = getClosestPoint(geometries.findIntersections(ray));
+                Intersectable.GeoPoint intersection = getClosestPoint(geometries.findIntersections(ray));
                 if(intersection == null)
                     _imageWriter.writePixel(i,j,background); // no intersection = background color
                 else{
@@ -83,7 +84,7 @@ public class Render {
      * @param p the point which we calculate the color from
      * @return the color of the requested point
      */
-    private Color calcColor(Point3D p){
+    private Color calcColor(Intersectable.GeoPoint p){
         return _scene.getLight().GetIntensity().getColor();
     }
 
@@ -93,15 +94,15 @@ public class Render {
      * @param list the intersection points with a ray in the scene
      * @return the closet point to the camera, or null if there are no intersection points
      */
-    private Point3D getClosestPoint(List<Point3D> list){
+    private Intersectable.GeoPoint getClosestPoint(List<Intersectable.GeoPoint> list){
         Point3D p = _scene.getCamera().getP0();
         if(list.size()==0)
             return null;
         if(list.size()==1)
             return list.get(0);
-        Point3D pToReturn = list.get(0);
-        for (Point3D point:list) {
-            if(p.distance2(point)<p.distance2(pToReturn))
+        Intersectable.GeoPoint pToReturn = list.get(0);
+        for (Intersectable.GeoPoint point:list) {
+            if(p.distance2(point.point)<p.distance2(pToReturn.point))
                 pToReturn = point;
         }
         return pToReturn;

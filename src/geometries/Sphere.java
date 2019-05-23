@@ -65,9 +65,9 @@ public class Sphere extends RadialGeometry implements Geometry {
      * @see Ray#Ray(Point3D, Vector)
      */
     @Override
-    public List<Point3D> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray) {
         //list to return
-        List<Point3D> list;
+        List<GeoPoint> list;
 
         //get ray point and vector
         Point3D rayP = ray.getPoint3D();
@@ -80,7 +80,7 @@ public class Sphere extends RadialGeometry implements Geometry {
         }catch(Exception ex){
             //if Sphere is on ray start point then return p0 + r*V
             list = new ArrayList<>();
-            list.add(rayP.add(rayV.scale(_radius)));
+            list.add(new GeoPoint(this,rayP.add(rayV.scale(_radius))));
             return list;
         }
 
@@ -102,9 +102,9 @@ public class Sphere extends RadialGeometry implements Geometry {
             list = new ArrayList<>();
             if (Util.alignZero(tm) >= 0.0)
                 try {
-                    list.add(rayP.add(rayV.scale(tm)));
+                    list.add(new GeoPoint(this,rayP.add(rayV.scale(tm))));
                 }catch(Exception ex){
-                    list.add(rayP);
+                    list.add(new GeoPoint(this,rayP));
                 }
             return list;
         }
@@ -118,15 +118,15 @@ public class Sphere extends RadialGeometry implements Geometry {
         list = new ArrayList<>();
         if (Util.alignZero(t1) >= 0.0)
             try {
-                list.add(rayP.add(rayV.scale(t1)));
+                list.add(new GeoPoint(this,rayP.add(rayV.scale(t1))));
             }catch (Exception ex){
-                list.add(rayP);
+                list.add(new GeoPoint(this,rayP));
             }
         if (Util.alignZero(t2) >= 0.0)
             try {
-                list.add(rayP.add(rayV.scale(t2)));
+                list.add(new GeoPoint(this,rayP.add(rayV.scale(t2))));
             }catch (Exception ex){
-                list.add(rayP);
+                list.add(new GeoPoint(this,rayP));
             }
         return list;
     }

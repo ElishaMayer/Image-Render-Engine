@@ -33,7 +33,7 @@ public class Main {
             for(int y=0;y<height;y++){
                 Ray ray = cam.constructRayThroughPixel(width,height,x,y,150,width-width*zoom,height-height*zoom);
                 if(geo.findIntersections(ray).size()!=0) {
-                    double dis = closes(geo.findIntersections(ray),startP).distance(startP);
+                    double dis = closes(geo.findIntersections(ray),startP).point.distance(startP);
                     //int c = (int)( (dis/255));
                   //  int c = (int) (255*30/dis*4.5);
                     dis/=1.3;
@@ -64,14 +64,14 @@ public class Main {
 
     }
 
-    public static Point3D closes(List<Point3D> list,Point3D p){
+    public static Intersectable.GeoPoint closes(List<Intersectable.GeoPoint> list, Point3D p){
         if(list.size()==0)
             return null;
         if(list.size()==1)
             return list.get(0);
-        Point3D pToReturn = list.get(0);
-        for (Point3D point:list) {
-            if(p.distance2(point)<p.distance2(pToReturn))
+        Intersectable.GeoPoint pToReturn = list.get(0);
+        for (Intersectable.GeoPoint point:list) {
+            if(p.distance2(point.point)<p.distance2(pToReturn.point))
                 pToReturn = point;
         }
         return pToReturn;

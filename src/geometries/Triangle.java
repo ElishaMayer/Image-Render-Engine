@@ -80,15 +80,15 @@ public class Triangle extends Plane implements Geometry{
      * @see Ray#Ray(Point3D, Vector)
      */
     @Override
-    public List<Point3D> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray) {
         // get the point from the plane intersection
-        List<Point3D> list = super.findIntersections(ray);
+        List<GeoPoint> list = super.findIntersections(ray);
 
         // check if there is any intersection with the plane of the triangle
         if(list.isEmpty())
             return EMPTY_LIST;
 
-        Point3D planeP = list.get(0); // intersection point with the plane of the triangle
+        Point3D planeP = list.get(0).point; // intersection point with the plane of the triangle
         Point3D rayP = ray.getPoint3D().subtract(ray.getVector()); //get a point before the original ray point
 
         // we will never get vector zero, because we took a point that located before the original ray point

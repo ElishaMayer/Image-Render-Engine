@@ -1,5 +1,6 @@
 package test;
 
+import geometries.Intersectable;
 import geometries.Sphere;
 import geometries.Tube;
 import org.junit.Test;
@@ -52,7 +53,7 @@ public class TubeTest {
     public void findIntersections(){
         Tube tb;
         Ray r;
-        List<Point3D> list;
+        List<Intersectable.GeoPoint> list;
 
         /*Check 3 ray going through a plane of 9x9 with 3x3 pixels*
          *  The ray go through the 'R'
@@ -75,8 +76,8 @@ public class TubeTest {
 
         //ray going through middle pixel
         list = new ArrayList<>();
-        list.add(new Point3D(0,0,-2));
-        list.add(new Point3D(0,0,-4));
+        list.add(new Intersectable.GeoPoint(tb,new Point3D(0,0,-2)));
+        list.add(new Intersectable.GeoPoint(tb,new Point3D(0,0,-4)));
         assertEquals("ray going through middle pixel",list,tb.findIntersections(middle));
 
         //ray going through upper left pixel
@@ -93,24 +94,24 @@ public class TubeTest {
 
         //ray going strait up with the z
         list = new ArrayList<>();
-        list.add(new Point3D(0,1,-2));
-        list.add(new Point3D(0,3,-4));
+        list.add(new Intersectable.GeoPoint(tb,new Point3D(0,1,-2)));
+        list.add(new Intersectable.GeoPoint(tb,new Point3D(0,3,-4)));
         assertEquals("ray going strait up with the z",list,tb.findIntersections(new Ray(new Point3D(0,0,-1),new Vector(0,1,-1))));
 
 
         //ray starts from tube ray start
         list = new ArrayList<>();
-        list.add(new Point3D(0,1,-4));
+        list.add(new Intersectable.GeoPoint(tb,new Point3D(0,1,-4)));
         assertEquals("ray starts from tube ray start",list,tb.findIntersections(new Ray(new Point3D(0,0,-3),new Vector(0,1,-1))));
 
         //ray tangent to tube
         list = new ArrayList<>();
-        list.add(new Point3D(1,0,-3));
+        list.add(new Intersectable.GeoPoint(tb,new Point3D(1,0,-3)));
         assertEquals("ray tangent to tube",list,tb.findIntersections(new Ray(new Point3D(1,0,0),new Vector(0,0,-1))));
 
         //ray tangent to tube and starts there
         list = new ArrayList<>();
-        list.add(new Point3D(1,0,-3));
+        list.add(new Intersectable.GeoPoint(tb,new Point3D(1,0,-3)));
         assertEquals("ray tangent to tube and starts there",list,tb.findIntersections(new Ray(new Point3D(1,0,-3),new Vector(0,0,-1))));
 
         //ray tangent to tube and starts after there
@@ -123,13 +124,13 @@ public class TubeTest {
 
         //ray is going in a different direction and starting at the middle
         list = new ArrayList<>();
-        list.add(new Point3D(0,0,-2));
+        list.add(new Intersectable.GeoPoint(tb,new Point3D(0,0,-2)));
         assertEquals("ray is going in a different direction and starting at the middle",list,tb.findIntersections(new Ray(new Point3D(0,0,-3),new Vector(0,0,1))));
 
         //ray is going in a different direction and starting before the tube
         list = new ArrayList<>();
-        list.add(new Point3D(0,0,-4));
-        list.add(new Point3D(0,0,-2));
+        list.add(new Intersectable.GeoPoint(tb,new Point3D(0,0,-4)));
+        list.add(new Intersectable.GeoPoint(tb,new Point3D(0,0,-2)));
         assertEquals("ray is going in a different direction and starting before the tube",list,tb.findIntersections(new Ray(new Point3D(0,0,-5),new Vector(0,0,1))));
     }
 }

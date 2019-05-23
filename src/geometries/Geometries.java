@@ -50,8 +50,8 @@ public class Geometries implements Intersectable {
      * @see Ray#Ray(Point3D, Vector)
      */
     @Override
-    public List<Point3D> findIntersections(Ray ray) {
-        List<Point3D> list = new ArrayList<>();
+    public List<GeoPoint> findIntersections(Ray ray) {
+        List<GeoPoint> list = new ArrayList<>();
         for (Intersectable item :_geometries) {
             list.addAll(item.findIntersections(ray));
         }

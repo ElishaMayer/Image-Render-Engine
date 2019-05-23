@@ -80,7 +80,7 @@ public class Tube extends RadialGeometry implements Geometry{
      * @see Ray#Ray(Point3D, Vector)
      */
     @Override
-    public List<Point3D> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray) {
 
         Point3D d;
         Point3D e;
@@ -144,17 +144,17 @@ public class Tube extends RadialGeometry implements Geometry{
         if (Util.usubtract(dis, _radius) == 0.0) {
             //The ray starts at the point
             if (d.equals(pointA)) {
-                List<Point3D> list = new ArrayList<>();
-                list.add(d);
+                List<GeoPoint> list = new ArrayList<>();
+                list.add(new GeoPoint(this,d));
                 return list;
             }
             //The ray starts after the point
             if (d.subtract(pointA).dotProduct(vectorA) < 0.0) {
                 return EMPTY_LIST;
             }
-            List<Point3D> list = new ArrayList<>();
+            List<GeoPoint> list = new ArrayList<>();
             //The ray starts before the point
-            list.add(d);
+            list.add(new GeoPoint(this,d));
             return list;
         }
 
@@ -185,27 +185,27 @@ public class Tube extends RadialGeometry implements Geometry{
         Point3D p2 = d.add(vectorA.scale(th));
 
         //Check if the points are in range and return them
-        List<Point3D> list = new ArrayList<>();
+        List<GeoPoint> list = new ArrayList<>();
 
         try {
             //the ray starts before point 1
             if (!(p1.subtract(pointA).dotProduct(vectorA) < 0.0)) {
-                list.add(p1);
+                list.add(new GeoPoint(this,p1));
             }
         } catch (Exception ex) {
             //the ray starts at point1
-            list.add(p1);
+            list.add(new GeoPoint(this,p1));
         }
 
 
         try {
             //the ray starts before point 2
             if (!(p2.subtract(pointA).dotProduct(vectorA) < 0.0)) {
-                list.add(p2);
+                list.add(new GeoPoint(this,p2));
             }
         } catch (Exception ex) {
             //the ray starts at point2
-            list.add(p2);
+            list.add(new GeoPoint(this,p2));
         }
 
         return list;

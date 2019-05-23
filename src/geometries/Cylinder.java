@@ -76,14 +76,14 @@ public class Cylinder extends Tube implements Geometry {
      * @see Ray#Ray(Point3D, Vector)
      */
     @Override
-    public List<Point3D> findIntersections(Ray ray) {
-        List<Point3D> list = new ArrayList<>();
+    public List<GeoPoint> findIntersections(Ray ray) {
+        List<GeoPoint> list = new ArrayList<>();
         Point3D rayP = _ray.getPoint3D();
         Vector rayV = _ray.getVector();
 
         //get tube intersections
-        for (Point3D p : super.findIntersections(ray)) {
-            double d = Math.abs(rayV.dotProduct(p.subtract(rayP)));
+        for (GeoPoint p : super.findIntersections(ray)) {
+            double d = Math.abs(rayV.dotProduct(p.point.subtract(rayP)));
             //if point is in the range
             if (Util.usubtract(_height / 2, d) >= 0.0)
                 list.add(p);
@@ -92,18 +92,18 @@ public class Cylinder extends Tube implements Geometry {
         //get upper plane intersections
         Point3D upperPoint = rayP.add(rayV.scale(_height / 2));
         Plane upperPlane = new Plane(upperPoint, rayV);
-        for (Point3D p : upperPlane.findIntersections(ray)) {
+        for (GeoPoint p : upperPlane.findIntersections(ray)) {
             //if point is in the range
-            if (Util.usubtract(_radius, upperPoint.distance(p)) >= 0)
+            if (Util.usubtract(_radius, upperPoint.distance(p.point)) >= 0)
                 list.add(p);
         }
 
         //get under plane intersections
         Point3D underPoint = rayP.subtract(rayV.scale(_height / 2));
         Plane underPlane = new Plane(underPoint, rayV);
-        for (Point3D p : underPlane.findIntersections(ray)) {
+        for (GeoPoint p : underPlane.findIntersections(ray)) {
             //if point is in the range
-            if (Util.usubtract(_radius, underPoint.distance(p)) >= 0)
+            if (Util.usubtract(_radius, underPoint.distance(p.point)) >= 0)
                 list.add(p);
         }
 

@@ -55,7 +55,7 @@ public class CameraTest {
     @Test
     public void checkSphereIntersections() {
         Camera cam = new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1));
-        List<Point3D> list = new ArrayList<>();
+        List<Intersectable.GeoPoint> list = new ArrayList<>();
 
         //Create 9x9 plane with 3x3 pixels
         Ray[] rays = new Ray[9];
@@ -119,7 +119,7 @@ public class CameraTest {
     @Test
     public void checkTriangleIntersections() {
         Camera cam = new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1));
-        List<Point3D> list = new ArrayList<>();
+        List<Intersectable.GeoPoint> list = new ArrayList<>();
 
         //Create 9x9 plane with 3x3 pixels
         Ray[] rays = new Ray[9];
@@ -152,7 +152,7 @@ public class CameraTest {
     @Test
     public void checkPlaneIntersections() {
         Camera cam = new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1));
-        List<Point3D> list = new ArrayList<>();
+        List<Intersectable.GeoPoint> list = new ArrayList<>();
 
         //Create 9x9 plane with 3x3 pixels
         Ray[] rays = new Ray[9];
@@ -193,7 +193,7 @@ public class CameraTest {
     @Test
     public void checkTubeIntersections() {
         Camera cam = new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1));
-        List<Point3D> list = new ArrayList<>();
+        List<Intersectable.GeoPoint> list = new ArrayList<>();
 
         //Create 9x9 plane with 3x3 pixels
         Ray[] rays = new Ray[9];
@@ -258,7 +258,7 @@ public class CameraTest {
     @Test
     public void checkCylinderIntersections() {
         Camera cam = new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1));
-        List<Point3D> list = new ArrayList<>();
+        List<Intersectable.GeoPoint> list = new ArrayList<>();
 
         //Create 9x9 plane with 3x3 pixels
         Ray[] rays = new Ray[9];
