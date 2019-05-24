@@ -156,4 +156,18 @@ public class RenderTest {
 		render.printGrid(50);
 		render.getImageWriter().writeToimage();
 	}
+
+	/**
+	 * Render from xml scene
+	 * @throws IOException
+	 * @throws SAXException
+	 * @throws ParserConfigurationException
+	 */
+	@Test
+	public void emissionTest() throws IOException, SAXException, ParserConfigurationException {
+		Render render = loadScene.loadFromXML("xml\\sceneEmission");
+		render.renderImage();
+		render.printGrid(50);
+		render.getImageWriter().writeToimage();
+	}
 }

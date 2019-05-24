@@ -5,7 +5,7 @@ import primitives.Color;
 /**
  * Ambient light
  */
-public class AmbientLight {
+public class AmbientLight extends Light {
     //variables
     private Color _color;
     private Color _calcColor;
@@ -38,7 +38,7 @@ public class AmbientLight {
      * get color intensity
      * @return color intensity
      */
-    public Color GetIntensity(){
+    public Color getIntensity(){
         return _calcColor;
     }
 

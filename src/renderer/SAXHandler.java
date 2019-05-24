@@ -5,10 +5,7 @@ import geometries.*;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import primitives.Color;
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
 import scene.Scene;
 
 import java.util.ArrayList;
@@ -42,10 +39,10 @@ public class SAXHandler extends DefaultHandler {
             }
                 break;
             //Create new light
-            case "ambient-light":
+            case "ambient-light":{
                 double[] colors = parse3Numbers(attributes.getValue("color"));
                 _scene.setLight(new AmbientLight(new Color(colors),Double.parseDouble(attributes.getValue("ka"))));
-                break;
+                break;}
             //Create new camera
             case "camera": {
                 double[] points = parse3Numbers(attributes.getValue("p0"));
@@ -62,7 +59,9 @@ public class SAXHandler extends DefaultHandler {
             case "sphere": {
                 double[] points = parse3Numbers(attributes.getValue("center"));
                 Point3D center = new Point3D(points[0], points[1], points[2]);
-                Sphere sp = new Sphere(Double.parseDouble(attributes.getValue("radius")), center);
+                Color color = new Color(parse3Numbers(attributes.getValue("emission")));
+                Material material = getMaterail(attributes.getValue("material"));
+                Sphere sp = new Sphere(Double.parseDouble(attributes.getValue("radius")), center,material,color);
                 _scene.addGeometries(sp);
             }
                 break;
@@ -75,7 +74,9 @@ public class SAXHandler extends DefaultHandler {
                 Point3D p1 = new Point3D(points[0], points[1], points[2]);
                 points = parse3Numbers(attributes.getValue("p2"));
                 Point3D p2 = new Point3D(points[0], points[1], points[2]);
-                _scene.addGeometries(new Triangle(p0,p1,p2));
+                Color color = new Color(parse3Numbers(attributes.getValue("emission")));
+                Material material = getMaterail(attributes.getValue("material"));
+                _scene.addGeometries(new Triangle(p0,p1,p2,material,color));
             }
                 break;
             //create new cylinder
@@ -87,7 +88,9 @@ public class SAXHandler extends DefaultHandler {
                 Vector rayV = new Vector(points[0], points[1], points[2]);
                 double radius = Double.parseDouble(attributes.getValue("radius"));
                 double heigth = Double.parseDouble(attributes.getValue("heigth"));
-                _scene.addGeometries(new Cylinder(radius,new Ray(rayP,rayV),heigth));
+                Color color = new Color(parse3Numbers(attributes.getValue("emission")));
+                Material material = getMaterail(attributes.getValue("material"));
+                _scene.addGeometries(new Cylinder(radius,new Ray(rayP,rayV),heigth,material,color));
             }
             break;
             //create new tube
@@ -98,7 +101,9 @@ public class SAXHandler extends DefaultHandler {
                 points = parse3Numbers(attributes.getValue("Ray-v"));
                 Vector rayV = new Vector(points[0], points[1], points[2]);
                 double radius = Double.parseDouble(attributes.getValue("radius"));
-                _scene.addGeometries(new Tube(radius,new Ray(rayP,rayV)));
+                Color color = new Color(parse3Numbers(attributes.getValue("emission")));
+                Material material = getMaterail(attributes.getValue("material"));
+                _scene.addGeometries(new Tube(radius,new Ray(rayP,rayV),material,color));
             }
             break;
             //create new plane
@@ -108,7 +113,9 @@ public class SAXHandler extends DefaultHandler {
                 Point3D p = new Point3D(points[0], points[1], points[2]);
                 points = parse3Numbers(attributes.getValue("v"));
                 Vector v = new Vector(points[0], points[1], points[2]);
-                _scene.addGeometries(new Plane(p,v));
+                Color color = new Color(parse3Numbers(attributes.getValue("emission")));
+                Material material = getMaterail(attributes.getValue("material"));
+                _scene.addGeometries(new Plane(p,v,material,color));
             }
             break;
 
@@ -127,6 +134,11 @@ public class SAXHandler extends DefaultHandler {
         num[1] = Double.parseDouble(numbers[1]);
         num[2] = Double.parseDouble(numbers[2]);
         return num;
+    }
+
+    private Material getMaterail(String str){
+        double[] nums = parse3Numbers(str);
+        return new Material((int)nums[0],(int)nums[1],(int)nums[2]);
     }
 }
 

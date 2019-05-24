@@ -81,11 +81,13 @@ public class Render {
     /**
      * calculate the color of a point in the scene
      *
-     * @param p the point which we calculate the color from
+     * @param intersection the point which we calculate the color from
      * @return the color of the requested point
      */
-    private Color calcColor(Intersectable.GeoPoint p){
-        return _scene.getLight().GetIntensity().getColor();
+    private Color calcColor(Intersectable.GeoPoint intersection){
+        primitives.Color color =  _scene.getLight().getIntensity();
+        color = color.add(intersection.geometry.getEmission());
+        return  color.getColor();
     }
 
     /**

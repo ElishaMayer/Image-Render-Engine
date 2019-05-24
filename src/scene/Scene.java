@@ -2,9 +2,12 @@ package scene;
 
 import elements.AmbientLight;
 import elements.Camera;
+import elements.LightSource;
 import geometries.Geometries;
 import geometries.Geometry;
 import primitives.Color;
+
+import java.util.List;
 
 /**
  * A Scene with geometries ,camera and light
@@ -17,6 +20,7 @@ public class Scene {
     private Geometries _geometries;
     private Camera _camera;
     private double _cameraDistance;
+    private List<LightSource> _lights;
 
     /* ********* Constructors ***********/
     /**
@@ -78,6 +82,14 @@ public class Scene {
     }
 
     /**
+     * get light sources
+     * @return list of light sources
+     */
+    public List<LightSource> get_lights() {
+        return _lights;
+    }
+
+    /**
      * set scene background
      * @param background the background color
      */
@@ -101,6 +113,14 @@ public class Scene {
     public void setCamera(Camera camera, double cameraDistance) {
         _camera = camera;
         _cameraDistance = cameraDistance;
+    }
+
+    /**
+     * set light sources
+     * @param _lights list of light sources
+     */
+    public void set_lights(List<LightSource> _lights) {
+        this._lights = _lights;
     }
 
     /**
