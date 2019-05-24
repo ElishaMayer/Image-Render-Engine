@@ -10,7 +10,7 @@ import static primitives.Util.isZero;
 /**
  * Cylinder
  */
-public class Cylinder extends Tube implements Geometry {
+public class Cylinder extends Tube   {
     private double _height;
 
     /* ********* Constructors ***********/
@@ -86,7 +86,7 @@ public class Cylinder extends Tube implements Geometry {
             double d = Math.abs(rayV.dotProduct(p.point.subtract(rayP)));
             //if point is in the range
             if (Util.usubtract(_height / 2, d) >= 0.0)
-                list.add(p);
+                list.add(new GeoPoint(this,p.point));
         }
 
         //get upper plane intersections
@@ -95,7 +95,7 @@ public class Cylinder extends Tube implements Geometry {
         for (GeoPoint p : upperPlane.findIntersections(ray)) {
             //if point is in the range
             if (Util.usubtract(_radius, upperPoint.distance(p.point)) >= 0)
-                list.add(p);
+                list.add(new GeoPoint(this,p.point));
         }
 
         //get under plane intersections
@@ -104,7 +104,7 @@ public class Cylinder extends Tube implements Geometry {
         for (GeoPoint p : underPlane.findIntersections(ray)) {
             //if point is in the range
             if (Util.usubtract(_radius, underPoint.distance(p.point)) >= 0)
-                list.add(p);
+                list.add(new GeoPoint(this,p.point));
         }
 
         return list;

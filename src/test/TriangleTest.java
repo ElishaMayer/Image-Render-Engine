@@ -1,5 +1,6 @@
 package test;
 
+import geometries.Intersectable;
 import geometries.Plane;
 import geometries.Triangle;
 import org.junit.Test;
@@ -31,14 +32,14 @@ public class TriangleTest {
     public void findIntersections() {
         Triangle tr = new Triangle(new Point3D(0, 3, -3),new Point3D(3, 0, -3),new Point3D(-3, 0, -3));
         Ray r;
-        List<Point3D> list = new ArrayList<>();
+        List<Intersectable.GeoPoint> list = new ArrayList<>();
 
 
         // EP:
 
         // the ray goes through the triangle
         r = new Ray(new Point3D(1, 1, -2), new Vector(-2, 0.5, -1));
-        list.add(new Point3D(-1, 1.5, -3));
+        list.add(new Intersectable.GeoPoint(tr,new Point3D(-1, 1.5, -3)));
         assertEquals("EP - the ray goes through the triangle", list, tr.findIntersections(r));
         // the ray is outside the triangle between 2 far sides
         r = new Ray(new Point3D(4, 4, -2), new Vector(1, 1, -4));
@@ -53,7 +54,7 @@ public class TriangleTest {
 
         // the ray begins anywhere on the plane
         r = new Ray(new Point3D(1, 1, -3), new Vector(-2, 0.5, -1));
-        list.add(new Point3D(1, 1, -3));
+        list.add(new Intersectable.GeoPoint(tr,new Point3D(1, 1, -3)));
         assertEquals("BVA - the ray begins anywhere at the plane", list, tr.findIntersections(r));
 
         // ray goes through the continuation of side 1

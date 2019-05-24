@@ -45,7 +45,13 @@ public interface Intersectable {
                     point.equals( geoPoint.point);
         }
 
-
+        @Override
+        public String toString() {
+            return "GP{" +
+                    "G=" + geometry +
+                    ", P=" + point +
+                    '}';
+        }
     }
 
 }

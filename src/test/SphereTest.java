@@ -1,5 +1,6 @@
 package test;
 
+import geometries.Intersectable;
 import geometries.Sphere;
 import org.junit.Test;
 import primitives.Point3D;
@@ -48,7 +49,7 @@ public class SphereTest {
     public void findIntersections(){
         Sphere sp;
         Ray r;
-        List<Point3D> list;
+        List<Intersectable.GeoPoint> list;
 
         /*Check 3 ray going through a plane of 9x9 with 3x3 pixels*
          *  The ray go through the 'R'
@@ -71,8 +72,8 @@ public class SphereTest {
 
         //ray going through middle pixel
         list = new ArrayList<>();
-        list.add(new Point3D(0,0,-2));
-        list.add(new Point3D(0,0,-4));
+        list.add(new Intersectable.GeoPoint(sp,new Point3D(0,0,-2)));
+        list.add(new Intersectable.GeoPoint(sp,new Point3D(0,0,-4)));
         assertEquals("ray going through middle pixel",list,sp.findIntersections(middle));
 
         //ray going through upper left pixel
@@ -88,17 +89,17 @@ public class SphereTest {
 
         //ray going through middle pixel
         list.clear();
-        list.add((new Vector(0,0,-1)).normal().scale(5).getPoint3D());
+        list.add(new Intersectable.GeoPoint(sp,(new Vector(0,0,-1)).normal().scale(5).getPoint3D()));
         assertEquals("ray going through middle pixel",list,sp.findIntersections(middle));
 
         //ray going through upper left pixel
         list.clear();
-        list.add((new Vector(-3,3,-1)).normal().scale(5).getPoint3D());
+        list.add(new Intersectable.GeoPoint(sp,(new Vector(-3,3,-1)).normal().scale(5).getPoint3D()));
         assertEquals("ray going through upper left pixel",list,sp.findIntersections(leftUp));
 
         //ray going through under right pixel
         list.clear();
-        list.add((new Vector(3,-3,-1)).normal().scale(5).getPoint3D());
+        list.add(new Intersectable.GeoPoint(sp,(new Vector(3,-3,-1)).normal().scale(5).getPoint3D()));
         assertEquals("ray going through under right pixel",list,sp.findIntersections(rightDown));
 
         //Sphere on (0,0,-0.5) and radius 5 (Plane inside the Sphere)
@@ -106,17 +107,17 @@ public class SphereTest {
 
         //ray going through middle pixel
         list.clear();
-        list.add(new Point3D(0,0,-5.5));
+        list.add(new Intersectable.GeoPoint(sp,new Point3D(0,0,-5.5)));
         assertEquals("ray going through middle pixel",list,sp.findIntersections(middle));
 
         //ray going through upper left pixel
         list.clear();
-        list.add(new Point3D(-3.503843994234294,3.503843994234294,-1.167947998078098));
+        list.add(new Intersectable.GeoPoint(sp,new Point3D(-3.503843994234294,3.503843994234294,-1.167947998078098)));
         assertEquals("ray going through upper left pixel",list,sp.findIntersections(leftUp));
 
         //ray going through under right pixel
         list.clear();
-        list.add(new Point3D(3.503843994234294,-3.503843994234294,-1.167947998078098));
+        list.add(new Intersectable.GeoPoint(sp,new Point3D(3.503843994234294,-3.503843994234294,-1.167947998078098)));
         assertEquals("ray going through under right pixel",list,sp.findIntersections(rightDown));
 
         //Sphere on (0,0,5) and radius 3 (Sphere behind the plane)
@@ -140,13 +141,13 @@ public class SphereTest {
         //Check when the ray is tangent sphere
         r = new Ray(new Point3D(0,0,0),new Vector(3/2d,0,Math.sqrt(3)/2));
         list = new ArrayList<>();
-        list.add(new Point3D(3/2d,0,Math.sqrt(3)/2));
+        list.add(new Intersectable.GeoPoint(sp,new Point3D(3/2d,0,Math.sqrt(3)/2)));
         assertEquals("Check when the ray is tangent sphere",list,sp.findIntersections(r));
 
         //Check when the ray is tangent sphere and starts from there
         r = new Ray(new Point3D(3/2d,0,Math.sqrt(3)/2),new Vector(3/2d,0,Math.sqrt(3)/2));
         list.clear();
-        list.add(new Point3D(3/2d,0,Math.sqrt(3)/2));
+        list.add(new Intersectable.GeoPoint(sp,new Point3D(3/2d,0,Math.sqrt(3)/2)));
         assertEquals("Check when the ray is tangent sphere and starts from there",list,sp.findIntersections(r));
 
         //Check when the ray is tangent sphere and starts after there
@@ -157,20 +158,20 @@ public class SphereTest {
         //Check when the ray starts on the Sphere and crosses it again
         r = new Ray((new Point3D(1,0,0)),new Vector(1,1,0));
         list.clear();
-        list.add(new Point3D(1,0,0));
-        list.add(new Point3D(2,1,0));
+        list.add(new Intersectable.GeoPoint(sp,new Point3D(1,0,0)));
+        list.add(new Intersectable.GeoPoint(sp,new Point3D(2,1,0)));
         assertEquals("Check when the ray starts on the Sphere and crosses it again",list,sp.findIntersections(r));
 
         //Check when the ray starts on the Sphere and doesn't crosses it again
         r = new Ray((new Point3D(2,1,0)),new Vector(1,1,0));
         list.clear();
-        list.add(new Point3D(2,1,0));
+        list.add(new Intersectable.GeoPoint(sp,new Point3D(2,1,0)));
         assertEquals("Check when the ray starts on the Sphere and doesn't crosses it again",list,sp.findIntersections(r));
 
         //Check when the ray starts on the middle of Sphere
         r = new Ray((new Point3D(2,0,0)),new Vector(1,1,0));
         list.clear();
-        list.add(new Point3D(2,0,0).add((new Vector(1,1,0)).normal()));
+        list.add(new Intersectable.GeoPoint(sp,new Point3D(2,0,0).add((new Vector(1,1,0)).normal())));
         assertEquals("Check when the ray starts on the middle of Sphere",list,sp.findIntersections(r));
 
         //Check when the ray starts after the Sphere and is parallel to the Sphere middle
@@ -181,14 +182,14 @@ public class SphereTest {
         //Check when the ray starts at the and of the Sphere and is parallel to the Sphere middle
         r = new Ray((new Point3D(3,0,0)),new Vector(1,0,0));
         list.clear();
-        list.add(new Point3D(3,0,0));
+        list.add(new Intersectable.GeoPoint(sp,new Point3D(3,0,0)));
         assertEquals("Check when the ray starts at the and of the Sphere and is parallel to the Sphere middle",list,sp.findIntersections(r));
 
         //Check when the ray starts at the begging of the Sphere and is parallel to the Sphere middle
         r = new Ray((new Point3D(1,0,0)),new Vector(1,0,0));
         list.clear();
-        list.add(new Point3D(1,0,0));
-        list.add(new Point3D(3,0,0));
+        list.add(new Intersectable.GeoPoint(sp,new Point3D(1,0,0)));
+        list.add(new Intersectable.GeoPoint(sp,new Point3D(3,0,0)));
         assertEquals("Check when the ray starts at the begging of the Sphere and is parallel to the Sphere middle",list,sp.findIntersections(r));
 
         //Check when the ray parallel to a tangent plane to the Sphere

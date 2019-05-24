@@ -1,6 +1,7 @@
 package test;
 
 import geometries.Cylinder;
+import geometries.Intersectable;
 import org.junit.Test;
 import primitives.Point3D;
 import primitives.Ray;
@@ -31,7 +32,7 @@ public class CylinderTest {
      */
     @Test
     public void findIntersections(){
-        List<Point3D> list =new ArrayList<>();
+        List<Intersectable.GeoPoint> list =new ArrayList<>();
 
         Ray r = new Ray(new Point3D(0,0,0),new Vector(0,0,-1));
 
@@ -40,8 +41,8 @@ public class CylinderTest {
 
         Cylinder c = new Cylinder(1,new Ray(new Point3D(0,0,-3),new Vector(0,1,0)),1);
         r = new Ray(new Point3D(0,0,0),new Vector(0,0,-1));
-        list.add(new Point3D(0,0,-2));
-        list.add(new Point3D(0,0,-4));
+        list.add(new Intersectable.GeoPoint(c,new Point3D(0,0,-2)));
+        list.add(new Intersectable.GeoPoint(c,new Point3D(0,0,-4)));
         //ray goes in the middle of cylinder
         assertEquals(list,c.findIntersections(r));
 
@@ -52,16 +53,16 @@ public class CylinderTest {
 
         r =  new Ray(new Point3D(0,-3,-3),new Vector(0,1,0));
         list.clear();
-        list.add(new Point3D(0,2,-3));
-        list.add(new Point3D(0,0,-3));
+        list.add(new Intersectable.GeoPoint(c,new Point3D(0,2,-3)));
+        list.add(new Intersectable.GeoPoint(c,new Point3D(0,0,-3)));
         //ray goes thorough middle of cylinder top and button
         assertEquals(list,c.findIntersections(r));
 
 
         r =  new Ray(new Point3D(0,-3,-2),new Vector(0,1,0));
         list.clear();
-        list.add(new Point3D(0,2,-2));
-        list.add(new Point3D(0,0,-2));
+        list.add(new Intersectable.GeoPoint(c,new Point3D(0,2,-2)));
+        list.add(new Intersectable.GeoPoint(c,new Point3D(0,0,-2)));
         //ray goes thorough middle of cylinder top and button
         assertEquals(list,c.findIntersections(r));
 

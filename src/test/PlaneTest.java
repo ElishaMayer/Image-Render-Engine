@@ -1,5 +1,6 @@
 package test;
 
+import geometries.Intersectable;
 import geometries.Plane;
 import geometries.Triangle;
 import org.junit.Test;
@@ -44,13 +45,13 @@ public class PlaneTest {
     public void findIntersections() {
         Plane pl = new Plane(new Point3D(0, 0, -3), new Vector(0, 0, -1));
         Ray r;
-        List<Point3D> list = new ArrayList<>();
+        List<Intersectable.GeoPoint> list = new ArrayList<>();
 
 
         // EP: The Ray must be neither orthogonal nor parallel to the plane
         // the ray intersects the plane
         r = new Ray(new Point3D(1, 1, 0), new Vector(2, 1, -1));
-        list.add(new Point3D(7, 4, -3));
+        list.add(new Intersectable.GeoPoint(pl,new Point3D(7, 4, -3)));
         assertEquals("EP - the ray intersects the plane", list, pl.findIntersections(r));
         // the ray does not intersect the plane
         r = new Ray(new Point3D(1, 1, 0), new Vector(2, 1, 1));
@@ -70,12 +71,12 @@ public class PlaneTest {
         // BVA: Ray is orthogonal to the plane
         // Ray starts before the plane
         r = new Ray(new Point3D(1, 1, 0), new Vector(0, 0, -1));
-        list.add(new Point3D(1, 1, -3));
+        list.add(new Intersectable.GeoPoint(pl,new Point3D(1, 1, -3)));
         assertEquals("BVA - the ray is orthogonal and starts before the plane", list, pl.findIntersections(r));
         // Ray starts in the plane
         r = new Ray(new Point3D(1, 1, -3), new Vector(0, 0, -1));
         list.clear();
-        list.add(new Point3D(1, 1, -3));
+        list.add(new Intersectable.GeoPoint(pl,new Point3D(1, 1, -3)));
         assertEquals("BVA - the ray is orthogonal and starts in the plane", list, pl.findIntersections(r));
         // Ray starts after the plane
         r = new Ray(new Point3D(1, 1, -4), new Vector(0, 0, -1));
@@ -85,14 +86,14 @@ public class PlaneTest {
 
         // BVA: Starting point on the plane, but the rest of the ray is not
         r = new Ray(new Point3D(1, 1, -3), new Vector(2, 1, -1));
-        list.add(new Point3D(1, 1, -3));
+        list.add(new Intersectable.GeoPoint(pl,new Point3D(1, 1, -3)));
         assertEquals("BVA - Starting point on the plane, but the rest of the ray is not", list, pl.findIntersections(r));
 
 
         // BVA: Starting point is equal to the plane point
         r = new Ray(new Point3D(0, 0, -3), new Vector(2, 1, -1));
         list.clear();
-        list.add(new Point3D(0, 0, -3));
+        list.add(new Intersectable.GeoPoint(pl,new Point3D(0, 0, -3)));
         assertEquals("BVA - Starting point is equal to the plane point", list, pl.findIntersections(r));
     }
 }

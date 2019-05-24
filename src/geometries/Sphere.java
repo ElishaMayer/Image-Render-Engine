@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Sphere
  */
-public class Sphere extends RadialGeometry implements Geometry {
+public class Sphere extends RadialGeometry  {
     private Point3D _point;
 
     /* ********* Constructors ***********/

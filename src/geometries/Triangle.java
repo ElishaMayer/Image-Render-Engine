@@ -10,7 +10,7 @@ import static primitives.Util.isZero;
 /**
  * Triangle
  */
-public class Triangle extends Plane implements Geometry{
+public class Triangle extends Plane {
     private Point3D _point2;
     private Point3D _point3;
 
@@ -121,8 +121,11 @@ public class Triangle extends Plane implements Geometry{
                 n3Sign = planeP.subtract(rayP).dotProduct(n3);
 
         if (Util.alignZero(n1Sign) > 0.0 && Util.alignZero(n2Sign) > 0.0 && Util.alignZero(n3Sign) > 0.0 ||
-                Util.alignZero(n1Sign) < 0.0 && Util.alignZero(n2Sign) < 0.0 && Util.alignZero(n3Sign) < 0.0)
+                Util.alignZero(n1Sign) < 0.0 && Util.alignZero(n2Sign) < 0.0 && Util.alignZero(n3Sign) < 0.0){
+            list.clear();
+            list.add(new GeoPoint(this,planeP));
             return list;
+        }
         else
             return EMPTY_LIST;
     }

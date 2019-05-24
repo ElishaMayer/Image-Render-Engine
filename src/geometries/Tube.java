@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Tube
  */
-public class Tube extends RadialGeometry implements Geometry{
+public class Tube extends RadialGeometry {
     Ray _ray;
 
     /* ******* Constructors ***********/
