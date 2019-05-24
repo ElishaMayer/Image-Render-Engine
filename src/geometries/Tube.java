@@ -24,6 +24,19 @@ public class Tube extends RadialGeometry {
         _ray = new Ray(ray);
     }
 
+    /**
+     * A new Tube
+     *
+     * @param radius the radius
+     * @param ray the direction
+     * @param material the material
+     * @param emission the emission
+     */
+    public Tube(double radius, Ray ray,Material material,Color emission) {
+        super(radius,material,emission);
+        _ray = new Ray(ray);
+    }
+
 
     /* ************* Getters/Setters *******/
 

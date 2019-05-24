@@ -24,6 +24,18 @@ public class Sphere extends RadialGeometry  {
         _point = new Point3D(point);
     }
 
+    /**
+     * A new Sphere
+     *
+     * @param radius the radius
+     * @param point  the middle point
+     * @param material material
+     * @param emission emission     */
+    public Sphere(double radius, Point3D point,Material material,Color emission) {
+        super(radius,material,emission);
+        _point = new Point3D(point);
+    }
+
 
     /* ************* Getters/Setters *******/
 

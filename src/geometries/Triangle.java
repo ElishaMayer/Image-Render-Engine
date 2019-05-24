@@ -29,6 +29,21 @@ public class Triangle extends Plane {
         _point3 = new Point3D(p3);
     }
 
+    /**
+     * A new Triangle
+     *
+     * @param p1 point 1
+     * @param p2 point 2
+     * @param p3 point 3
+     * @param material material
+     * @param emission emission
+     * */
+    public Triangle(Point3D p1, Point3D p2, Point3D p3,Material material,Color emission) {
+        super(p1,p2,p3,material,emission);
+        _point2 = new Point3D(p2);
+        _point3 = new Point3D(p3);
+    }
+
 
     /* ************* Getters/Setters *******/
 

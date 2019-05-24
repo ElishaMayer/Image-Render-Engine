@@ -30,6 +30,20 @@ public class Plane extends Geometry{
 
     /**
      * A new Plane
+     *
+     * @param p  a point on the plane
+     * @param vec a vector in the plane
+     * @param material material
+     * @param emission emission
+     * */
+    public Plane(Point3D p, Vector vec,Material material,Color emission) {
+        super(material,emission);
+        _point = new Point3D(p);
+        _vector = vec.normal();
+    }
+
+    /**
+     * A new Plane
      * @param p1 Point 1
      * @param p2 Point 2
      * @param p3 Point 3
@@ -45,6 +59,25 @@ public class Plane extends Geometry{
         }
     }
 
+    /**
+     * A new Plane
+     * @param p1 Point 1
+     * @param p2 Point 2
+     * @param p3 Point 3
+     * @param material material
+     * @param emission emission
+     */
+    public Plane(Point3D p1 , Point3D p2 ,Point3D p3,Material material,Color emission){
+        super(material,emission);
+        _point = new Point3D(p1);
+        Vector v1 = p2.subtract(p3);
+        Vector v2 = p2.subtract(p1);
+        try {
+            _vector = v1.crossProduct(v2).normal();
+        }catch (IllegalArgumentException exc){
+            throw new IllegalArgumentException("This is not a Plane/Triangle");
+        }
+    }
     /* ************** Admin *****************/
 
     @Override

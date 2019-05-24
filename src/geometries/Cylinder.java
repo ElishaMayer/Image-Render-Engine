@@ -29,6 +29,22 @@ public class Cylinder extends Tube   {
         this._height = height;
     }
 
+    /**
+     * A new Cylinder
+     *
+     * @param radius the radius
+     * @param ray    the direction vector and middle point
+     * @param height the height
+     * @param material material
+     * @param emission emission
+     */
+    public Cylinder(double radius, Ray ray, double height,Material material,Color emission) {
+        super(radius, ray,material,emission);
+        if (isZero(height) || height < 0)
+            throw new IllegalArgumentException("Height is zero or negative");
+        this._height = height;
+    }
+
     /* ************* Getters/Setters *******/
 
     /**

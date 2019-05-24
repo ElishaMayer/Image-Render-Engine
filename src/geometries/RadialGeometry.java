@@ -23,6 +23,20 @@ public abstract class RadialGeometry extends Geometry{
         _radius = radius;
     }
 
+    /**
+     * A new RadialGeometry
+     *
+     * @param radius the radius
+     * @param material the material
+     * @param emission the emission
+     */
+    public RadialGeometry(double radius,Material material,Color emission) {
+        super(material,emission);
+        if(Util.isZero(radius) || radius < 0)
+            throw new IllegalArgumentException("Zero or negative radius");
+        _radius = radius;
+    }
+
 
     /*************** Admin *****************/
 
