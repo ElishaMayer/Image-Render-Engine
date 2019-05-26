@@ -13,161 +13,89 @@ import renderer.loadScene;
 import scene.Scene;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
 
+import static junit.framework.TestCase.fail;
+
 public class RenderTest {
-	/**
-	 * Render Scene with 4 Triangles and a circle
-	 */
+
 	@Test
-	public void basicRendering(){
-		Scene scene = new Scene("Test scene");
-		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)),150);
-		scene.setBackground(new Color(0, 0, 0));
-		scene.setLight(new AmbientLight(new Color(255,255,255),1.0));
-		scene.addGeometries(new Sphere( 50, new Point3D(0, 0, 150)));
-
-        scene.addGeometries(new Triangle(new Point3D( 100, 0, 150),
-				 							new Point3D(  0, 100, 150),
-				 							new Point3D( 100, 100, 150)));
-
-        scene.addGeometries(new Triangle( new Point3D( 100, 0, 150),
-				 			 				new Point3D(  0, -100, 150),
-				 			 				new Point3D( 100,-100, 150)));
-
-        scene.addGeometries(new Triangle( new Point3D(-100, 0, 150),
-				 							new Point3D(  0, 100, 150),
-				 							new Point3D(-100, 100, 150)));
-
-        scene.addGeometries(new Triangle( new Point3D(-100, 0, 150),
-				 			 				new Point3D(  0,  -100, 150),
-				 			 				new Point3D(-100, -100, 150)));
-
-		ImageWriter imageWriter = new ImageWriter("images\\IMG_0004_Scene", 500, 500, 500, 500);
-		Render render = new Render(imageWriter, scene);
-
-		render.renderImage();
-		render.printGrid(50);
-		imageWriter.writeToimage();
+	public void renderEx6() throws IOException, SAXException, ParserConfigurationException {
+		String message = "";
+		System.out.println("-----Ex6 render-----");
+		File folder = new File("xml\\Exc6");
+		File[] listOfFiles = folder.listFiles();
+		for (int i = 0; i < listOfFiles.length; i++) {
+			try {
+				if (listOfFiles[i].isFile()) {
+					Render render = loadScene.loadFromXML("xml\\Exc6\\" + listOfFiles[i].getName(),true);
+					render.renderImage();
+					if(render.getImageWriter().getGrid())
+						render.printGrid(50);
+					render.getImageWriter().writeToimage();
+					System.out.println("Successfully rendered picture: " + render.getImageWriter().getImageName());
+					System.out.println("Completed: " + (int)(((double) i+1) / listOfFiles.length * 100.0) + "%");
+				}
+			} catch (Exception ex) {
+				message = "\n" + "Error in: " + listOfFiles[i].getName()+"\n"+"Error details: " + ex.toString();
+			}
+		}
+		if(message!=""){
+			fail(message);
+		}
 	}
 
-	/**
-	 * Render cylinder standing
-	 */
 	@Test
-	public void cylinderRendering1(){
-		Scene scene = new Scene("Test scene");
-		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)),150);
-		scene.setBackground(new Color(0, 0, 0));
-		scene.setLight(new AmbientLight(new Color(255,255,255),1.0));
-
-		scene.addGeometries(new Cylinder(50,new Ray(new Point3D( 0, 0, 150),
-				new Vector(  0, 1, 0)),
-				100));
-
-
-
-		ImageWriter imageWriter = new ImageWriter("images\\IMG_0005_Cylinder1", 500, 500, 500, 500);
-		Render render = new Render(imageWriter, scene);
-
-		render.renderImage();
-		render.printGrid(50);
-		imageWriter.writeToimage();
+	public void renderEx5() throws IOException, SAXException, ParserConfigurationException {
+		String message ="";
+		System.out.println("-----Ex5 render-----");
+		File folder = new File("xml\\Exc5");
+		File[] listOfFiles = folder.listFiles();
+		for (int i = 0; i < listOfFiles.length; i++) {
+			try {
+				if (listOfFiles[i].isFile()) {
+					Render render = loadScene.loadFromXML("xml\\Exc5\\" + listOfFiles[i].getName(),true);
+					render.renderImage();
+					if(render.getImageWriter().getGrid())
+						render.printGrid(50);
+					render.getImageWriter().writeToimage();
+					System.out.println("Successfully rendered picture: " + render.getImageWriter().getImageName());
+					System.out.println("Completed: " + (int)(((double) i+1) / listOfFiles.length * 100.0) + "%");
+				}
+			} catch (Exception ex) {
+				message = "\n" + "Error in: " + listOfFiles[i].getName()+"\n"+"Error details: " + ex.toString();
+			}
+		}
+		if(message!=""){
+			fail(message);
+		}
 	}
 
-	/**
-	 * Render lying cylinder
-	 */
 	@Test
-	public void cylinderRendering2(){
-		Scene scene = new Scene("Test scene");
-		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)),150);
-		scene.setBackground(new Color(0, 0, 0));
-		scene.setLight(new AmbientLight(new Color(255,255,255),1.0));
-
-		scene.addGeometries(new Cylinder(50,new Ray(new Point3D( 0, 0, 150),
-				new Vector(  0, 0, 1)),
-				100));
-
-
-		ImageWriter imageWriter = new ImageWriter("images\\IMG_0006_Cylinder2", 500, 500, 500, 500);
-		Render render = new Render(imageWriter, scene);
-
-		render.renderImage();
-		render.printGrid(50);
-		imageWriter.writeToimage();
+	public void renderTests() throws IOException, SAXException, ParserConfigurationException {
+		String message ="";
+		System.out.println("-----Tests render-----");
+		File folder = new File("xml\\Tests");
+		File[] listOfFiles = folder.listFiles();
+		for (int i = 0; i < listOfFiles.length; i++) {
+			//	try {
+			if (listOfFiles[i].isFile()) {
+				Render render = loadScene.loadFromXML("xml\\Tests\\" + listOfFiles[i].getName(),false);
+				render.renderImage();
+				if(render.getImageWriter().getGrid())
+					render.printGrid(50);
+				render.getImageWriter().writeToimage();
+				System.out.println("Successfully rendered picture: " + render.getImageWriter().getImageName());
+				System.out.println("Completed: " + (int)(((double) i+1) / listOfFiles.length * 100.0) + "%");
+			}
+			//	} catch (Exception ex) {
+			//		message = "\n" + "Error in: " + listOfFiles[i].getName()+"\n"+"Error details: " + ex.toString();
+			//	}
+		}
+		if(message!=""){
+			fail(message);
+		}
 	}
 
-	/**
-	 * Render standing Tube
-	 */
-	@Test
-	public void tubeRendering1(){
-		Scene scene = new Scene("Test scene");
-		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)),150);
-		scene.setBackground(new Color(0, 0, 0));
-		scene.setLight(new AmbientLight(new Color(255,255,255),1.0));
-
-		scene.addGeometries(new Tube(50,new Ray(new Point3D( 0, 0, 150),
-				new Vector(  0, 1, 0))));
-
-
-
-		ImageWriter imageWriter = new ImageWriter("images\\IMG_0007_Tube1", 500, 500, 500, 500);
-		Render render = new Render(imageWriter, scene);
-
-		render.renderImage();
-		render.printGrid(50);
-		imageWriter.writeToimage();
-	}
-
-	/**
-	 * Render lying Tube
-	 */
-	@Test
-	public void tubeRendering2(){
-		Scene scene = new Scene("Test scene");
-		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)),150);
-		scene.setBackground(new Color(0, 0, 0));
-		scene.setLight(new AmbientLight(new Color(255,255,255),1.0));
-
-		scene.addGeometries(new Tube(50,new Ray(new Point3D( 0, 0, 150),
-				new Vector(  0, 0, 1))));
-
-
-		ImageWriter imageWriter = new ImageWriter("images\\IMG_0008_Tube2", 500, 500, 500, 500);
-		Render render = new Render(imageWriter, scene);
-
-		render.renderImage();
-		render.printGrid(50);
-		imageWriter.writeToimage();
-	}
-
-	/**
-	 * Render from xml scene
-	 * @throws IOException
-	 * @throws SAXException
-	 * @throws ParserConfigurationException
-	 */
-	@Test
-	public void fromXmlRendering() throws IOException, SAXException, ParserConfigurationException {
-		Render render = loadScene.loadFromXML("xml\\scene");
-		render.renderImage();
-		render.printGrid(50);
-		render.getImageWriter().writeToimage();
-	}
-
-	/**
-	 * Render from xml scene
-	 * @throws IOException
-	 * @throws SAXException
-	 * @throws ParserConfigurationException
-	 */
-	@Test
-	public void emissionTest() throws IOException, SAXException, ParserConfigurationException {
-		Render render = loadScene.loadFromXML("xml\\sceneEmission");
-		render.renderImage();
-		render.printGrid(50);
-		render.getImageWriter().writeToimage();
-	}
 }

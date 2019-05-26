@@ -1,10 +1,12 @@
 package renderer;
 
 import elements.Camera;
+import elements.LightSource;
 import geometries.Geometries;
 import geometries.Intersectable;
 import primitives.Point3D;
 import primitives.Ray;
+import primitives.Vector;
 import scene.Scene;
 
 import java.awt.*;
@@ -54,6 +56,7 @@ public class Render {
      * render the scene into the imageWriter
      */
     public void renderImage(){
+
         //variables
         int nx = _imageWriter.getNx();
         int ny = _imageWriter.getNy();
@@ -78,17 +81,27 @@ public class Render {
         }
     }
 
+
     /**
      * calculate the color of a point in the scene
      *
-     * @param intersection the point which we calculate the color from
+     * @param geopoint the point which we calculate the color from
      * @return the color of the requested point
      */
-    private Color calcColor(Intersectable.GeoPoint intersection){
+    private Color calcColor(Intersectable.GeoPoint geopoint){
         primitives.Color color =  _scene.getLight().getIntensity();
-        color = color.add(intersection.geometry.getEmission());
+
         return  color.getColor();
     }
+
+    private primitives.Color calcSpecular(double ks, Vector l, Vector n, Vector v, int nShininess, primitives.Color lightIntensity) {
+ return null;
+    }
+
+    private primitives.Color calcDiffusive(double kd, Vector l, Vector n, primitives.Color lightIntensity) {
+return null;
+    }
+
 
     /**
      * find the point with the minimal distance from the camera from the given intersection points list
@@ -120,12 +133,14 @@ public class Render {
         int ny = _imageWriter.getNy();
         for(int i=0;i<nx;i++){
             for(int j=0;j<ny;j++){
-                if((i+1)%interval == 0 || (j+1)%interval == 0)
+                if(((i+1)%interval == 0 || (j+1)%interval == 0)&&(i!=nx-1&&j!=ny-1))
                     _imageWriter.writePixel(i,j,Color.WHITE);
             }
         }
 
     }
+
+
 
 }
 

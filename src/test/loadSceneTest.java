@@ -22,7 +22,7 @@ public class loadSceneTest {
     public void checkLoadXml() throws IOException, SAXException, ParserConfigurationException {
 
         Render render= null;
-        render = loadScene.loadFromXML("xml\\sceneTest");
+        render = loadScene.loadFromXML("xml\\sceneTest.xml",false);
         if(render == null)
             fail("render is null");
         if(render.getImageWriter()==null)

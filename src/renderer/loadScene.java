@@ -23,13 +23,14 @@ public class loadScene {
      * @throws SAXException
      * @throws IOException
      */
-    public static Render loadFromXML(String fileName) throws ParserConfigurationException, SAXException, IOException {
+    public static Render loadFromXML(String fileName,Boolean ignoreResolution ) throws ParserConfigurationException, SAXException, IOException {
 
         //load the xml into the handler
         SAXParserFactory parserFactor = SAXParserFactory.newInstance();
         SAXParser parser = parserFactor.newSAXParser();
         SAXHandler handler = new SAXHandler();
-        String path = System.getProperty("user.dir") + "\\" + fileName + ".xml";
+        handler._ignoreResolution = ignoreResolution;
+        String path = System.getProperty("user.dir") + "\\" + fileName ;
         File xmlFile = new File(path);
         InputStream fileReader = new FileInputStream(xmlFile);
         parser.parse(fileReader, handler);

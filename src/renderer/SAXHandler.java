@@ -1,6 +1,5 @@
 package renderer;
-import elements.AmbientLight;
-import elements.Camera;
+import elements.*;
 import geometries.*;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -19,6 +18,7 @@ public class SAXHandler extends DefaultHandler {
     Scene _scene = null;
     ImageWriter _imageWriter =null;
     String version=null;
+    Boolean _ignoreResolution=false;
 
     //Triggered when the start of tag is found.
     @Override
@@ -37,11 +37,37 @@ public class SAXHandler extends DefaultHandler {
                 int heigth = Integer.parseInt(attributes.getValue("screen-height"));
                 _imageWriter = new ImageWriter(_scene.getName(), width, heigth, width, heigth);
             }
-                break;
+            break;
             //Create new light
             case "ambient-light":{
                 double[] colors = parse3Numbers(attributes.getValue("color"));
                 _scene.setLight(new AmbientLight(new Color(colors),Double.parseDouble(attributes.getValue("ka"))));
+                break;}
+            case "directional-light":{
+                Color color = new Color(parse3Numbers(attributes.getValue("color")));
+                double[] points = parse3Numbers(attributes.getValue("direction"));
+                Vector direction = new Vector(points[0],points[1],points[2]);
+                _scene.addLight(new DirectionalLight(color,direction));
+                break;}
+            case "point-light":{
+                Color color = new Color(parse3Numbers(attributes.getValue("color")));
+                double[] points = parse3Numbers(attributes.getValue("position"));
+                Point3D position = new Point3D(points[0],points[1],points[2]);
+                double kc = Double.parseDouble(attributes.getValue("kc"));
+                double kl = Double.parseDouble(attributes.getValue("kl"));
+                double kq = Double.parseDouble(attributes.getValue("kq"));
+                _scene.addLight(new PointLight(color,position,kc,kl,kq));
+                break;}
+            case "spot-light":{
+                Color color = new Color(parse3Numbers(attributes.getValue("color")));
+                double[] points = parse3Numbers(attributes.getValue("position"));
+                Point3D position = new Point3D(points[0],points[1],points[2]);
+                double kc = Double.parseDouble(attributes.getValue("kc"));
+                double kl = Double.parseDouble(attributes.getValue("kl"));
+                double kq = Double.parseDouble(attributes.getValue("kq"));
+                points = parse3Numbers(attributes.getValue("direction"));
+                Vector direction = new Vector(points[0],points[1],points[2]);
+                _scene.addLight(new SpotLight(color,position,kc,kl,kq,direction));
                 break;}
             //Create new camera
             case "camera": {
@@ -54,7 +80,7 @@ public class SAXHandler extends DefaultHandler {
                 Camera cam = new Camera(p0, vUp, vTo);
                 _scene.setCamera(cam, Double.parseDouble(attributes.getValue("Screen-dist")));
             }
-                break;
+            break;
             //Create new sphere
             case "sphere": {
                 double[] points = parse3Numbers(attributes.getValue("center"));
@@ -64,7 +90,7 @@ public class SAXHandler extends DefaultHandler {
                 Sphere sp = new Sphere(Double.parseDouble(attributes.getValue("radius")), center,material,color);
                 _scene.addGeometries(sp);
             }
-                break;
+            break;
             //Create new triangle
             case "triangle":
             {
@@ -78,7 +104,7 @@ public class SAXHandler extends DefaultHandler {
                 Material material = getMaterail(attributes.getValue("material"));
                 _scene.addGeometries(new Triangle(p0,p1,p2,material,color));
             }
-                break;
+            break;
             //create new cylinder
             case "cylinder":
             {
@@ -118,6 +144,24 @@ public class SAXHandler extends DefaultHandler {
                 _scene.addGeometries(new Plane(p,v,material,color));
             }
             break;
+            //create new plane
+            case "grid":
+            {
+                _imageWriter.setGrid(true);
+            }
+            break;
+
+            //create new plane
+            case "resolution":
+            {
+                if(!_ignoreResolution) {
+                    int nx = Integer.parseInt(attributes.getValue("screen-width"));
+                    int ny = Integer.parseInt(attributes.getValue("screen-height"));
+                    _imageWriter.setNx(nx);
+                    _imageWriter.setNy(ny);
+                }
+            }
+            break;
 
         }
     }
@@ -138,7 +182,7 @@ public class SAXHandler extends DefaultHandler {
 
     private Material getMaterail(String str){
         double[] nums = parse3Numbers(str);
-        return new Material((int)nums[0],(int)nums[1],(int)nums[2]);
+        return new Material( nums[0],nums[1],(int)nums[2]);
     }
 }
 

@@ -1,9 +1,13 @@
 package renderer;
 
+import primitives.Point3D;
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.*;
 import javax.imageio.stream.*;
@@ -12,6 +16,8 @@ public class ImageWriter {
 
 	private double _imageWidth, _imageHeight;
 	private int _nX, _nY;
+
+	Boolean _grid=false;
 
 	final String PROJECT_PATH = System.getProperty("user.dir");
 
@@ -44,8 +50,21 @@ public class ImageWriter {
 	public int getNy() { return _nY; }
 	public int getNx() { return _nX; }
 
-	public void setNy(int _Ny) { this._nY = _Ny; }
-	public void setNx(int _Nx) { this._nX = _Nx; }
+
+
+	public void setNy(int _Ny) {
+		this._nY = _Ny;
+		_image = new BufferedImage(_nX, _nY, BufferedImage.TYPE_INT_RGB);
+	}
+	public void setNx(int _Nx) {
+		this._nX = _Nx;
+		_image = new BufferedImage(_nX, _nY, BufferedImage.TYPE_INT_RGB);
+	}
+
+	public void setImageName(String _imageName) {
+		this._imageName = _imageName;
+	}
+
 
 	// ***************** Operations ******************** //
 
@@ -67,5 +86,18 @@ public class ImageWriter {
 	public void writePixel(int xIndex, int yIndex, Color color){
 		_image.setRGB(xIndex, yIndex, color.getRGB());
 	}
+
+	public void setGrid(Boolean grid){
+		_grid = grid;
+	}
+
+	public Boolean getGrid(){
+		return _grid;
+	}
+
+	public String getImageName(){
+		return _imageName;
+	}
+
 
 }

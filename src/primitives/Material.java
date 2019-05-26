@@ -23,15 +23,15 @@ public class Material {
         _kD = material._kD;
     }
 
-    public double get_kD() {
+    public double getKD() {
         return _kD;
     }
 
-    public double get_kS() {
+    public double getKS() {
         return _kS;
     }
 
-    public int get_nShininess() {
+    public int getNShininess() {
         return _nShininess;
     }
 

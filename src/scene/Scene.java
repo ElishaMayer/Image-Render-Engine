@@ -7,6 +7,7 @@ import geometries.Geometries;
 import geometries.Geometry;
 import primitives.Color;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +31,7 @@ public class Scene {
     public Scene(String name) {
         _name = name;
         _geometries = new Geometries();
+        _lights = new ArrayList<>();
     }
 
     /* ************* Getters/Setters *******/
@@ -56,6 +58,7 @@ public class Scene {
     public AmbientLight getLight() {
         return _light;
     }
+
 
     /**
      * get scene geometries
@@ -85,7 +88,7 @@ public class Scene {
      * get light sources
      * @return list of light sources
      */
-    public List<LightSource> get_lights() {
+    public List<LightSource> getLights() {
         return _lights;
     }
 
@@ -117,10 +120,10 @@ public class Scene {
 
     /**
      * set light sources
-     * @param _lights list of light sources
+     * @param light list of light sources
      */
-    public void set_lights(List<LightSource> _lights) {
-        this._lights = _lights;
+    public void addLight(LightSource light) {
+        _lights.add(light);
     }
 
     /**
