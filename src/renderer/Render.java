@@ -90,18 +90,56 @@ public class Render {
      */
     private Color calcColor(Intersectable.GeoPoint geopoint){
         primitives.Color color =  _scene.getLight().getIntensity();
+        color = color.add(geopoint.geometry.getEmission());
 
-        return  color.getColor();
+        Vector v = geopoint.point.subtract(_scene.getCamera().getP0()).normal();
+        Vector n = geopoint.geometry.getNormal(geopoint.point);
+        int nShininess = geopoint.geometry.getMaterial().getNShininess();
+        double kd = geopoint.geometry.getMaterial().getKD();
+        double ks = geopoint.geometry.getMaterial().getKS();
+        for (LightSource lightSource : _scene.getLights()) {
+            Vector l = lightSource.getL(geopoint.point);
+            if (n.dotProduct(l) * n.dotProduct(v) > 0) {
+                primitives.Color lightIntensity = lightSource.getIntensity(geopoint.point);
+                color.add(calcDiffusive(kd, l, n, lightIntensity),
+                        calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+            }
+        }
+
+        return color.getColor();
     }
 
-    private primitives.Color calcSpecular(double ks, Vector l, Vector n, Vector v, int nShininess, primitives.Color lightIntensity) {
- return null;
-    }
-
+    /**
+     * calculate the Diffusive factor
+     *
+     * @param kd
+     * @param l
+     * @param n
+     * @param lightIntensity
+     * @return
+     */
     private primitives.Color calcDiffusive(double kd, Vector l, Vector n, primitives.Color lightIntensity) {
-return null;
+        // kd∙|l∙n|∙lightIntensity
+        return lightIntensity.scale(kd*Math.abs(l.dotProduct(n)));
     }
 
+    /**
+     * calculate the Specular factor
+     *
+     * @param ks
+     * @param l
+     * @param n
+     * @param v
+     * @param nShininess
+     * @param lightIntensity
+     * @return
+     */
+    private primitives.Color calcSpecular(double ks, Vector l, Vector n, Vector v, int nShininess, primitives.Color lightIntensity) {
+        Vector r = l.subtract(n.scale(2*l.dotProduct(n))); // r = l - 2∙(l∙n)∙𝒏
+
+        // ks∙(max(0,-v∙r))^nShininess∙lightIntensity
+        return lightIntensity.scale(ks*Math.max(0,Math.pow(v.scale(-1).dotProduct(l),nShininess)));
+    }
 
     /**
      * find the point with the minimal distance from the camera from the given intersection points list

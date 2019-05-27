@@ -4,12 +4,26 @@ import primitives.Color;
 import primitives.Point3D;
 import primitives.Vector;
 
+/**
+ * Models omni-directional point source
+ */
 public class PointLight extends Light implements LightSource {
     Point3D _position;
     double _kC;
     double _Kl;
     double _Kq;
 
+    /* ********* Constructors ***********/
+
+    /**
+     * a new point light
+     *
+     * @param color the color of the light
+     * @param _position the position of the light source
+     * @param _kC
+     * @param _Kl
+     * @param _Kq
+     */
     public PointLight(Color color, Point3D _position, double _kC, double _Kl, double _Kq) {
         super(color);
         this._position = new Point3D(_position);
@@ -17,6 +31,8 @@ public class PointLight extends Light implements LightSource {
         this._Kl = _Kl;
         this._Kq = _Kq;
     }
+
+    /* ************* Getters/Setters *******/
 
     @Override
     Color getIntensity() {

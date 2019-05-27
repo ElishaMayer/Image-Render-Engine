@@ -31,10 +31,15 @@ public interface Intersectable {
     static class GeoPoint {
         public Geometry geometry;
         public Point3D point;
+
+        /* ********* Constructors ***********/
+
         public GeoPoint(Geometry geometry,Point3D point){
             this.geometry = geometry;
             this.point = point;
         }
+
+        /* ************** Admin *****************/
 
         @Override
         public boolean equals(Object o) {

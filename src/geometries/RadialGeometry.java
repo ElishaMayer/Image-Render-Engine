@@ -58,7 +58,7 @@ public abstract class RadialGeometry extends Geometry{
     /**
      * Get radius
      *
-     * @return
+     * @return radius
      */
     public double getRadius() {
         return _radius;
