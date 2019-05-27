@@ -101,7 +101,7 @@ public class Render {
             Vector l = lightSource.getL(geopoint.point);
             if (n.dotProduct(l) * n.dotProduct(v) > 0) {
                 primitives.Color lightIntensity = lightSource.getIntensity(geopoint.point);
-                color.add(calcDiffusive(kd, l, n, lightIntensity),
+                color = color.add(calcDiffusive(kd, l, n, lightIntensity),
                         calcSpecular(ks, l, n, v, nShininess, lightIntensity));
             }
         }
@@ -135,10 +135,10 @@ public class Render {
      * @return
      */
     private primitives.Color calcSpecular(double ks, Vector l, Vector n, Vector v, int nShininess, primitives.Color lightIntensity) {
-        Vector r = l.subtract(n.scale(2*l.dotProduct(n))); // r = l - 2∙(l∙n)∙𝒏
+        Vector r = l.subtract(n.scale(2*l.dotProduct(n))).normal(); // r = l - 2∙(l∙n)∙𝒏
 
         // ks∙(max(0,-v∙r))^nShininess∙lightIntensity
-        return lightIntensity.scale(ks*Math.max(0,Math.pow(v.scale(-1).dotProduct(l),nShininess)));
+        return lightIntensity.scale(ks*Math.pow(Math.max(0,v.scale(-1).dotProduct(r)),nShininess));
     }
 
     /**

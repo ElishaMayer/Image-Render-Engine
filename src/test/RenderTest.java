@@ -29,7 +29,7 @@ public class RenderTest {
 		for (int i = 0; i < listOfFiles.length; i++) {
 			try {
 				if (listOfFiles[i].isFile()) {
-					Render render = loadScene.loadFromXML("xml\\Exc6\\" + listOfFiles[i].getName(),true);
+					Render render = loadScene.loadFromXML("xml\\Exc6\\" + listOfFiles[i].getName(),false);
 					render.renderImage();
 					if(render.getImageWriter().getGrid())
 						render.printGrid(50);
