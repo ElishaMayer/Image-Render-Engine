@@ -32,5 +32,6 @@ public class SpotLight extends PointLight {
     @Override
     public Color getIntensity(Point3D p) {
         double distance = p.distance(_position);
-        return _color.scale(Math.max(0,_direction.dotProduct(getL(p)))/(_kC+_Kl*distance+ _Kq*distance*distance));    }
+        return _color.scale(Math.max(0,_direction.dotProduct(getL(p)))/(_kC+_Kl*distance+ _Kq*distance*distance));
+    }
 }
