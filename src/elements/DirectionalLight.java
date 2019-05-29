@@ -8,15 +8,15 @@ import primitives.Vector;
  * Light source is far away - no attenuation with distance
  */
 public class DirectionalLight extends Light implements LightSource{
-    Vector _direction;
+    private Vector _direction;
 
     /* ********* Constructors ***********/
 
     /**
      * a new Directional Light
      *
-     * @param color
-     * @param _direction
+     * @param color color
+     * @param _direction light direction
      */
     public DirectionalLight(Color color, Vector _direction) {
         super(color);
@@ -25,18 +25,41 @@ public class DirectionalLight extends Light implements LightSource{
 
     /* ************* Getters/Setters *******/
 
+    /**
+     * not implemented
+     * @return null
+     */
     @Override
     Color getIntensity() {
         return null;
     }
 
+    /**
+     * get light intensity
+     * @param p the point
+     * @return light intensity
+     */
     @Override
     public Color getIntensity(Point3D p) {
         return _color;
     }
 
+    /**
+     * get vector from light
+     * @param p the point
+     * @return vector
+     */
     @Override
     public Vector getL(Point3D p) {
         return _direction.normal();
+    }
+
+    /* ************* Administration *******/
+    @Override
+    public String toString() {
+        return "DL{" +
+                "dir=" + _direction +
+                ", c=" + _color +
+                '}';
     }
 }

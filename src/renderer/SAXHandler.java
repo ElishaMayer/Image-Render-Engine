@@ -144,14 +144,14 @@ public class SAXHandler extends DefaultHandler {
                 _scene.addGeometries(new Plane(p,v,material,color));
             }
             break;
-            //create new plane
+            //set grid
             case "grid":
             {
                 _imageWriter.setGrid(true);
             }
             break;
 
-            //create new plane
+            //get resolution
             case "resolution":
             {
                 if(!_ignoreResolution) {

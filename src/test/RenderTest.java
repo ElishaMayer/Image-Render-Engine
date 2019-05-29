@@ -22,12 +22,17 @@ import static junit.framework.TestCase.fail;
 
 public class RenderTest {
 
+	/**
+	 * Render all tests in folder Exc6
+	 *
+	 */
 	@Test
-	public void renderEx6() throws IOException, SAXException, ParserConfigurationException {
+	public void renderEx6() {
 		String message = "";
 		System.out.println("-----Ex6 render-----");
 		File folder = new File("xml\\Exc6");
 		File[] listOfFiles = folder.listFiles();
+		assert listOfFiles != null;
 		for (int i = 0; i < listOfFiles.length; i++) {
 			try {
 				if (listOfFiles[i].isFile()) {
@@ -43,17 +48,22 @@ public class RenderTest {
 				message = "\n" + "Error in: " + listOfFiles[i].getName()+"\n"+"Error details: " + ex.toString();
 			}
 		}
-		if(message!=""){
+		if(message != ""){
 			fail(message);
 		}
 	}
 
+	/**
+	 * Render all tests in folder Exc5
+
+	 */
 	@Test
-	public void renderEx5() throws IOException, SAXException, ParserConfigurationException {
+	public void renderEx5() {
 		String message ="";
 		System.out.println("-----Ex5 render-----");
 		File folder = new File("xml\\Exc5");
 		File[] listOfFiles = folder.listFiles();
+		assert listOfFiles != null;
 		for (int i = 0; i < listOfFiles.length; i++) {
 			try {
 				if (listOfFiles[i].isFile()) {
@@ -69,17 +79,21 @@ public class RenderTest {
 				message = "\n" + "Error in: " + listOfFiles[i].getName()+"\n"+"Error details: " + ex.toString();
 			}
 		}
-		if(message!=""){
+		if(message != ""){
 			fail(message);
 		}
 	}
 
+	/**
+	 * Render all tests in folder Tests
+	 */
 	@Test
 	public void renderTests() throws IOException, SAXException, ParserConfigurationException {
 		String message ="";
 		System.out.println("-----Tests render-----");
 		File folder = new File("xml\\Tests");
 		File[] listOfFiles = folder.listFiles();
+		assert listOfFiles != null;
 		for (int i = 0; i < listOfFiles.length; i++) {
 			//	try {
 			if (listOfFiles[i].isFile()) {
@@ -95,11 +109,14 @@ public class RenderTest {
 			//		message = "\n" + "Error in: " + listOfFiles[i].getName()+"\n"+"Error details: " + ex.toString();
 			//	}
 		}
-		if(message!=""){
+		if(message != ""){
 			fail(message);
 		}
 	}
 
+	/**
+	 * 100 Balls on plane
+	 */
 	@Test
 	public void proTests(){
 		Scene scene = new Scene("");

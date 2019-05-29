@@ -24,8 +24,8 @@ public class Render {
 
     /**
      * a new Render
-     * @param imageWriter
-     * @param scene
+     * @param imageWriter image writer
+     * @param scene scene
      */
     public Render(ImageWriter imageWriter, Scene scene) {
         _imageWriter = imageWriter;
@@ -67,6 +67,7 @@ public class Render {
         Geometries geometries = _scene.getGeometries();
         Color background = _scene.getBackground().getColor();
 
+        //render image
         for(int i=0;i<nx;i++){
             for(int j=0;j<ny;j++){
                 // get all the rays who goes through every pixel and see if they intersects any geometries
@@ -89,17 +90,22 @@ public class Render {
      * @return the color of the requested point
      */
     private Color calcColor(Intersectable.GeoPoint geopoint){
+        //calc ambient light
         primitives.Color color =  _scene.getLight().getIntensity();
+        //add emission
         color = color.add(geopoint.geometry.getEmission());
 
+        //get variables
         Vector v = geopoint.point.subtract(_scene.getCamera().getP0()).normal();
         Vector n = geopoint.geometry.getNormal(geopoint.point);
         int nShininess = geopoint.geometry.getMaterial().getNShininess();
         double kd = geopoint.geometry.getMaterial().getKD();
         double ks = geopoint.geometry.getMaterial().getKS();
+        //go over lights
         for (LightSource lightSource : _scene.getLights()) {
             Vector l = lightSource.getL(geopoint.point);
             if (n.dotProduct(l) * n.dotProduct(v) > 0) {
+                //add light
                 primitives.Color lightIntensity = lightSource.getIntensity(geopoint.point);
                 color = color.add(calcDiffusive(kd, l, n, lightIntensity),
                         calcSpecular(ks, l, n, v, nShininess, lightIntensity));
@@ -112,11 +118,11 @@ public class Render {
     /**
      * calculate the Diffusive factor
      *
-     * @param kd
-     * @param l
-     * @param n
-     * @param lightIntensity
-     * @return
+     * @param kd kd
+     * @param l vector from light
+     * @param n normal
+     * @param lightIntensity light intensity
+     * @return diffusive light
      */
     private primitives.Color calcDiffusive(double kd, Vector l, Vector n, primitives.Color lightIntensity) {
         // kd∙|l∙n|∙lightIntensity
@@ -126,16 +132,17 @@ public class Render {
     /**
      * calculate the Specular factor
      *
-     * @param ks
-     * @param l
-     * @param n
-     * @param v
-     * @param nShininess
-     * @param lightIntensity
-     * @return
+     * @param ks ks
+     * @param l vector from light
+     * @param n normal
+     * @param v vector v
+     * @param nShininess material shininess
+     * @param lightIntensity light intensity
+     * @return specular light
      */
     private primitives.Color calcSpecular(double ks, Vector l, Vector n, Vector v, int nShininess, primitives.Color lightIntensity) {
-        Vector r;
+      Vector r;
+      //get vector r
       try {
           r = l.subtract(n.scale(2 * l.dotProduct(n))).normal(); // r = l - 2∙(l∙n)∙𝒏
       }catch(Exception ex){

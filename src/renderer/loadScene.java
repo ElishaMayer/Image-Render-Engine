@@ -18,10 +18,8 @@ public class loadScene {
      * Load a render object from xml
      *
      * @param fileName the xml file name
+     * @param ignoreResolution ignore the resolution
      * @return a render object with the data
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
      */
     public static Render loadFromXML(String fileName,Boolean ignoreResolution ) throws ParserConfigurationException, SAXException, IOException {
 
