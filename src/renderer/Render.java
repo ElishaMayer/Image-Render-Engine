@@ -177,8 +177,5 @@ public class Render {
         }
 
     }
-
-
-
 }
 
