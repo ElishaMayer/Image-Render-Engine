@@ -38,8 +38,8 @@ public abstract class Geometry implements Intersectable{
     }
 
     /********** Constructors ***********/
-
     // for the classes who derived from this abstract class
+
     public Geometry(){
         _emission = new Color(0,0,0);
         _material = new Material();
