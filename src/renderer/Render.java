@@ -135,8 +135,12 @@ public class Render {
      * @return
      */
     private primitives.Color calcSpecular(double ks, Vector l, Vector n, Vector v, int nShininess, primitives.Color lightIntensity) {
-        Vector r = l.subtract(n.scale(2*l.dotProduct(n))).normal(); // r = l - 2∙(l∙n)∙𝒏
-
+        Vector r;
+      try {
+          r = l.subtract(n.scale(2 * l.dotProduct(n))).normal(); // r = l - 2∙(l∙n)∙𝒏
+      }catch(Exception ex){
+          r=l;
+        }
         // ks∙(max(0,-v∙r))^nShininess∙lightIntensity
         return lightIntensity.scale(ks*Math.pow(Math.max(0,v.scale(-1).dotProduct(r)),nShininess));
     }
