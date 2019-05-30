@@ -169,12 +169,7 @@ public class SAXHandler extends DefaultHandler {
                 double y = Double.parseDouble(attributes.getValue("y"));
                 double z = Double.parseDouble(attributes.getValue("z"));
                 _scene.getCamera().rotateXYZ(x,y,z);
-                Double num = _scene.getCamera().getVRight().dotProduct(_scene.getCamera().getVTo());
-                Double num2 = _scene.getCamera().getVRight().dotProduct(_scene.getCamera().getVUp());
-                Double num3 = _scene.getCamera().getVTo().dotProduct(_scene.getCamera().getVUp());
-
-
-            }
+                }
             break;
 
         }
