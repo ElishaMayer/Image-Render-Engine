@@ -112,11 +112,16 @@ public class Camera {
 
     /**
      * rotate the camera
-     * @param x radians on the x
-     * @param y radians on the y
-     * @param z radians on the z
+     * @param x degrees on the x
+     * @param y degrees on the y
+     * @param z degrees on the z
      */
     public void rotateXYZ(double x,double y,double z){
+        // convert from degrees to radians
+        x = (x/180)*Math.PI;
+        y = (y/180)*Math.PI;
+        z = (z/180)*Math.PI;
+
         Coordinate cos = new Coordinate(Math.cos(x));
         Coordinate sin = new Coordinate(Math.sin(x));
         Coordinate msin = new Coordinate(-Math.sin(x));
