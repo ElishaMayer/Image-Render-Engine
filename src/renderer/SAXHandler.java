@@ -151,7 +151,7 @@ public class SAXHandler extends DefaultHandler {
             }
             break;
 
-            //get resolution
+            //set resolution
             case "resolution":
             {
                 if(!_ignoreResolution) {
@@ -160,6 +160,20 @@ public class SAXHandler extends DefaultHandler {
                     _imageWriter.setNx(nx);
                     _imageWriter.setNy(ny);
                 }
+            }
+            break;
+
+            //get rotation
+            case "rotate": {
+                double x = Double.parseDouble(attributes.getValue("x"));
+                double y = Double.parseDouble(attributes.getValue("y"));
+                double z = Double.parseDouble(attributes.getValue("z"));
+                _scene.getCamera().rotateXYZ(x,y,z);
+                Double num = _scene.getCamera().getVRight().dotProduct(_scene.getCamera().getVTo());
+                Double num2 = _scene.getCamera().getVRight().dotProduct(_scene.getCamera().getVUp());
+                Double num3 = _scene.getCamera().getVTo().dotProduct(_scene.getCamera().getVUp());
+
+
             }
             break;
 

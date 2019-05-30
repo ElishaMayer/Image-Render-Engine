@@ -166,4 +166,20 @@ public class Vector {
                 _point3D.getY().scale(1 / len),
                 _point3D.getZ().scale(1 / len)));
     }
+
+    /**
+     * multiply vector with matrix
+     * @param matrix the matrix
+     * @return vector
+     */
+    public Vector multMatrixVector( Coordinate[][] matrix){
+        Coordinate x= _point3D.getX();
+        Coordinate y = _point3D.getY();
+        Coordinate z= _point3D.getZ();
+        return new Vector(new Point3D(
+                matrix[0][0].multiply(x).add(matrix[0][1].multiply(y)).add(matrix[0][2].multiply(z)),
+                matrix[1][0].multiply(x).add(matrix[1][1].multiply(y)).add(matrix[1][2].multiply(z)),
+                matrix[2][0].multiply(x).add(matrix[2][1].multiply(y)).add(matrix[2][2].multiply(z))
+        ));
+    }
 }

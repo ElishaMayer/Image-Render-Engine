@@ -127,6 +127,7 @@ public class RenderTest {
 		scene.addLight(new SpotLight(new Color(655,655,655),new Point3D(200,-400,0),0.05,0.00005,0.000008,new Vector(5,1,-1)));
 		scene.addGeometries(new Triangle(new Point3D(600,0,-400),new Point3D(-1400,0,-400),new Point3D(600,-1000,-2320),new Material(0.5,0.5,100),new Color(0,0,0)));
 		scene.addGeometries(new Triangle(new Point3D(-1400,0,-400),new Point3D(600,-1000,-2320),new Point3D(-1400,-1000,-2320),new Material(0.5,0.5,100),new Color(0,0,0)));
+		//scene.addGeometries(new Plane(new Point3D(600.0,0.0,-400.0),new Vector(0.0,-0.8869140841669796,0.46193441883696856),new Material(0.5,0.5,100),new Color(0,0,0)));
 
 		for(int i=0;i<10;i++){
 			for(int j=0;j<10;j++){
