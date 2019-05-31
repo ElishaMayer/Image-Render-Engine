@@ -4,12 +4,15 @@ import elements.Camera;
 import elements.LightSource;
 import geometries.Geometries;
 import geometries.Intersectable;
+import geometries.Sphere;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
 import scene.Scene;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -72,7 +75,7 @@ public class Render {
             for(int j=0;j<ny;j++){
                 // get all the rays who goes through every pixel and see if they intersects any geometries
                 Ray ray = camera.constructRayThroughPixel(nx,ny,i,j,distance,width,height);
-                Intersectable.GeoPoint intersection = getClosestPoint(geometries.findIntersections(ray));
+                Intersectable.GeoPoint intersection = getClosestPoint(getSceneIntersections(ray,-1));
                 if(intersection == null)
                     _imageWriter.writePixel(i,j,background); // no intersection = background color
                 else{
@@ -105,10 +108,12 @@ public class Render {
         for (LightSource lightSource : _scene.getLights()) {
             Vector l = lightSource.getL(geopoint.point);
             if (n.dotProduct(l) * n.dotProduct(v) > 0) {
-                //add light
-                primitives.Color lightIntensity = lightSource.getIntensity(geopoint.point);
-                color = color.add(calcDiffusive(kd, l, n, lightIntensity),
-                        calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+                if(!occluded(l,geopoint)) {
+                    //add light
+                    primitives.Color lightIntensity = lightSource.getIntensity(geopoint.point);
+                    color = color.add(calcDiffusive(kd, l, n, lightIntensity),
+                            calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+                }
             }
         }
 
@@ -188,5 +193,43 @@ public class Render {
         }
 
     }
+
+    /**
+     * Check if is occuled
+     * @param l vector from light
+     * @param geoPoint point
+     * @return boolean
+     */
+    private boolean occluded(Vector l, Intersectable.GeoPoint geoPoint) {
+        Vector lightDirection = l.scale(-1); //from point to light source
+        Vector normal = geoPoint.geometry.getNormal(geoPoint.point);
+        Vector epsVector = normal.scale((normal.dotProduct(lightDirection) > 0) ? 2 : -2);
+        Point3D geometryPoint = geoPoint.point.add(epsVector);
+        Ray lightRay = new Ray(geometryPoint, lightDirection);
+        List<Intersectable.GeoPoint> intersectionPoints  =
+                getSceneIntersections(lightRay,l.getPoint3D().distance2(geoPoint.point));
+        return  !intersectionPoints.isEmpty();
+    }
+
+    /**
+     * get all scene intersections with ray
+     * @param ray the ray
+     * @param distance2 the max distance. if -1 then returns all.
+     * @return list with intersections
+     */
+    private List<Intersectable.GeoPoint> getSceneIntersections(Ray ray,double distance2){
+        List<Intersectable.GeoPoint> intersections = _scene.getGeometries().findIntersections(ray);
+        if(distance2 == -1)
+            return intersections;
+        List<Intersectable.GeoPoint> filteredIntersections=new LinkedList<>();
+        for (Intersectable.GeoPoint point:intersections) {
+            if(ray.getPoint3D().distance2(point.point)<=distance2){
+                filteredIntersections.add(point);
+            }
+        }
+        return filteredIntersections;
+    }
+
+
 }
 
