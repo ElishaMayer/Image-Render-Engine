@@ -144,6 +144,42 @@ public class SAXHandler extends DefaultHandler {
                 _scene.addGeometries(new Plane(p,v,material,color));
             }
             break;
+            //create new Square
+            case "square":
+            {
+                double[] points = parse3Numbers(attributes.getValue("p0"));
+                Point3D p1 = new Point3D(points[0], points[1], points[2]);
+                points = parse3Numbers(attributes.getValue("p1"));
+                Point3D p2 = new Point3D(points[0], points[1], points[2]);
+                points = parse3Numbers(attributes.getValue("p2"));
+                Point3D p3 = new Point3D(points[0], points[1], points[2]);
+                points = parse3Numbers(attributes.getValue("p3"));
+                Point3D p4 = new Point3D(points[0], points[1], points[2]);
+                Color color = new Color(parse3Numbers(attributes.getValue("emission")));
+                Material material = getMaterail(attributes.getValue("material"));
+                _scene.addGeometries(new Square(p1,p2,p3,p4,material,color));
+            }
+            break;
+            //create new Square
+            case "cube":
+            {
+                double[] points = parse3Numbers(attributes.getValue("p0"));
+                Point3D p1 = new Point3D(points[0], points[1], points[2]);
+                points = parse3Numbers(attributes.getValue("p1"));
+                Point3D p2 = new Point3D(points[0], points[1], points[2]);
+                points = parse3Numbers(attributes.getValue("p2"));
+                Point3D p3 = new Point3D(points[0], points[1], points[2]);
+                points = parse3Numbers(attributes.getValue("p3"));
+                Point3D p4 = new Point3D(points[0], points[1], points[2]);
+                points = parse3Numbers(attributes.getValue("bp"));
+                Point3D bp = new Point3D(points[0], points[1], points[2]);
+                double height = Double.parseDouble(attributes.getValue("height"));
+                Color color = new Color(parse3Numbers(attributes.getValue("emission")));
+                Material material = getMaterail(attributes.getValue("material"));
+                Square front = new Square(p1,p2,p3,p4);
+                _scene.addGeometries(new Cube(front,bp,height,material,color));
+            }
+            break;
             //set grid
             case "grid":
             {
@@ -169,7 +205,7 @@ public class SAXHandler extends DefaultHandler {
                 double y = Double.parseDouble(attributes.getValue("y"));
                 double z = Double.parseDouble(attributes.getValue("z"));
                 _scene.getCamera().rotateXYZ(x,y,z);
-                }
+            }
             break;
 
         }

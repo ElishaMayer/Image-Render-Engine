@@ -120,14 +120,27 @@ public class RenderTest {
 	@Test
 	public void proTests(){
 		Scene scene = new Scene("");
-		scene.setCamera(new Camera(new Point3D(-400,-600,800),new Vector(0,-1,0),new Vector(0,0,-1)),250);
+		scene.setCamera(new Camera(new Point3D(-400,-600,2000),new Vector(0,-1,0),new Vector(0,0,-1)),500);
 		scene.setBackground(Color.BLACK);
 		scene.setLight(new AmbientLight(new Color(20,20,20),1));
 		scene.addLight(new DirectionalLight(new Color(150,150,130),new Vector(-1,1,-1)));
 		scene.addLight(new SpotLight(new Color(655,655,655),new Point3D(200,-400,0),0.05,0.00005,0.000008,new Vector(5,1,-1)));
-		scene.addGeometries(new Triangle(new Point3D(600,0,-400),new Point3D(-1400,0,-400),new Point3D(600,-1000,-2320),new Material(0.5,0.5,100),new Color(0,0,0)));
-		scene.addGeometries(new Triangle(new Point3D(-1400,0,-400),new Point3D(600,-1000,-2320),new Point3D(-1400,-1000,-2320),new Material(0.5,0.5,100),new Color(0,0,0)));
-		//scene.addGeometries(new Plane(new Point3D(600.0,0.0,-400.0),new Vector(0.0,-0.8869140841669796,0.46193441883696856),new Material(0.5,0.5,100),new Color(0,0,0)));
+		scene.addGeometries(
+				new Cube(
+						new Square(
+								new Point3D(600,0,-400),
+								new Point3D(-1400,0,-400),
+								new Point3D(-1400,-1000,-2320),
+								new Point3D(600,-1000,-2320)),
+						new Point3D(0,-2000,-1000),
+						50,
+						new Material(0.5,0.5,100)
+						,new Color(0,0,0)) );
+		scene.addGeometries(new Cylinder(25,new Point3D(600,25,-400), new Point3D(-1400,25,-400),new Material(0.5,0.5,100),new Color(0,0,0)));
+		scene.addGeometries(new Cylinder(25,new Point3D(600,25,-400), new Point3D(600,-975,-2320),new Material(0.5,0.5,100),new Color(0,0,0)));
+		scene.addGeometries(new Cylinder(25,new Point3D(-1400,-975,-2320), new Point3D(-1400,25,-400),new Material(0.5,0.5,100),new Color(0,0,0)));
+		scene.addGeometries(new Sphere(25,new Point3D(600,25,-400),new Material(0.5,0.5,100),new Color(0,0,0)));
+		scene.addGeometries(new Sphere(25,new Point3D(-1400,25,-400),new Material(0.5,0.5,100),new Color(0,0,0)));
 
 		for(int i=0;i<10;i++){
 			for(int j=0;j<10;j++){
@@ -139,6 +152,8 @@ public class RenderTest {
 		rn.renderImage();
 		imw.writeToimage();
 	}
+
+
 
 }
 
