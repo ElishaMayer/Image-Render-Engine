@@ -227,12 +227,19 @@ public class SAXHandler extends DefaultHandler {
 
     private Material getMaterail(String str){
         String [] nums = str.split(" ");
-        return new Material(
-                Double.parseDouble(nums[0]),
-                Double.parseDouble(nums[1]),
-                Integer.parseInt(nums[2]),
-                Double.parseDouble(nums[3]),
-                Double.parseDouble(nums[4]));
+        try {
+            return new Material(
+                    Double.parseDouble(nums[0]),
+                    Double.parseDouble(nums[1]),
+                    Integer.parseInt(nums[2]),
+                    Double.parseDouble(nums[3]),
+                    Double.parseDouble(nums[4]));
+        }catch (Exception ex){
+            return new Material(
+                    Double.parseDouble(nums[0]),
+                    Double.parseDouble(nums[1]),
+                    Integer.parseInt(nums[2]));
+        }
     }
 }
 

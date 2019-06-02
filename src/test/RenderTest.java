@@ -97,7 +97,7 @@ public class RenderTest {
 		for (int i = 0; i < listOfFiles.length; i++) {
 			//	try {
 			if (listOfFiles[i].isFile()) {
-				Render render = loadScene.loadFromXML("xml\\Tests\\" + listOfFiles[i].getName(),true);
+				Render render = loadScene.loadFromXML("xml\\Tests\\" + listOfFiles[i].getName(),false);
 				render.renderImage();
 				if(render.getImageWriter().getGrid())
 					render.printGrid(50);
@@ -149,7 +149,7 @@ public class RenderTest {
 				scene.addGeometries(new Sphere(100,new Point3D(500-i*200,100,-(500+j*200)),new Material(0.5,0.5,100,0,0),new Color(	Math.random()*100,Math.random()*100,Math.random()*100)));
 			}
 		}
-		ImageWriter imw = new ImageWriter("images\\IMG_0021_Balls",500,500,300,300);
+		ImageWriter imw = new ImageWriter("images\\IMG_0021_Balls",500,500,2000,2000);
 		Render rn = new Render(imw,scene);
 		rn.renderImage();
 		imw.writeToimage();
