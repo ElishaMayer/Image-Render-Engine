@@ -114,7 +114,7 @@ public class Render {
             Vector l = lightSource.getL(geopoint.point);
             if (n.dotProduct(l) * n.dotProduct(v) > 0) {
                 double ktr = transparency(l, n, geopoint);
-                if(ktr * k < MIN_CALC_COLOR_K) {
+                if(ktr * k > MIN_CALC_COLOR_K) {
                     //add light
                     primitives.Color lightIntensity = lightSource.getIntensity(geopoint.point).scale(ktr);
                     color = color.add(calcDiffusive(kd, l, n, lightIntensity),
@@ -129,7 +129,7 @@ public class Render {
         Vector direction;
         // reflectedRay vector = v-2∙(v∙n)∙n
         direction = newV.subtract(n.scale(2 * newV.dotProduct(n)));
-        Ray reflectedRay = new Ray(geopoint.point, direction);
+        Ray reflectedRay = new Ray(geopoint.point.add(direction), direction);
         Intersectable.GeoPoint reflectedPoint = getClosestPoint(getSceneIntersections(reflectedRay,-1));
         if (reflectedPoint != null)
             color = color.add(calcColor(reflectedPoint, reflectedRay, level-1, k*kr).scale(kr));
@@ -137,7 +137,7 @@ public class Render {
         // Recursive call for a refracted ray
         double kt = geopoint.geometry.getMaterial().getKT();
         direction = newV;
-        Ray refractedRay = new Ray(geopoint.point, direction) ;
+        Ray refractedRay = new Ray(geopoint.point.add(direction), direction) ;
         Intersectable.GeoPoint refractedPoint = getClosestPoint(getSceneIntersections(refractedRay,-1));
         if (refractedPoint != null)
             color = color.add(calcColor(refractedPoint, refractedRay , level-1, k*kt).scale(kt));
