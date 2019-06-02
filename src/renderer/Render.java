@@ -87,7 +87,7 @@ public class Render {
 
 
     private Color calcColor(Intersectable.GeoPoint geopoint, Ray inRay) {
-        return calcColor(geopoint, inRay, 3, 1.0).add(_scene.getLight().getIntensity()).getColor();
+        return calcColor(geopoint, inRay, 5, 1.0).add(_scene.getLight().getIntensity()).getColor();
     }
 
     private static final double MIN_CALC_COLOR_K = 0.001;
@@ -125,15 +125,19 @@ public class Render {
 
         // Recursive call for a reflected ray
         double kr = geopoint.geometry.getMaterial().getKR();
+        Vector newV = inRay.getVector();
+        Vector direction;
         // reflectedRay vector = v-2∙(v∙n)∙n
-        Ray reflectedRay = new Ray(geopoint.point, v.subtract(n.scale(2 * v.dotProduct(n))));
+        direction = newV.subtract(n.scale(2 * newV.dotProduct(n)));
+        Ray reflectedRay = new Ray(geopoint.point, direction);
         Intersectable.GeoPoint reflectedPoint = getClosestPoint(getSceneIntersections(reflectedRay,-1));
         if (reflectedPoint != null)
             color = color.add(calcColor(reflectedPoint, reflectedRay, level-1, k*kr).scale(kr));
 
         // Recursive call for a refracted ray
         double kt = geopoint.geometry.getMaterial().getKT();
-        Ray refractedRay = new Ray(geopoint.point, inRay.getVector()) ;
+        direction = newV;
+        Ray refractedRay = new Ray(geopoint.point, direction) ;
         Intersectable.GeoPoint refractedPoint = getClosestPoint(getSceneIntersections(refractedRay,-1));
         if (refractedPoint != null)
             color = color.add(calcColor(refractedPoint, refractedRay , level-1, k*kt).scale(kt));
