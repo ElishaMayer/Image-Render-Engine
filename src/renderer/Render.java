@@ -91,6 +91,13 @@ public class Render {
     }
 
 
+    /**
+     * calculate the color of a point in the scene
+     *
+     * @param geopoint the point which we calculate the color from
+     * @param inRay the ray to the given point
+     * @return the color of the requested point
+     */
     private Color calcColor(Intersectable.GeoPoint geopoint, Ray inRay) {
         return calcColor(geopoint, inRay, 5, 1.0).add(_scene.getLight().getIntensity()).getColor();
     }
@@ -99,6 +106,9 @@ public class Render {
      * calculate the color of a point in the scene
      *
      * @param geopoint the point which we calculate the color from
+     * @param inRay the ray to the given point
+     * @param level the number of recursion levels
+     * @param k double num that if it is smaller than MIN_CALC_COLOR_K we will return BLACK
      * @return the color of the requested point
      */
     private primitives.Color calcColor(Intersectable.GeoPoint geopoint, Ray inRay, int level, double k){
@@ -131,8 +141,12 @@ public class Render {
         double kr = geopoint.geometry.getMaterial().getKR();
         Vector newV = inRay.getVector();
         Vector direction;
-        // reflectedRay vector = v-2∙(v∙n)∙n
-        direction = newV.subtract(n.scale(2 * newV.dotProduct(n)));
+        try{
+            // reflectedRay vector = v-2∙(v∙n)∙n
+            direction = newV.subtract(n.scale(2 * newV.dotProduct(n)));
+        } catch(Exception ex){
+            direction = newV;
+        }
         Ray reflectedRay = new Ray(geopoint.point.add(direction), direction);
         Intersectable.GeoPoint reflectedPoint = getClosestPoint(getSceneIntersections(reflectedRay,-1));
         if (reflectedPoint != null)
