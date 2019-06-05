@@ -284,15 +284,19 @@ public class Render {
         List<Ray> beam  = new LinkedList<>();
         do {
             try {
-                Vector temp = new Vector(v);
-                double xS =-radius+ rand.nextDouble()*2*radius;
-                double yS = -radius + rand.nextDouble()*2*radius;
+                Vector temp = new Vector(middle);
+                double xS = 0;
+                double yS = 0;
+                do {
+                    xS = -radius + rand.nextDouble() * 2 * radius;
+                    yS = -radius + rand.nextDouble() * 2 * radius;
+                }while (xS*xS+yS*yS>radius*radius);
                 temp = x.scale(xS).subtract(temp);
                 temp = y.scale(yS).subtract(temp);
                 if(temp.dotProduct(normal)>0)
                     beam.add(new Ray(ray.getPoint3D(),temp));
             }catch (Exception ex){}
-        }while (beam.size()<=num);
+        }while (beam.size()<num);
         return beam;
     }
 }

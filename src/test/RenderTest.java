@@ -86,6 +86,37 @@ public class RenderTest {
 	}
 
 	/**
+	 * Render all tests in folder Exc7
+
+	 */
+	@Test
+	public void renderEx7() {
+		String message ="";
+		System.out.println("-----Ex5 render-----");
+		File folder = new File("xml\\Exc7");
+		File[] listOfFiles = folder.listFiles();
+		assert listOfFiles != null;
+		for (int i = 0; i < listOfFiles.length; i++) {
+			try {
+				if (listOfFiles[i].isFile()) {
+					Render render = loadScene.loadFromXML("xml\\Exc7\\" + listOfFiles[i].getName(),false);
+					render.renderImage();
+					if(render.getImageWriter().getGrid())
+						render.printGrid(50);
+					render.getImageWriter().writeToimage();
+					System.out.println("Successfully rendered picture: " + render.getImageWriter().getImageName());
+					System.out.println("Completed: " + (int)(((double) i+1) / listOfFiles.length * 100.0) + "%");
+				}
+			} catch (Exception ex) {
+				message = "\n" + "Error in: " + listOfFiles[i].getName()+"\n"+"Error details: " + ex.toString();
+			}
+		}
+		if(message != ""){
+			fail(message);
+		}
+	}
+
+	/**
 	 * Render all tests in folder Tests
 	 */
 	@Test
@@ -162,9 +193,9 @@ public class RenderTest {
 	@Test
 	public void testBeam(){
 		Vector v = new Vector(1,1,1);
-		Vector n = new Vector(0,1,0);
+		Vector n = new Vector(0,0,1);
 		Render rn = new Render(null,null);
-		List<Ray> beam = rn.getBeam(new Ray(new Point3D(0,0,0),v),n,0.5,10);
+		List<Ray> beam = rn.getBeam(new Ray(new Point3D(0,0,0),v),n,10,10);
 	}
 }
 
