@@ -17,6 +17,7 @@ import scene.Scene;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import static junit.framework.TestCase.fail;
 
@@ -36,7 +37,7 @@ public class RenderTest {
 		for (int i = 0; i < listOfFiles.length; i++) {
 			try {
 				if (listOfFiles[i].isFile()) {
-					Render render = loadScene.loadFromXML("xml\\Exc6\\" + listOfFiles[i].getName(),true);
+					Render render = loadScene.loadFromXML("xml\\Exc6\\" + listOfFiles[i].getName(),false);
 					render.renderImage();
 					if(render.getImageWriter().getGrid())
 						render.printGrid(50);
@@ -125,8 +126,8 @@ public class RenderTest {
 		scene.getCamera().rotateXYZ(0,0,30);
 		scene.setBackground(Color.BLACK);
 		scene.setLight(new AmbientLight(new Color(20,20,20),1));
-		scene.addLight(new DirectionalLight(new Color(150,150,130),new Vector(-1,1,-1)));
-		scene.addLight(new SpotLight(new Color(655,655,655),new Point3D(200,-400,0),0.05,0.00005,0.000008,new Vector(5,1,-1)));
+		scene.addLight(new DirectionalLight(new Color(200,200,180),new Vector(0,1,-1)));
+		//scene.addLight(new SpotLight(new Color(655,655,655),new Point3D(200,-400,0),0.05,0.00005,0.000008,new Vector(5,1,-1)));
 		scene.addGeometries(
 				new Cube(
 						new Square(
@@ -138,15 +139,18 @@ public class RenderTest {
 						50,
 						new Material(0.5,0.5,100,0.7,0)
 						,new Color(0,0,0)) );
-		scene.addGeometries(new Cylinder(25,new Point3D(600,225,-400), new Point3D(-1400,225,-400),new Material(0.5,0.5,100),new Color(0,0,0)));
-		scene.addGeometries(new Cylinder(25,new Point3D(600,225,-400), new Point3D(600,225,-2320),new Material(0.5,0.5,100),new Color(0,0,0)));
-		scene.addGeometries(new Cylinder(25,new Point3D(-1400,225,-2320), new Point3D(-1400,225,-400),new Material(0.5,0.5,100),new Color(0,0,0)));
-		scene.addGeometries(new Sphere(25,new Point3D(600,225,-400),new Material(0.5,0.5,100),new Color(0,0,0)));
-		scene.addGeometries(new Sphere(25,new Point3D(-1400,225,-400),new Material(0.5,0.5,100),new Color(0,0,0)));
+		scene.addGeometries(new Cylinder(25,new Point3D(600,225,-400), new Point3D(-1400,225,-400),new Material(0.5,0.5,100,0,0),new Color(0,0,0)));
+		scene.addGeometries(new Cylinder(25,new Point3D(600,225,-400), new Point3D(600,225,-2320),new Material(0.5,0.5,100,0,0),new Color(0,0,0)));
+		scene.addGeometries(new Cylinder(25,new Point3D(-1400,225,-2320), new Point3D(-1400,225,-400),new Material(0.5,0.5,100,0,0),new Color(0,0,0)));
+		scene.addGeometries(new Sphere(25,new Point3D(600,225,-400),new Material(0.5,0.5,100,0,0),new Color(0,0,0)));
+		scene.addGeometries(new Sphere(25,new Point3D(-1400,225,-400),new Material(0.5,0.5,100,0,0),new Color(0,0,0)));
+		scene.addGeometries(new Plane(new Point3D(670,225,-400),new Vector(1,0,0),new Material(0.5,0.5,100,0.8,0),new Color(20,20,20)));
+		scene.addGeometries(new Plane(new Point3D(-1470,225,-400),new Vector(1,0,0),new Material(0.5,0.5,100,0.8,0),new Color(20,20,20)));
+		scene.addGeometries(new Plane(new Point3D(-1400,225,-2390),new Vector(0,0,1),new Material(0,0,100,0,0),new Color(0,0,0)));
 
 		for(int i=0;i<10;i++){
 			for(int j=0;j<10;j++){
-				scene.addGeometries(new Sphere(100,new Point3D(500-i*200,100,-(500+j*200)),new Material(0.5,0.5,100,0,0),new Color(	Math.random()*100,Math.random()*100,Math.random()*100)));
+				scene.addGeometries(new Sphere(100,new Point3D(500-i*200,100,-(500+j*200)),new Material(0.5,0.5,1000,0.2,0),new Color(	Math.random()*100,Math.random()*100,Math.random()*100)));
 			}
 		}
 		ImageWriter imw = new ImageWriter("images\\IMG_0021_Balls",500,500,2000,2000);
@@ -155,6 +159,13 @@ public class RenderTest {
 		imw.writeToimage();
 	}
 
+	@Test
+	public void testBeam(){
+		Vector v = new Vector(1,1,1);
+		Vector n = new Vector(0,1,0);
+		Render rn = new Render(null,null);
+		List<Ray> beam = rn.getBeam(new Ray(new Point3D(0,0,0),v),n,0.5,10);
+	}
 }
 
 

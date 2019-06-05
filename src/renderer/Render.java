@@ -14,6 +14,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Render class (makes a bitmap picture from the scene)
@@ -260,6 +261,39 @@ public class Render {
         return filteredIntersections;
     }
 
+    public List<Ray> getBeam(Ray ray, Vector normal,double radius,int num){
+        Vector vectors[] = {
+                new Vector(0,0,1),
+                new Vector(0,1,0),
+                new Vector(1,0,0),
+                new Vector(0,0,-1),
+                new Vector(0,-1,0),
+                new Vector(-1,0,0)};
+        Vector middle = ray.getVector();
+        Vector v= new Vector(middle);
+        int i=0;
+        do {
+            try {
+                v = v.add(vectors[i++]).normal();
+            }catch (Exception ex){}
+        }while (Math.abs(middle.dotProduct(v))==1.0);
+        Vector x = middle.crossProduct(v).normal();
+        Vector y = middle.crossProduct(x).normal();
 
+        Random rand = new Random();
+        List<Ray> beam  = new LinkedList<>();
+        do {
+            try {
+                Vector temp = new Vector(v);
+                double xS =-radius+ rand.nextDouble()*2*radius;
+                double yS = -radius + rand.nextDouble()*2*radius;
+                temp = x.scale(xS).subtract(temp);
+                temp = y.scale(yS).subtract(temp);
+                if(temp.dotProduct(normal)>0)
+                    beam.add(new Ray(ray.getPoint3D(),temp));
+            }catch (Exception ex){}
+        }while (beam.size()<=num);
+        return beam;
+    }
 }
 
