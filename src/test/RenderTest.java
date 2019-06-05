@@ -193,9 +193,12 @@ public class RenderTest {
 	@Test
 	public void testBeam(){
 		Vector v = new Vector(1,1,1);
+		v=v.normal();
 		Vector n = new Vector(0,0,1);
 		Render rn = new Render(null,null);
 		List<Ray> beam = rn.getBeam(new Ray(new Point3D(0,0,0),v),n,10,10);
+		int y=0;
+
 	}
 }
 

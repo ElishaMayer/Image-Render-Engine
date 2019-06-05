@@ -20,6 +20,10 @@ import java.util.Random;
  * Render class (makes a bitmap picture from the scene)
  */
 public class Render {
+    private static final double MIN_CALC_COLOR_K = 0.001;
+    private static final double EPS = 2;
+
+
     // variables
     private ImageWriter _imageWriter;
     private Scene _scene;
@@ -91,7 +95,6 @@ public class Render {
         return calcColor(geopoint, inRay, 5, 1.0).add(_scene.getLight().getIntensity()).getColor();
     }
 
-    private static final double MIN_CALC_COLOR_K = 0.001;
     /**
      * calculate the color of a point in the scene
      *
@@ -230,7 +233,8 @@ public class Render {
     private double transparency(Vector l, Vector n, Intersectable.GeoPoint geoPoint) {
         Vector lightDirection = l.scale(-1); //from point to light source
 
-        Vector epsVector = n.scale((n.dotProduct(lightDirection) > 0) ? 2 : -2);
+        //add eps
+        Vector epsVector = n.scale((n.dotProduct(lightDirection) > 0) ? EPS : -EPS);
         Point3D geometryPoint = geoPoint.point.add(epsVector);
         Ray lightRay = new Ray(geometryPoint, lightDirection);
         List<Intersectable.GeoPoint> intersectionPoints  =
@@ -261,7 +265,18 @@ public class Render {
         return filteredIntersections;
     }
 
+    /**
+     * Get Beam around ray
+     * @param ray the ray
+     * @param normal normal of the object
+     * @param radius radius of the top of the beam
+     * @param num number of rays in beam
+     * @return list of rays (beam)
+     */
     public List<Ray> getBeam(Ray ray, Vector normal,double radius,int num){
+        Vector middle = ray.getVector();
+
+        //get a random vector not parallel to middle
         Vector vectors[] = {
                 new Vector(0,0,1),
                 new Vector(0,1,0),
@@ -269,32 +284,44 @@ public class Render {
                 new Vector(0,0,-1),
                 new Vector(0,-1,0),
                 new Vector(-1,0,0)};
-        Vector middle = ray.getVector();
-        Vector v= new Vector(middle);
+        Vector randV= new Vector(middle);
         int i=0;
         do {
             try {
-                v = v.add(vectors[i++]).normal();
+                randV = randV.add(vectors[i++]).normal();
             }catch (Exception ex){}
-        }while (Math.abs(middle.dotProduct(v))==1.0);
-        Vector x = middle.crossProduct(v).normal();
-        Vector y = middle.crossProduct(x).normal();
+        }while (Math.abs(middle.dotProduct(randV))==1.0);
 
+        //get two orthogonal vectors to middle
+        Vector xV = middle.crossProduct(randV).normal();
+        Vector yV = middle.crossProduct(xV).normal();
+
+        //get vectors
         Random rand = new Random();
         List<Ray> beam  = new LinkedList<>();
+        Point3D start = ray.getPoint3D();
         do {
             try {
-                Vector temp = new Vector(middle);
+                Point3D temp = new Point3D(middle.getPoint3D());
+
+                //get two random numbers in a circle with radius - 'radius'
                 double xS = 0;
                 double yS = 0;
                 do {
                     xS = -radius + rand.nextDouble() * 2 * radius;
                     yS = -radius + rand.nextDouble() * 2 * radius;
                 }while (xS*xS+yS*yS>radius*radius);
-                temp = x.scale(xS).subtract(temp);
-                temp = y.scale(yS).subtract(temp);
-                if(temp.dotProduct(normal)>0)
-                    beam.add(new Ray(ray.getPoint3D(),temp));
+
+                //add the points
+                temp = temp.add(xV.scale(xS));
+                temp = temp.add(yV.scale(yS));
+
+                //get the vector
+                Vector v= temp.subtract(start);
+
+                //if it isn't under the geometry the add
+                if(v.dotProduct(normal)>0)
+                    beam.add(new Ray(start,v));
             }catch (Exception ex){}
         }while (beam.size()<num);
         return beam;
