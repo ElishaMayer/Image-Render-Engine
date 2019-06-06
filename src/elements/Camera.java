@@ -103,7 +103,7 @@ public class Camera {
         if(!Util.isZero(xToMove))
             pointIJ = pointIJ.add(_vRight.scale(xToMove*screenWidth/nX));
         if(!Util.isZero(yToMove))
-            pointIJ = pointIJ.add(_vUp.scale(-1*yToMove*screenHeight/nY));
+            pointIJ = pointIJ.add(_vUp.scale(-yToMove*screenHeight/nY));
 
         //create ray and return
         Vector vectorIJ = pointIJ.subtract(_p0);
@@ -140,7 +140,5 @@ public class Camera {
         _vTo = _vTo.multiply(matrix).normal();
         _vUp = _vUp.multiply(matrix).normal();
     }
-
-
 }
 

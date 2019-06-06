@@ -33,16 +33,6 @@ public class PointLight extends Light implements LightSource {
     }
 
     /* ************* Getters/Setters *******/
-
-    /**
-     * not implemented
-     * @return null
-     */
-    @Override
-    Color getIntensity() {
-        return null;
-    }
-
     /**
      * get light intensity
      * @param p the point
@@ -50,8 +40,8 @@ public class PointLight extends Light implements LightSource {
      */
     @Override
     public Color getIntensity(Point3D p) {
-        double distance = p.distance(_position);
-        return _color.scale(1/(_kC+_Kl*distance+ _Kq*distance*distance));
+        double distance2 = p.distance2(_position);
+        return getIntensity().scale(1/(_kC+_Kl*Math.sqrt(distance2) + _Kq*distance2));
     }
 
     /**
@@ -65,7 +55,6 @@ public class PointLight extends Light implements LightSource {
     }
 
     /* ************* Administration *******/
-
     @Override
     public String toString() {
         return "PL{" +
@@ -73,7 +62,7 @@ public class PointLight extends Light implements LightSource {
                 ", kC=" + _kC +
                 ", Kl=" + _Kl +
                 ", Kq=" + _Kq +
-                ", C=" + _color +
+                ", C=" + super.toString() +
                 '}';
     }
 }

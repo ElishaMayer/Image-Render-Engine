@@ -184,7 +184,7 @@ public class RenderTest {
 				scene.addGeometries(new Sphere(100,new Point3D(500-i*200,100,-(500+j*200)),new Material(0.5,0.5,1000,0.2,0),new Color(	Math.random()*100,Math.random()*100,Math.random()*100)));
 			}
 		}
-		ImageWriter imw = new ImageWriter("images\\IMG_0021_Balls",500,500,2000,2000);
+		ImageWriter imw = new ImageWriter("images\\IMG_0021_Balls",500,500,200,200);
 		Render rn = new Render(imw,scene);
 		rn.renderImage();
 		imw.writeToimage();

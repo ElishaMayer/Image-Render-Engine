@@ -20,20 +20,10 @@ public class DirectionalLight extends Light implements LightSource{
      */
     public DirectionalLight(Color color, Vector _direction) {
         super(color);
-        this._direction = new Vector( _direction);
+        this._direction = _direction.normal();
     }
 
     /* ************* Getters/Setters *******/
-
-    /**
-     * not implemented
-     * @return null
-     */
-    @Override
-    Color getIntensity() {
-        return null;
-    }
-
     /**
      * get light intensity
      * @param p the point
@@ -41,7 +31,7 @@ public class DirectionalLight extends Light implements LightSource{
      */
     @Override
     public Color getIntensity(Point3D p) {
-        return _color;
+        return getIntensity();
     }
 
     /**
@@ -51,7 +41,7 @@ public class DirectionalLight extends Light implements LightSource{
      */
     @Override
     public Vector getL(Point3D p) {
-        return _direction.normal();
+        return _direction;
     }
 
     /* ************* Administration *******/
@@ -59,7 +49,7 @@ public class DirectionalLight extends Light implements LightSource{
     public String toString() {
         return "DL{" +
                 "dir=" + _direction +
-                ", c=" + _color +
+                super.toString() +
                 '}';
     }
 }

@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 import renderer.Render;
 import renderer.loadScene;
-import scene.Scene;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
@@ -31,7 +30,7 @@ public class loadSceneTest {
             fail("scene is null");
         if(render.getScene().getCamera()==null)
             fail("fail loading camera");
-        if(render.getScene().getLight()==null)
+        if(render.getScene().getAmbient()==null)
             fail("fail loading light");
         if(render.getScene().getGeometries()==null)
             fail("fail loading geometries");

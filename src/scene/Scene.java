@@ -55,7 +55,7 @@ public class Scene {
      * get scene light
      * @return light
      */
-    public AmbientLight getLight() {
+    public AmbientLight getAmbient() {
         return _light;
     }
 

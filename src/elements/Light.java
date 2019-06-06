@@ -7,7 +7,7 @@ import primitives.Color;
  */
 public abstract class Light {
 
-    Color _color;
+    private Color _color;
 
     /**
      * A new Light
@@ -28,5 +28,5 @@ public abstract class Light {
      * get Color Intensity
      * @return color Intensity
      */
-    abstract Color getIntensity();
+    public Color getIntensity() { return _color; }
 }

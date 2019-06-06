@@ -36,7 +36,10 @@ public class SpotLight extends PointLight {
      */
     @Override
     public Color getIntensity(Point3D p) {
-        return super.getIntensity(p).scale(Math.max(0,_direction.dotProduct(getL(p))));
+        double pl = _direction.dotProduct(getL(p));
+        if (pl <= 0)
+            return Color.BLACK;
+        return super.getIntensity(p).scale(pl);
     }
 
     /* ************* Administration *******/
@@ -45,7 +48,7 @@ public class SpotLight extends PointLight {
     public String toString() {
         return "SL{" +
                 "D=" + _direction +
-                ", C=" + _color +
+                ", C=" + super.toString() +
                 '}';
     }
 }
