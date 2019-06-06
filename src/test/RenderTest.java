@@ -92,7 +92,7 @@ public class RenderTest {
 	@Test
 	public void renderEx7() {
 		String message ="";
-		System.out.println("-----Ex5 render-----");
+		System.out.println("-----Ex7 render-----");
 		File folder = new File("xml\\Exc7");
 		File[] listOfFiles = folder.listFiles();
 		assert listOfFiles != null;
