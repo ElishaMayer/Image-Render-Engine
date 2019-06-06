@@ -172,14 +172,15 @@ public class Vector {
      * @param matrix the matrix
      * @return vector
      */
-    public Vector multMatrixVector( Coordinate[][] matrix){
+    public Vector multiply(Matrix matrix){
+        Coordinate[][] numbers = matrix.getMatrix();
         Coordinate x= _point3D.getX();
         Coordinate y = _point3D.getY();
         Coordinate z= _point3D.getZ();
         return new Vector(new Point3D(
-                matrix[0][0].multiply(x).add(matrix[0][1].multiply(y)).add(matrix[0][2].multiply(z)),
-                matrix[1][0].multiply(x).add(matrix[1][1].multiply(y)).add(matrix[1][2].multiply(z)),
-                matrix[2][0].multiply(x).add(matrix[2][1].multiply(y)).add(matrix[2][2].multiply(z))
+                numbers[0][0].multiply(x).add(numbers[0][1].multiply(y)).add(numbers[0][2].multiply(z)),
+                numbers[1][0].multiply(x).add(numbers[1][1].multiply(y)).add(numbers[1][2].multiply(z)),
+                numbers[2][0].multiply(x).add(numbers[2][1].multiply(y)).add(numbers[2][2].multiply(z))
         ));
     }
 }

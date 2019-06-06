@@ -196,8 +196,11 @@ public class RenderTest {
 		v=v.normal();
 		Vector n = new Vector(0,0,1);
 		Render rn = new Render(null,null);
-		List<Ray> beam = rn.getBeam(new Ray(new Point3D(0,0,0),v),n,10,10);
-		int y=0;
+		List<Ray> beam = rn.getBeam(new Ray(new Point3D(0,0,0),v),n,0.002,10);
+		for (Ray r:beam){
+			if(v.getPoint3D().distance(r.getVector().getPoint3D())>0.2)
+				fail();
+		}
 
 	}
 }

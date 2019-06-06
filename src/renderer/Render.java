@@ -20,8 +20,10 @@ import java.util.Random;
  * Render class (makes a bitmap picture from the scene)
  */
 public class Render {
-    private static final double MIN_CALC_COLOR_K = 0.001;
+    private static final double MIN_CALC_COLOR_K = 0.0001;
     private static final double EPS = 2;
+    private static final int RECURSIVE_L = 5;
+
 
 
     // variables
@@ -74,10 +76,18 @@ public class Render {
         double distance = _scene.getCameraDistance();
         Geometries geometries = _scene.getGeometries();
         Color background = _scene.getBackground().getColor();
+        int istage = nx/3;
+        int jstage = ny/3;
+        double sum=0;
 
         //render image
         for(int i=0;i<nx;i++){
             for(int j=0;j<ny;j++){
+                if(i==260&&j==150){
+                    int y=0;
+                }
+  //              if(i%istage==0&&j%jstage==0)
+  //                  System.out.println("Progress: "+(int)((sum++/16)*100)+"%");
                 // get all the rays who goes through every pixel and see if they intersects any geometries
                 Ray ray = camera.constructRayThroughPixel(nx,ny,i,j,distance,width,height);
                 Intersectable.GeoPoint intersection = getClosestPoint(getSceneIntersections(ray,-1));
@@ -92,7 +102,7 @@ public class Render {
 
 
     private Color calcColor(Intersectable.GeoPoint geopoint, Ray inRay) {
-        return calcColor(geopoint, inRay, 5, 1.0).add(_scene.getLight().getIntensity()).getColor();
+        return calcColor(geopoint, inRay, RECURSIVE_L, 1.0).add(_scene.getLight().getIntensity()).getColor();
     }
 
     /**
@@ -277,19 +287,19 @@ public class Render {
         Vector middle = ray.getVector();
 
         //get a random vector not parallel to middle
-        Vector vectors[] = {
-                new Vector(0,0,1),
-                new Vector(0,1,0),
-                new Vector(1,0,0),
-                new Vector(0,0,-1),
-                new Vector(0,-1,0),
-                new Vector(-1,0,0)};
+        Vector[] vectors = {
+                new Vector(0, 0, 1),
+                new Vector(0, 1, 0),
+                new Vector(1, 0, 0),
+                new Vector(0, 0, -1),
+                new Vector(0, -1, 0),
+                new Vector(-1, 0, 0)};
         Vector randV= new Vector(middle);
         int i=0;
         do {
             try {
                 randV = randV.add(vectors[i++]).normal();
-            }catch (Exception ex){}
+            }catch (Exception ignored){}
         }while (Math.abs(middle.dotProduct(randV))==1.0);
 
         //get two orthogonal vectors to middle
@@ -305,8 +315,8 @@ public class Render {
                 Point3D temp = new Point3D(middle.getPoint3D());
 
                 //get two random numbers in a circle with radius - 'radius'
-                double xS = 0;
-                double yS = 0;
+                double xS;
+                double yS;
                 do {
                     xS = -radius + rand.nextDouble() * 2 * radius;
                     yS = -radius + rand.nextDouble() * 2 * radius;
@@ -322,7 +332,7 @@ public class Render {
                 //if it isn't under the geometry the add
                 if(v.dotProduct(normal)>0)
                     beam.add(new Ray(start,v));
-            }catch (Exception ex){}
+            }catch (Exception ignored){}
         }while (beam.size()<num);
         return beam;
     }

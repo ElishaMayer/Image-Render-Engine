@@ -122,58 +122,25 @@ public class Camera {
         y = (y/180)*Math.PI;
         z = (z/180)*Math.PI;
 
-        Coordinate cos = new Coordinate(Math.cos(x));
-        Coordinate sin = new Coordinate(Math.sin(x));
-        Coordinate msin = new Coordinate(-Math.sin(x));
-        Coordinate zero = new Coordinate(0);
-        Coordinate one = new Coordinate(1);
-        Coordinate[][] matrixX = {
-                {cos, msin, zero},
-                {sin, cos, zero},
-                {zero, zero, one}};
-        cos = new Coordinate(Math.cos(y));
-        sin = new Coordinate(Math.sin(y));
-        msin = new Coordinate(-Math.sin(y));
-        Coordinate[][] matrixY = {
-                {cos, zero, sin},
-                {zero, one, zero},
-                {msin, zero, cos}};
-        cos = new Coordinate(Math.cos(z));
-        sin = new Coordinate(Math.sin(z));
-        msin = new Coordinate(-Math.sin(z));
-        Coordinate[][] matrixZ = {
-                {one, zero, zero},
-                {zero, cos, msin},
-                {zero, sin, cos}};
-        Coordinate[][] matrix = multMatrixs(matrixX, matrixY);
-        matrix = multMatrixs(matrix,matrixZ);
-        _vRight = _vRight.multMatrixVector(matrix).normal();
-        _vTo = _vTo.multMatrixVector(matrix).normal();
-        _vUp = _vUp.multMatrixVector(matrix).normal();
+        double cos = Math.cos(x);
+        double sin = Math.sin(x);
+        Matrix matrixX = new Matrix(new double[][]{{cos,-sin,0},{sin,cos,0},{0,0,1}});
+
+        cos = Math.cos(y);
+        sin = Math.sin(y);
+        Matrix matrixY = new Matrix(new double[][]{{cos, 0, sin}, {0, 1, 0}, {-sin, 0, cos}});
+
+        cos = Math.cos(z);
+        sin =Math.sin(z);
+        Matrix matrixZ = new Matrix(new double[][]{{1, 0, 0}, {0, cos, -sin}, {0, sin, cos}});
+
+        Matrix matrix = matrixX.multiply(matrixY).multiply(matrixZ);
+
+        _vRight = _vRight.multiply(matrix).normal();
+        _vTo = _vTo.multiply(matrix).normal();
+        _vUp = _vUp.multiply(matrix).normal();
     }
 
-    /**
-     * multiply two matrix's
-     * @param matrix1 matrix 1
-     * @param matrix2 matrix 2
-     * @return [matrix1]x[matrix2]
-     */
-    private Coordinate[][] multMatrixs(Coordinate[][] matrix1,Coordinate[][] matrix2){
-        Coordinate[][] matrix = new Coordinate[3][3];
-        for(int i =0 ;i<3;i++) {
-            for (int j = 0; j < 3; j++) {
-                matrix[i][j] = new Coordinate(0);
-            }
-        }
-        for(int i =0 ;i<3;i++){
-            for(int j=0;j<3;j++){
-                for(int w=0;w<3;w++){
-                    matrix[i][j] = matrix[i][j].add(matrix1[i][w].multiply(matrix2[w][j]));
-                }
-            }
-        }
-        return matrix;
-    }
 
 }
 

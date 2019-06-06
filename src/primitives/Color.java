@@ -163,6 +163,29 @@ public class Color {
 	}
 
 	/**
+	 * Operation of adding average of the colors
+	 *
+	 * @param colors one or more other colors to calculate average
+	 * @return new Color object which is a result of the operation
+	 */
+	public Color addAverage(Color... colors) {
+		double r = 0, g = 0, b = 0;
+		for (Color c : colors) {
+			r += c._r;
+			g += c._g;
+			b += c._b;
+		}
+		r /= colors.length;
+		g /= colors.length;
+		b /= colors.length;
+
+		r +=_r;
+		g +=_g;
+		b +=_b;
+		return new Color(r, g, b);
+	}
+
+	/**
 	 * Scale the color by a scalar
 	 *
 	 * @param k scale factor
