@@ -22,6 +22,7 @@ public class Sphere extends RadialGeometry  {
     public Sphere(double radius, Point3D point) {
         super(radius);
         _point = new Point3D(point);
+        setBorders();
     }
 
     /**
@@ -34,9 +35,23 @@ public class Sphere extends RadialGeometry  {
     public Sphere(double radius, Point3D point,Material material,Color emission) {
         super(radius,material,emission);
         _point = new Point3D(point);
+        setBorders();
     }
 
-
+    /**
+     * set the middle max and min points
+     */
+    private void setBorders(){
+        double maxX = _point.add(new Vector(1,0,0).scale(_radius)).getX().get();
+        double maxY = _point.add(new Vector(0,1,0).scale(_radius)).getY().get();
+        double maxZ = _point.add(new Vector(0,0,1).scale(_radius)).getZ().get();
+        double minX = _point.add(new Vector(-1,0,0).scale(_radius)).getX().get();
+        double minY = _point.add(new Vector(0,-1,0).scale(_radius)).getY().get();
+        double minZ = _point.add(new Vector(0,0,-1).scale(_radius)).getZ().get();
+        setMax(new Point3D(maxX,maxY,maxZ));
+        setMin(new Point3D(minX,minY,minZ));
+        setMiddle(new Point3D((maxX+minX)/2,(maxY+minY)/2,(maxZ+minZ)/2));
+    }
     /* ************* Getters/Setters *******/
 
     /**

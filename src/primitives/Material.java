@@ -6,8 +6,28 @@ public class Material {
     private int _nShininess;
     private double _kR;
     private double _kT;
+    private  double _rT;
+    private double _rR;
 
     /* ********* Constructors ***********/
+    /**
+     *  a new Material
+     *
+     * @param kD
+     * @param kS
+     * @param nShininess
+     * @param kR
+     * @param kT
+     */
+    public Material(double kD, double kS, int nShininess, double kR, double kT ,double rR ,double rT) {
+        _kD = kD;
+        _kS = kS;
+        _nShininess = nShininess;
+        _kR = kR;
+        _kT = kT;
+        _rR=rR;
+        _rT=rT;
+    }
 
     /**
      *  a new Material
@@ -24,6 +44,8 @@ public class Material {
         _nShininess = nShininess;
         _kR = kR;
         _kT = kT;
+        _rR=0;
+        _rT=0;
     }
 
     /**
@@ -39,6 +61,8 @@ public class Material {
         _nShininess = nShininess;
         _kR = 0;
         _kT = 0;
+        _rR=0;
+        _rT=0;
     }
 
     /**
@@ -50,6 +74,8 @@ public class Material {
         _nShininess = 0;
         _kR = 0;
         _kT = 0;
+        _rR=0;
+        _rT=0;
     }
 
     /**
@@ -63,6 +89,8 @@ public class Material {
         _kD = material._kD;
         _kR = material._kR;
         _kT = material._kT;
+        _rT = material._rT;
+        _rR= material._rR;
     }
 
     /* ************* Getters/Setters *******/
@@ -110,6 +138,24 @@ public class Material {
      */
     public double getKT() {
         return _kT;
+    }
+
+    /**
+     * get RT
+     *
+     * @return RT
+     */
+    public double getRT() {
+        return _rT;
+    }
+
+    /**
+     * get RR
+     *
+     * @return RR
+     */
+    public double getRR() {
+        return _rR;
     }
 
     @Override

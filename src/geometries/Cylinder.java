@@ -49,8 +49,6 @@ public class Cylinder extends Tube   {
      * A new Cylinder
      *
      * @param radius the radius
-     * @param ray    the direction vector and middle point
-     * @param height the height
      * @param material material
      * @param emission emission
      */
@@ -60,6 +58,26 @@ public class Cylinder extends Tube   {
         if (isZero(height) || height < 0)
             throw new IllegalArgumentException("Height is zero or negative");
         this._height = height;
+    }
+
+    /**
+     * set the middle max and min points
+     */
+    private void setBorders(){
+        Point3D rayP = _ray.getPoint3D();
+        Vector rayV = _ray.getVector();
+        Point3D upperPoint = rayP.add(rayV.scale(_height / 2));
+        Point3D underPoint = rayP.subtract(rayV.scale(_height / 2));
+
+        double maxX = upperPoint.add(new Vector(1,0,0).scale(_radius)).getX().get();
+        double maxY = upperPoint.add(new Vector(0,1,0).scale(_radius)).getY().get();
+        double maxZ = upperPoint.add(new Vector(0,0,1).scale(_radius)).getZ().get();
+        double minX = underPoint.add(new Vector(-1,0,0).scale(_radius)).getX().get();
+        double minY = underPoint.add(new Vector(0,-1,0).scale(_radius)).getY().get();
+        double minZ = underPoint.add(new Vector(0,0,-1).scale(_radius)).getZ().get();
+        setMax(new Point3D(maxX,maxY,maxZ));
+        setMin(new Point3D(minX,minY,minZ));
+        setMiddle(new Point3D((maxX+minX)/2,(maxY+minY)/2,(maxZ+minZ)/2));
     }
 
     /* ************* Getters/Setters *******/
@@ -81,6 +99,8 @@ public class Cylinder extends Tube   {
                 " ,h=" + _height +
                 "}";
     }
+
+    /* ************* Operations ***************/
 
     /**
      * Get the normal from the point in the shape
@@ -143,5 +163,4 @@ public class Cylinder extends Tube   {
         return list;
     }
 
-    /* ************* Operations ***************/
 }

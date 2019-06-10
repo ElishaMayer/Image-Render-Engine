@@ -27,6 +27,7 @@ public class Triangle extends Plane {
         super(p1,p2,p3);
         _point2 = new Point3D(p2);
         _point3 = new Point3D(p3);
+        setBorders();
     }
 
     /**
@@ -42,8 +43,32 @@ public class Triangle extends Plane {
         super(p1,p2,p3,material,emission);
         _point2 = new Point3D(p2);
         _point3 = new Point3D(p3);
+        setBorders();
     }
 
+    /**
+     * set the min and max and middle points
+     */
+    private void setBorders(){
+        double maxX = Math.max(_point.getX().get(),_point2.getX().get());
+        maxX = Math.max(maxX,_point3.getX().get());
+        double maxY = Math.max(_point.getY().get(),_point2.getY().get());
+        maxY = Math.max(maxY,_point3.getY().get());
+        double maxZ = Math.max(_point.getZ().get(),_point2.getZ().get());
+        maxZ = Math.max(maxZ,_point3.getZ().get());
+
+        double minX = Math.min(_point.getX().get(),_point2.getX().get());
+        minX = Math.min(minX,_point3.getX().get());
+        double minY = Math.min(_point.getY().get(),_point2.getY().get());
+        minY = Math.min(minY,_point3.getY().get());
+        double minZ = Math.min(_point.getZ().get(),_point2.getZ().get());
+        minZ = Math.min(minZ,_point3.getZ().get());
+
+        setMax(new Point3D(maxX,maxY,maxZ));
+        setMin(new Point3D(minX,minY,minZ));
+        setMiddle(new Point3D((maxX+minX)/2,(maxY+minY)/2,(maxZ+minZ)/2));
+
+    }
 
     /* ************* Getters/Setters *******/
 

@@ -9,6 +9,7 @@ import primitives.Ray;
 import primitives.Vector;
 import scene.Scene;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,10 +21,10 @@ import static geometries.Intersectable.GeoPoint;
  * Render class (makes a bitmap picture from the scene)
  */
 public class Render {
-    private static final double MIN_CALC_COLOR_K = 0.01;
+    private static final double MIN_CALC_COLOR_K = 0.001;
     private static final double EPS = 0.1;
-    private static final int RECURSIVE_L = 3;
-    private static final int RAY_BEAM = 50;
+    private static final int RECURSIVE_L = 5;
+    private static final int RAY_BEAM = 10;
 
 
 
@@ -79,10 +80,19 @@ public class Render {
         Camera camera = _scene.getCamera();
         double distance = _scene.getCameraDistance();
         java.awt.Color background = _scene.getBackground().getColor();
+        double time = 0;
+        int whole = nx*ny;
+        int prev = 0;
+        long start = System.currentTimeMillis();
 
         //render image
         for (int i = 0; i < nx; i++) {
             for (int j = 0; j < ny; j++) {
+                int pers = (int) ((++time/whole)*1000);
+                if( pers!=prev) {
+                    System.out.println(pers / 10.0 + "%");
+                    prev = pers;
+                }
                 Ray ray = camera.constructRayThroughPixel(nx, ny, i, j, distance, width, height);
                 GeoPoint intersection = getClosestPoint(getSceneIntersections(ray, -1));
                 _imageWriter.writePixel(i, j,
@@ -90,6 +100,15 @@ public class Render {
                                 calcColor(intersection, ray).getColor()); // intersection = calculate the right color
             }
         }
+        long end = System.currentTimeMillis();
+        int  elapsed = (int) ((end - start) / 1000F);
+        int hours = (int) (elapsed/600.0);
+        elapsed = elapsed%600;
+        int minuts = (int) (elapsed/60.0);
+        elapsed = elapsed % 60;
+        int seconds = elapsed;
+        System.out.println(hours+"h "+minuts+"m "+seconds+"s");
+
     }
 
     /**
@@ -141,6 +160,7 @@ public class Render {
         // Recursive call for a reflected ray
         Color sum = new Color(0,0,0);
         double kr = geopoint.geometry.getMaterial().getKR();
+        double rr = geopoint.geometry.getMaterial().getRR();
         Vector direction;
         Vector newV = inRay.getVector();
         double kkr = k * kr;
@@ -152,14 +172,14 @@ public class Render {
                 // reflectedRay vector = v-2∙(v∙n)∙n
                 direction = newV.subtract(n.scale(2 * newV.dotProduct(n)));
                 Ray reflectedRay = new Ray(geopoint.point.add(direction), direction);
-                List<Ray> beam = getBeam(reflectedRay,n,0.02,RAY_BEAM);
+                List<Ray> beam = getBeam(reflectedRay,n,rr,RAY_BEAM);
                 for (Ray beamRay:beam){
                     GeoPoint reflectedPoint = getClosestPoint(getSceneIntersections(beamRay, -1));
                     if (reflectedPoint != null) {
                         sum = sum.add(calcColor(reflectedPoint, beamRay, level - 1, kkr).scale(kr));
                     }
                 }
-                color = color.add(sum.scale(1.0/RAY_BEAM));
+                color = color.add(sum.scale(1.0/beam.size()));
             } catch (Exception ignored) {
             }
         }
@@ -167,17 +187,18 @@ public class Render {
         // Recursive call for a refracted ray
         sum = new Color(0,0,0);
         double kt = geopoint.geometry.getMaterial().getKT();
+        double rt = geopoint.geometry.getMaterial().getRT();
         double kkt = k * kt;
         if (kkt > MIN_CALC_COLOR_K) {
             direction = newV;
             Ray refractedRay = new Ray(geopoint.point.add(direction), direction);
-            List<Ray> beam = getBeam(refractedRay,n,0.02,RAY_BEAM);
+            List<Ray> beam = getBeam(refractedRay,n,rt,RAY_BEAM);
             for (Ray beamRay:beam) {
                 GeoPoint refractedPoint = getClosestPoint(getSceneIntersections(beamRay, -1));
                 if (refractedPoint != null)
                     sum = sum.add(calcColor(refractedPoint, beamRay, level - 1, kkt).scale(kt));
             }
-            color = color.add(sum.scale(1.0/RAY_BEAM));
+            color = color.add(sum.scale(1.0/beam.size()));
         }
 
         return color;
@@ -322,6 +343,11 @@ public class Render {
      * @return list of rays (beam)
      */
     public List<Ray> getBeam(Ray ray, Vector normal, double radius, int num) {
+        if(radius==0){
+            List<Ray> rayBeam = new ArrayList<>();
+            rayBeam.add(ray);
+            return rayBeam;
+        }
         Vector middle = ray.getVector();
 
         if(middle.dotProduct(normal)<0)

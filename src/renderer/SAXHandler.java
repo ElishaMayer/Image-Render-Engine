@@ -106,6 +106,19 @@ public class SAXHandler extends DefaultHandler {
             }
             break;
             //create new cylinder
+            case "cylinder2p":
+            {
+                double[] points = parse3Numbers(attributes.getValue("p1"));
+                Point3D p1 = new Point3D(points[0], points[1], points[2]);
+                points = parse3Numbers(attributes.getValue("p2"));
+                Point3D p2 = new Point3D(points[0], points[1], points[2]);
+                double radius = Double.parseDouble(attributes.getValue("radius"));
+                Color color = new Color(parse3Numbers(attributes.getValue("emission")));
+                Material material = getMaterail(attributes.getValue("material"));
+                _scene.addGeometries(new Cylinder(radius,p1,p2,material,color));
+            }
+            break;
+            //create new cylinder
             case "cylinder":
             {
                 double[] points = parse3Numbers(attributes.getValue("Ray-p"));
@@ -227,19 +240,30 @@ public class SAXHandler extends DefaultHandler {
 
     private Material getMaterail(String str){
         String [] nums = str.split(" ");
-        try {
-            return new Material(
-                    Double.parseDouble(nums[0]),
-                    Double.parseDouble(nums[1]),
-                    Integer.parseInt(nums[2]),
-                    Double.parseDouble(nums[3]),
-                    Double.parseDouble(nums[4]));
-        }catch (Exception ex){
-            return new Material(
-                    Double.parseDouble(nums[0]),
-                    Double.parseDouble(nums[1]),
-                    Integer.parseInt(nums[2]));
+        switch (nums.length){
+            case 3:
+                return new Material(
+                        Double.parseDouble(nums[0]),
+                        Double.parseDouble(nums[1]),
+                        Integer.parseInt(nums[2]));
+            case 5:
+                return new Material(
+                        Double.parseDouble(nums[0]),
+                        Double.parseDouble(nums[1]),
+                        Integer.parseInt(nums[2]),
+                        Double.parseDouble(nums[3]),
+                        Double.parseDouble(nums[4]));
+            case 7:
+                return new Material(
+                        Double.parseDouble(nums[0]),
+                        Double.parseDouble(nums[1]),
+                        Integer.parseInt(nums[2]),
+                        Double.parseDouble(nums[3]),
+                        Double.parseDouble(nums[4]),
+                        Double.parseDouble(nums[5]),
+                        Double.parseDouble(nums[6]));
         }
+    return null;
     }
 }
 

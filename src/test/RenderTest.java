@@ -17,6 +17,8 @@ import scene.Scene;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static junit.framework.TestCase.fail;
@@ -152,6 +154,9 @@ public class RenderTest {
 	 */
 	@Test
 	public void proTests(){
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		System.out.println(dtf.format(now));
 		Scene scene = new Scene("");
 		scene.setCamera(new Camera(new Point3D(-400,-1800,2000),new Vector(0,-1,0),new Vector(0,0,-1)),500);
 		scene.getCamera().rotateXYZ(0,0,30);
@@ -175,8 +180,8 @@ public class RenderTest {
 		scene.addGeometries(new Cylinder(25,new Point3D(-1400,225,-2320), new Point3D(-1400,225,-400),new Material(0.5,0.5,100,0,0),new Color(0,0,0)));
 		scene.addGeometries(new Sphere(25,new Point3D(600,225,-400),new Material(0.5,0.5,100,0,0),new Color(0,0,0)));
 		scene.addGeometries(new Sphere(25,new Point3D(-1400,225,-400),new Material(0.5,0.5,100,0,0),new Color(0,0,0)));
-		scene.addGeometries(new Plane(new Point3D(670,225,-400),new Vector(1,0,0),new Material(0.5,0.5,100,0.8,0),new Color(20,20,20)));
-		scene.addGeometries(new Plane(new Point3D(-1470,225,-400),new Vector(1,0,0),new Material(0.5,0.5,100,0.8,0),new Color(20,20,20)));
+		scene.addGeometries(new Plane(new Point3D(670,225,-400),new Vector(1,0,0),new Material(0.5,0.5,100,0.8,0,0.015,0),new Color(20,20,20)));
+		scene.addGeometries(new Plane(new Point3D(-1470,225,-400),new Vector(1,0,0),new Material(0.5,0.5,100,0.8,0,0.015,0),new Color(20,20,20)));
 		scene.addGeometries(new Plane(new Point3D(-1400,225,-2390),new Vector(0,0,1),new Material(0,0,100,0,0),new Color(0,0,0)));
 
 		for(int i=0;i<10;i++){
@@ -184,10 +189,12 @@ public class RenderTest {
 				scene.addGeometries(new Sphere(100,new Point3D(500-i*200,100,-(500+j*200)),new Material(0.5,0.5,1000,0.2,0),new Color(	Math.random()*100,Math.random()*100,Math.random()*100)));
 			}
 		}
-		ImageWriter imw = new ImageWriter("images\\IMG_0021_Balls",500,500,200,200);
+		ImageWriter imw = new ImageWriter("images\\IMG_0021_Balls",500,300,2000,1200);
 		Render rn = new Render(imw,scene);
 		rn.renderImage();
 		imw.writeToimage();
+		now = LocalDateTime.now();
+		System.out.println(dtf.format(now));
 	}
 
 	@Test
