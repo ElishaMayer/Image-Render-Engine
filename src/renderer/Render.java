@@ -2,14 +2,12 @@ package renderer;
 
 import elements.Camera;
 import elements.LightSource;
-import geometries.Cylinder;
 import primitives.Color;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
 import scene.Scene;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -83,7 +81,7 @@ public class Render {
         double time = 0;
         int whole = nx*ny;
         int prev = 0;
-        long start = System.currentTimeMillis();
+        long start = (long) (System.currentTimeMillis()/1000.0);
 
         //render image
         for (int i = 0; i < nx; i++) {
@@ -100,8 +98,8 @@ public class Render {
                                 calcColor(intersection, ray).getColor()); // intersection = calculate the right color
             }
         }
-        long end = System.currentTimeMillis();
-        int  elapsed = (int) ((end - start) / 1000F);
+        long end = (long) (System.currentTimeMillis()/1000.0);
+        int  elapsed = (int) ((end - start));
         int hours = (int) (elapsed/600.0);
         elapsed = elapsed%600;
         int minuts = (int) (elapsed/60.0);
@@ -164,22 +162,28 @@ public class Render {
         Vector direction;
         Vector newV = inRay.getVector();
         double kkr = k * kr;
-        if(geopoint.geometry instanceof Cylinder){
-            int zzz=0;
-        }
         if (kkr > MIN_CALC_COLOR_K) {
             try {
                 // reflectedRay vector = v-2∙(v∙n)∙n
                 direction = newV.subtract(n.scale(2 * newV.dotProduct(n)));
                 Ray reflectedRay = new Ray(geopoint.point.add(direction), direction);
-                List<Ray> beam = getBeam(reflectedRay,n,rr,RAY_BEAM);
-                for (Ray beamRay:beam){
-                    GeoPoint reflectedPoint = getClosestPoint(getSceneIntersections(beamRay, -1));
+
+                if(rr!=0) {
+                    List<Ray> beam = getBeam(reflectedRay, n, rr, RAY_BEAM);
+                    for (Ray beamRay : beam) {
+                        GeoPoint reflectedPoint = getClosestPoint(getSceneIntersections(beamRay, -1));
+                        if (reflectedPoint != null) {
+                            sum = sum.add(calcColor(reflectedPoint, beamRay, level - 1, kkr).scale(kr));
+                        }
+                    }
+                    color = color.add(sum.scale(1.0 / beam.size()));
+
+                }else{
+                    GeoPoint reflectedPoint = getClosestPoint(getSceneIntersections(reflectedRay, -1));
                     if (reflectedPoint != null) {
-                        sum = sum.add(calcColor(reflectedPoint, beamRay, level - 1, kkr).scale(kr));
+                        color = color.add(calcColor(reflectedPoint, reflectedRay, level - 1, kkr).scale(kr));
                     }
                 }
-                color = color.add(sum.scale(1.0/beam.size()));
             } catch (Exception ignored) {
             }
         }
@@ -192,13 +196,21 @@ public class Render {
         if (kkt > MIN_CALC_COLOR_K) {
             direction = newV;
             Ray refractedRay = new Ray(geopoint.point.add(direction), direction);
-            List<Ray> beam = getBeam(refractedRay,n,rt,RAY_BEAM);
-            for (Ray beamRay:beam) {
-                GeoPoint refractedPoint = getClosestPoint(getSceneIntersections(beamRay, -1));
+
+            if(rt!=0) {
+                List<Ray> beam = getBeam(refractedRay, n, rt, RAY_BEAM);
+                for (Ray beamRay : beam) {
+                    GeoPoint refractedPoint = getClosestPoint(getSceneIntersections(beamRay, -1));
+                    if (refractedPoint != null)
+                        sum = sum.add(calcColor(refractedPoint, beamRay, level - 1, kkt).scale(kt));
+                }
+                color = color.add(sum.scale(1.0/beam.size()));
+
+            }else{
+                GeoPoint refractedPoint = getClosestPoint(getSceneIntersections(refractedRay, -1));
                 if (refractedPoint != null)
-                    sum = sum.add(calcColor(refractedPoint, beamRay, level - 1, kkt).scale(kt));
+                    color = color.add(calcColor(refractedPoint, refractedRay, level - 1, kkt).scale(kt));
             }
-            color = color.add(sum.scale(1.0/beam.size()));
         }
 
         return color;
@@ -343,13 +355,9 @@ public class Render {
      * @return list of rays (beam)
      */
     public List<Ray> getBeam(Ray ray, Vector normal, double radius, int num) {
-        if(radius==0){
-            List<Ray> rayBeam = new ArrayList<>();
-            rayBeam.add(ray);
-            return rayBeam;
-        }
         Vector middle = ray.getVector();
 
+        //check that the ray and the normal are at the same side
         if(middle.dotProduct(normal)<0)
             normal = normal.scale(-1);
 
@@ -366,8 +374,7 @@ public class Render {
         do {
             try {
                 randV = randV.add(vectors[i++]).normal();
-            } catch (Exception ignored) {
-            }
+            } catch (Exception ignored) { }
         } while (Math.abs(middle.dotProduct(randV)) == 1.0);
 
         //get two orthogonal vectors to middle
@@ -392,8 +399,8 @@ public class Render {
                     xS = -radius + rand.nextDouble() * 2 * radius;
                     yS = -radius + rand.nextDouble() * 2 * radius;
                     erorr++;
-                    if(erorr>200)
-                        throw new IllegalArgumentException("Infinity ");
+                    if(erorr>1000)
+                        return beam;
                 } while (xS * xS + yS * yS > radius * radius);
 
                 //add the points
@@ -406,11 +413,10 @@ public class Render {
                 //if it isn't under the geometry the add
                 if (v.dotProduct(normal) > 0)
                     beam.add(new Ray(start, v));
-            } catch (Exception ignored) {
-            }
+            } catch (Exception ignored) { }
             error1++;
-            if(error1>200)
-                throw new IllegalArgumentException("Infinity");
+            if(error1>1000)
+                return beam;
         } while (beam.size() < num);
         return beam;
     }
