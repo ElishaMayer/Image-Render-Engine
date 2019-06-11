@@ -16,11 +16,11 @@ public class DirectionalLight extends Light implements LightSource{
      * a new Directional Light
      *
      * @param color color
-     * @param _direction light direction
+     * @param direction light direction
      */
-    public DirectionalLight(Color color, Vector _direction) {
+    public DirectionalLight(Color color, Vector direction) {
         super(color);
-        this._direction = _direction.normal();
+        _direction = direction.normal();
     }
 
     /* ************* Getters/Setters *******/

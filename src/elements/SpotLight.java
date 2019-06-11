@@ -16,15 +16,15 @@ public class SpotLight extends PointLight {
      * a new spotlight
      *
      * @param color the color of the light
-     * @param _position the position of the light source
-     * @param _kC kc
-     * @param _Kl kl
-     * @param _Kq kq
-     * @param _direction the direction of the light
+     * @param position the position of the light source
+     * @param Kc kc
+     * @param Kl kl
+     * @param Kq kq
+     * @param direction the direction of the light
      */
-    public SpotLight(Color color, Point3D _position, double _kC, double _Kl, double _Kq, Vector _direction) {
-        super(color, _position, _kC, _Kl, _Kq);
-        this._direction = _direction.normal();
+    public SpotLight(Color color, Point3D position, double Kc, double Kl, double Kq, Vector direction) {
+        super(color, position, Kc, Kl, Kq);
+        _direction = direction.normal();
     }
 
     /* ************* Getters/Setters *******/

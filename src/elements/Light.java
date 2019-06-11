@@ -28,5 +28,13 @@ public abstract class Light {
      * get Color Intensity
      * @return color Intensity
      */
-    public Color getIntensity() { return _color; }
+    public Color getIntensity() {
+        return _color;
+    }
+
+    /* ************* Administration *******/
+    @Override
+    public String toString() {
+        return "color " + _color;
+    }
 }
