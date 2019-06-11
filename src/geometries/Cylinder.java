@@ -70,11 +70,19 @@ public class Cylinder extends Tube   {
         Point3D underPoint = rayP.subtract(rayV.scale(_height / 2));
 
         double maxX = upperPoint.add(new Vector(1,0,0).scale(_radius)).getX().get();
+        maxX = Math.max(maxX,underPoint.add(new Vector(1,0,0).scale(_radius)).getX().get());
         double maxY = upperPoint.add(new Vector(0,1,0).scale(_radius)).getY().get();
+        maxY =Math.max( maxY,underPoint.add(new Vector(0,1,0).scale(_radius)).getY().get());
         double maxZ = upperPoint.add(new Vector(0,0,1).scale(_radius)).getZ().get();
+        maxZ = Math.max(maxZ,upperPoint.add(new Vector(0,0,1).scale(_radius)).getZ().get());
+
         double minX = underPoint.add(new Vector(-1,0,0).scale(_radius)).getX().get();
+        minX = Math.min(minX,underPoint.add(new Vector(-1,0,0).scale(_radius)).getX().get());
         double minY = underPoint.add(new Vector(0,-1,0).scale(_radius)).getY().get();
+        minY = Math.min(minY,underPoint.add(new Vector(0,-1,0).scale(_radius)).getY().get());
         double minZ = underPoint.add(new Vector(0,0,-1).scale(_radius)).getZ().get();
+        minZ = Math.min(minZ,underPoint.add(new Vector(0,0,-1).scale(_radius)).getZ().get());
+
         setMax(new Point3D(maxX,maxY,maxZ));
         setMin(new Point3D(minX,minY,minZ));
         setMiddle(new Point3D((maxX+minX)/2,(maxY+minY)/2,(maxZ+minZ)/2));
