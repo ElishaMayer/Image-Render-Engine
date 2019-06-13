@@ -5,9 +5,9 @@ package primitives;
  * Ray
  */
 public class Ray {
-
     private Point3D _point3D;
     private Vector _vector;
+    private static final double EPS = 0.1;
 
     /* ********* Constructors ***********/
 
@@ -22,6 +22,23 @@ public class Ray {
     public Ray(Point3D p, Vector vec) {
         _point3D = new Point3D(p);
         _vector = vec.normal();
+    }
+
+    /**
+     * A new Ray where the ray start point is moved by EPS on the
+     * noramal's line in direction with vec
+     *
+     * @param p the start point
+     * @param vec  the vector
+     * @param normal  the vector for start point movement
+     * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
+     * @see Vector#Vector(Point3D)
+     */
+    public Ray(Point3D p, Vector vec, Vector normal) {
+        _vector = vec.normal();
+        //add eps
+        Vector epsVector = normal.scale((normal.dotProduct(vec) > 0) ? EPS : -EPS);
+        _point3D = p.add(epsVector);
     }
 
     /**

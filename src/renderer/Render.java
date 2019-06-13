@@ -4,6 +4,7 @@ import elements.Camera;
 import elements.LightSource;
 import primitives.*;
 import scene.Scene;
+
 import static primitives.Util.*;
 import static geometries.Intersectable.GeoPoint;
 
@@ -19,14 +20,16 @@ import java.util.Random;
 public class Render {
     private static final double MIN_CALC_COLOR_K = 0.001;
     private static final double EPS = 0.1;
-    private static final int RECURSIVE_L = 10;
+    private static final int RECURSIVE_L = 7;
     private static final int RAY_BEAM = 20;
-
+    private static Random rand = new Random();
     // variables
     private ImageWriter _imageWriter;
-    private Scene _scene;
 
     /* ********* Constructors ***********/
+    private Scene _scene;
+
+    /* ************* Getters/Setters *******/
 
     /**
      * a new Render
@@ -39,8 +42,6 @@ public class Render {
         _scene = scene;
     }
 
-    /* ************* Getters/Setters *******/
-
     /**
      * Get image writer
      *
@@ -49,6 +50,8 @@ public class Render {
     public ImageWriter getImageWriter() {
         return _imageWriter;
     }
+
+    /* ************* Operations ***************/
 
     /**
      * Get scene
@@ -59,13 +62,11 @@ public class Render {
         return _scene;
     }
 
-    /* ************* Operations ***************/
-
     /**
      * render the scene into the imageWriter
      */
     public void renderImage() {
-
+        int cores = Runtime.getRuntime().availableProcessors();
         //variables
         int nx = _imageWriter.getNx();
         int ny = _imageWriter.getNy();
@@ -75,18 +76,18 @@ public class Render {
         double distance = _scene.getCameraDistance();
         java.awt.Color background = _scene.getBackground().getColor();
         double time = 0;
-        int whole = nx*ny;
+        int whole = nx * ny;
         int prev = 0;
-        long start = (long) (System.currentTimeMillis()/1000.0);
+        long start = (long) (System.currentTimeMillis() / 1000.0);
 
         //render image
         for (int i = 0; i < nx; i++) {
-            int pers = (int) ((++time/whole)*1000);
-            if( pers!=prev) {
-                System.out.println(pers / 10.0 + "%");
-                prev = pers;
-            }
             for (int j = 0; j < ny; j++) {
+                int pers = (int) ((++time / whole) * 1000);
+                if (pers != prev) {
+                    System.out.println(pers / 10.0 + "%");
+                    prev = pers;
+                }
                 Ray ray = camera.constructRayThroughPixel(nx, ny, i, j, distance, width, height);
                 GeoPoint intersection = getClosestPoint(ray);
                 _imageWriter.writePixel(i, j,
@@ -94,14 +95,14 @@ public class Render {
                                 calcColor(intersection, ray).getColor()); // intersection = calculate the right color
             }
         }
-        long end = (long) (System.currentTimeMillis()/1000.0);
-        int  elapsed = (int) ((end - start));
-        int hours = (int) (elapsed/600.0);
-        elapsed = elapsed%600;
-        int minuts = (int) (elapsed/60.0);
+        long end = (long) (System.currentTimeMillis() / 1000.0);
+        int elapsed = (int) ((end - start));
+        int hours = (int) (elapsed / 600.0);
+        elapsed = elapsed % 600;
+        int minuts = (int) (elapsed / 60.0);
         elapsed = elapsed % 60;
         int seconds = elapsed;
-        System.out.println(hours+"h "+minuts+"m "+seconds+"s");
+        System.out.println(hours + "h " + minuts + "m " + seconds + "s");
     }
 
     private Color calcBeamColor(double rad, Ray ray, Vector n, int level, double kk) {
@@ -177,9 +178,10 @@ public class Render {
             try {
                 // reflectedRay vector = v-2∙(v∙n)∙n
                 direction = newV.subtract(n.scale(2 * newV.dotProduct(n)));
-                Ray reflectedRay = new Ray(geopoint.point.add(direction), direction);
-                color = color.add(calcBeamColor(rr, reflectedRay,n,level,kkr).scale(kr));
-            } catch (Exception ignored) {}
+                Ray reflectedRay = new Ray(geopoint.point, direction, n);
+                color = color.add(calcBeamColor(rr, reflectedRay, n, level, kkr).scale(kr));
+            } catch (Exception ignored) {
+            }
         }
 
         // Recursive call for a refracted ray
@@ -188,8 +190,8 @@ public class Render {
         double kkt = k * kt;
         if (kkt > MIN_CALC_COLOR_K) {
             direction = newV;
-            Ray refractedRay = new Ray(geopoint.point.add(direction), direction);
-            color = color.add(calcBeamColor(rt, refractedRay,n,level,kkt).scale(kt));
+            Ray refractedRay = new Ray(geopoint.point, direction, n);
+            color = color.add(calcBeamColor(rt, refractedRay, n, level, kkt).scale(kt));
         }
 
         return color;
@@ -292,10 +294,7 @@ public class Render {
     private double transparency(Vector l, Vector n, GeoPoint geoPoint) {
         Vector lightDirection = l.scale(-1); //from point to light source
 
-        //add eps
-        Vector epsVector = n.scale((n.dotProduct(lightDirection) > 0) ? EPS : -EPS);
-        Point3D geometryPoint = geoPoint.point.add(epsVector);
-        Ray lightRay = new Ray(geometryPoint, lightDirection);
+        Ray lightRay = new Ray(geoPoint.point, lightDirection, n);
         List<GeoPoint> intersectionPoints = _scene.getGeometries().findIntersections(lightRay, l.getPoint3D().distance2(geoPoint.point));
 
         double ktr = 1;
@@ -303,8 +302,6 @@ public class Render {
             ktr *= gp.geometry.getMaterial().getKT();
         return ktr;
     }
-
-    private static Random rand = new Random();
 
     /**
      * Get Beam around ray
@@ -319,10 +316,10 @@ public class Render {
         Point3D p0 = ray.getPoint3D();
 
         //check that the ray and the normal are at the same side
-        if(dir.dotProduct(normal)<0)
+        if (dir.dotProduct(normal) < 0)
             normal = normal.scale(-1);
 
-        
+
         Vector xV = dir.buildOrthogonalVector();
         Vector yV = dir.crossProduct(xV);
 
@@ -333,10 +330,11 @@ public class Render {
             double yFactor = Math.sqrt(1 - xFactor * xFactor);
             Point3D p = pc;
             if (!isZero(xFactor))
-                p.add(xV.scale(xFactor));
+                p = p.add(xV.scale(xFactor));
             if (!isZero(yFactor))
-                p.add(yV.scale(yFactor));
-            Vector v = p.subtract(p0).scale((rand.nextDouble()*2 - 1)*radius);
+                p = p.add(yV.scale(yFactor));
+            p = pc.add(p.subtract(pc).scale((rand.nextDouble() * 2 - 1) * radius));
+            Vector v = p.subtract(p0);
             //if it isn't under the geometry then add
             if (v.dotProduct(normal) > 0)
                 beam.add(new Ray(p0, v));

@@ -107,18 +107,24 @@ public class Tube extends RadialGeometry implements InfiniteGeometry {
         Point3D pointB = _ray.getPoint3D();
         Vector vectorB = _ray.getVector();
 
+        ab = vectorA.dotProduct(vectorB);
+        //if is parallel to tube
+        if (Util.isOne(Math.abs(ab))) {
+            return EMPTY_LIST;
+        }
+
+        double bb = 1; // it is a unit vector therefore it's squared size is 1
+        double aa = 1;
+        double bc, ac;
         try {
             //Vector AB
             Vector c = pointB.subtract(pointA);
             //dot-product calc
-            ab = vectorA.dotProduct(vectorB);
-            double bc = vectorB.dotProduct(c);
-            double ac = vectorA.dotProduct(c);
-            double bb = vectorB.dotProduct(vectorB);
-            double aa = vectorA.dotProduct(vectorA);
+            bc = vectorB.dotProduct(c);
+            ac = vectorA.dotProduct(c);
 
             //The closest point on (A + t1a)
-            double t1 = (-ab * bc + ac * bb) / (aa * bb - ab * ab);
+            double t1 = (-ab * bc + ac * bb) / (/*aa * bb*/ 1 - ab * ab);
             try {
                 d = pointA.add(vectorA.scale(t1));
             } catch (Exception ex) {
@@ -126,8 +132,7 @@ public class Tube extends RadialGeometry implements InfiniteGeometry {
             }
 
             //The closest point on (B + t2b)
-            double t2 = (ab * ac - bc * aa) / (aa * bb - ab * ab);
-
+            double t2 = (ab * ac - bc * aa) / (/*aa * bb*/ 1 - ab * ab);
 
             try {
                 e = pointB.add(vectorB.scale(t2));
@@ -140,21 +145,17 @@ public class Tube extends RadialGeometry implements InfiniteGeometry {
 
         } catch (Exception ex) {
             //If A and B are the same
-            d = new Point3D(ray.getPoint3D());
-            ab = vectorA.dotProduct(vectorB);
+            d = ray.getPoint3D();
             dis = 0;
         }
-        //if is parallel to tube
-        if (Util.isOne(Math.abs(ab))) {
-            return EMPTY_LIST;
-        }
 
+        double diff = Util.alignZero(dis - _radius);
         //The ray doesn't touch the Tube
-        if (Util.usubtract(dis, _radius) > 0.0)
+        if ( diff > 0.0)
             return EMPTY_LIST;
 
         //The ray is tangent to the Tube
-        if (Util.usubtract(dis, _radius) == 0.0) {
+        if (diff == 0.0) {
             //The ray starts at the point
             if (d.equals(pointA)) {
                 List<GeoPoint> list = new ArrayList<>();
@@ -177,13 +178,13 @@ public class Tube extends RadialGeometry implements InfiniteGeometry {
          * We need to calculate the width
          */
         double width;
-        //if the ray is orthogonal to the tube
+        //Whether the ray is orthogonal to the tube?
         try {
             //sin's between (B + tb) and (A + ta) is |VxU|
             double sinA = vectorA.crossProduct(vectorB).length() ;
             //ellipse width
             width = _radius / sinA;
-        } catch (Exception ex) {
+        } catch (Exception ex) { // it is orthogonal
             width = _radius;
         }
         //ellipse equation x^2/k^2 + y^2 = _radius^2
@@ -210,7 +211,6 @@ public class Tube extends RadialGeometry implements InfiniteGeometry {
             list.add(new GeoPoint(this,p1));
         }
 
-
         try {
             //the ray starts before point 2
             if (!(p2.subtract(pointA).dotProduct(vectorA) < 0.0)) {
@@ -222,8 +222,6 @@ public class Tube extends RadialGeometry implements InfiniteGeometry {
         }
 
         return list;
-
     }
 
-    /* ************* Operations ***************/
 }
