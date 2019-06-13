@@ -386,21 +386,18 @@ public class Render {
         List<Ray> beam = new LinkedList<>();
         beam.add(new Ray(ray));
         Point3D start = ray.getPoint3D();
-        int error1 = 0;
+        Point3D middleP = middle.getPoint3D();
+        Point3D temp;
         do {
             try {
-                Point3D temp = new Point3D(middle.getPoint3D());
+                temp = new Point3D(middleP);
 
                 //get two random numbers in a circle with radius - 'radius'
                 double xS;
                 double yS;
-                int erorr =0;
                 do {
                     xS = -radius + rand.nextDouble() * 2 * radius;
                     yS = -radius + rand.nextDouble() * 2 * radius;
-                    erorr++;
-                    if(erorr>1000)
-                        return beam;
                 } while (xS * xS + yS * yS > radius * radius);
 
                 //add the points
@@ -414,9 +411,6 @@ public class Render {
                 if (v.dotProduct(normal) > 0)
                     beam.add(new Ray(start, v));
             } catch (Exception ignored) { }
-            error1++;
-            if(error1>1000)
-                return beam;
         } while (beam.size() < num);
         return beam;
     }
