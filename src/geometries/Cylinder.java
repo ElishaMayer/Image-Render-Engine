@@ -27,6 +27,7 @@ public class Cylinder extends Tube   {
         if (isZero(height) || height < 0)
             throw new IllegalArgumentException("Height is zero or negative");
         this._height = height;
+        setBorders();
     }
 
     /**
@@ -43,6 +44,7 @@ public class Cylinder extends Tube   {
         if (isZero(height) || height < 0)
             throw new IllegalArgumentException("Height is zero or negative");
         this._height = height;
+        setBorders();
     }
 
     /**
@@ -58,6 +60,7 @@ public class Cylinder extends Tube   {
         if (isZero(height) || height < 0)
             throw new IllegalArgumentException("Height is zero or negative");
         this._height = height;
+        setBorders();
     }
 
     /**

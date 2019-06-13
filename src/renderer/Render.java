@@ -322,6 +322,7 @@ public class Render {
         if(dir.dotProduct(normal)<0)
             normal = normal.scale(-1);
 
+        
         Vector xV = dir.buildOrthogonalVector();
         Vector yV = dir.crossProduct(xV);
 
