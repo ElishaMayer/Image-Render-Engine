@@ -11,7 +11,7 @@ public final class Coordinate {
      */
     public static Coordinate ZERO = new Coordinate(0.0);
     //private static final double EPSILON = 0.0000001;
-    private double _coord;
+    double _coord;
 
     /* ********* Constructors ***********/
     /**

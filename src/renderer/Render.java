@@ -2,18 +2,16 @@ package renderer;
 
 import elements.Camera;
 import elements.LightSource;
-import primitives.Color;
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
 import scene.Scene;
+import static primitives.Util.*;
+import static geometries.Intersectable.GeoPoint;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
+import java.util.LinkedList;
 import java.util.Random;
 
-import static geometries.Intersectable.GeoPoint;
 
 /**
  * Render class (makes a bitmap picture from the scene)
@@ -21,10 +19,8 @@ import static geometries.Intersectable.GeoPoint;
 public class Render {
     private static final double MIN_CALC_COLOR_K = 0.001;
     private static final double EPS = 0.1;
-    private static final int RECURSIVE_L = 5;
-    private static final int RAY_BEAM = 10;
-
-
+    private static final int RECURSIVE_L = 10;
+    private static final int RAY_BEAM = 20;
 
     // variables
     private ImageWriter _imageWriter;
@@ -85,14 +81,14 @@ public class Render {
 
         //render image
         for (int i = 0; i < nx; i++) {
+            int pers = (int) ((++time/whole)*1000);
+            if( pers!=prev) {
+                System.out.println(pers / 10.0 + "%");
+                prev = pers;
+            }
             for (int j = 0; j < ny; j++) {
-                int pers = (int) ((++time/whole)*1000);
-                if( pers!=prev) {
-                    System.out.println(pers / 10.0 + "%");
-                    prev = pers;
-                }
                 Ray ray = camera.constructRayThroughPixel(nx, ny, i, j, distance, width, height);
-                GeoPoint intersection = getClosestPoint(getSceneIntersections(ray, -1));
+                GeoPoint intersection = getClosestPoint(ray);
                 _imageWriter.writePixel(i, j,
                         intersection == null ? background : // no intersection = background color
                                 calcColor(intersection, ray).getColor()); // intersection = calculate the right color
@@ -106,7 +102,23 @@ public class Render {
         elapsed = elapsed % 60;
         int seconds = elapsed;
         System.out.println(hours+"h "+minuts+"m "+seconds+"s");
+    }
 
+    private Color calcBeamColor(double rad, Ray ray, Vector n, int level, double kk) {
+        if (rad != 0) {
+            Color sum = Color.BLACK;
+            List<Ray> beam = getBeam(ray, n, rad);
+            for (Ray beamRay : beam) {
+                GeoPoint gp = getClosestPoint(beamRay);
+                if (gp != null) {
+                    sum = sum.add(calcColor(gp, beamRay, level - 1, kk));
+                }
+            }
+            return sum.scale(1.0 / beam.size());
+        } else {
+            GeoPoint gp = getClosestPoint(ray);
+            return gp == null ? Color.BLACK : calcColor(gp, ray, level - 1, kk);
+        }
     }
 
     /**
@@ -156,7 +168,6 @@ public class Render {
         }
 
         // Recursive call for a reflected ray
-        Color sum = new Color(0,0,0);
         double kr = geopoint.geometry.getMaterial().getKR();
         double rr = geopoint.geometry.getMaterial().getRR();
         Vector direction;
@@ -167,50 +178,18 @@ public class Render {
                 // reflectedRay vector = v-2∙(v∙n)∙n
                 direction = newV.subtract(n.scale(2 * newV.dotProduct(n)));
                 Ray reflectedRay = new Ray(geopoint.point.add(direction), direction);
-
-                if(rr!=0) {
-                    List<Ray> beam = getBeam(reflectedRay, n, rr, RAY_BEAM);
-                    for (Ray beamRay : beam) {
-                        GeoPoint reflectedPoint = getClosestPoint(getSceneIntersections(beamRay, -1));
-                        if (reflectedPoint != null) {
-                            sum = sum.add(calcColor(reflectedPoint, beamRay, level - 1, kkr).scale(kr));
-                        }
-                    }
-                    color = color.add(sum.scale(1.0 / beam.size()));
-
-                }else{
-                    GeoPoint reflectedPoint = getClosestPoint(getSceneIntersections(reflectedRay, -1));
-                    if (reflectedPoint != null) {
-                        color = color.add(calcColor(reflectedPoint, reflectedRay, level - 1, kkr).scale(kr));
-                    }
-                }
-            } catch (Exception ignored) {
-            }
+                color = color.add(calcBeamColor(rr, reflectedRay,n,level,kkr).scale(kr));
+            } catch (Exception ignored) {}
         }
 
         // Recursive call for a refracted ray
-        sum = new Color(0,0,0);
         double kt = geopoint.geometry.getMaterial().getKT();
         double rt = geopoint.geometry.getMaterial().getRT();
         double kkt = k * kt;
         if (kkt > MIN_CALC_COLOR_K) {
             direction = newV;
             Ray refractedRay = new Ray(geopoint.point.add(direction), direction);
-
-            if(rt!=0) {
-                List<Ray> beam = getBeam(refractedRay, n, rt, RAY_BEAM);
-                for (Ray beamRay : beam) {
-                    GeoPoint refractedPoint = getClosestPoint(getSceneIntersections(beamRay, -1));
-                    if (refractedPoint != null)
-                        sum = sum.add(calcColor(refractedPoint, beamRay, level - 1, kkt).scale(kt));
-                }
-                color = color.add(sum.scale(1.0/beam.size()));
-
-            }else{
-                GeoPoint refractedPoint = getClosestPoint(getSceneIntersections(refractedRay, -1));
-                if (refractedPoint != null)
-                    color = color.add(calcColor(refractedPoint, refractedRay, level - 1, kkt).scale(kt));
-            }
+            color = color.add(calcBeamColor(rt, refractedRay,n,level,kkt).scale(kt));
         }
 
         return color;
@@ -259,13 +238,14 @@ public class Render {
     /**
      * find the point with the minimal distance from the camera from the given intersection points list
      *
-     * @param list the intersection points with a ray in the scene
+     * @param ray ...
      * @return the closet point to the camera, or null if there are no intersection points
      */
-    private GeoPoint getClosestPoint(List<GeoPoint> list) {
-        Point3D p = _scene.getCamera().getP0();
+    private GeoPoint getClosestPoint(Ray ray) {
+        List<GeoPoint> list = _scene.getGeometries().findIntersections(ray);
+        Point3D p = ray.getPoint3D();
 
-        if (list.size() == 0)
+        if (list.isEmpty())
             return null;
         GeoPoint pToReturn = list.get(0);
         if (list.size() == 1)
@@ -316,8 +296,7 @@ public class Render {
         Vector epsVector = n.scale((n.dotProduct(lightDirection) > 0) ? EPS : -EPS);
         Point3D geometryPoint = geoPoint.point.add(epsVector);
         Ray lightRay = new Ray(geometryPoint, lightDirection);
-        List<GeoPoint> intersectionPoints =
-                getSceneIntersections(lightRay, l.getPoint3D().distance2(geoPoint.point));
+        List<GeoPoint> intersectionPoints = _scene.getGeometries().findIntersections(lightRay, l.getPoint3D().distance2(geoPoint.point));
 
         double ktr = 1;
         for (GeoPoint gp : intersectionPoints)
@@ -325,25 +304,7 @@ public class Render {
         return ktr;
     }
 
-    /**
-     * get all scene intersections with ray
-     *
-     * @param ray       the ray
-     * @param distance2 the max distance. if -1 then returns all.
-     * @return list with intersections
-     */
-    private List<GeoPoint> getSceneIntersections(Ray ray, double distance2) {
-        List<GeoPoint> intersections = _scene.getGeometries().findIntersections(ray);
-        if (distance2 == -1)
-            return intersections;
-        List<GeoPoint> filteredIntersections = new LinkedList<>();
-        for (GeoPoint point : intersections) {
-            if (ray.getPoint3D().distance2(point.point) <= distance2) {
-                filteredIntersections.add(point);
-            }
-        }
-        return filteredIntersections;
-    }
+    private static Random rand = new Random();
 
     /**
      * Get Beam around ray
@@ -351,73 +312,34 @@ public class Render {
      * @param ray    the ray
      * @param normal normal of the object
      * @param radius radius of the top of the beam
-     * @param num    number of rays in beam
      * @return list of rays (beam)
      */
-    public List<Ray> getBeam(Ray ray, Vector normal, double radius, int num) {
-        Vector middle = ray.getVector();
+    public List<Ray> getBeam(Ray ray, Vector normal, double radius) {
+        Vector dir = ray.getVector();
+        Point3D p0 = ray.getPoint3D();
 
         //check that the ray and the normal are at the same side
-        if(middle.dotProduct(normal)<0)
+        if(dir.dotProduct(normal)<0)
             normal = normal.scale(-1);
 
-        //get a random vector not parallel to middle
-        Vector[] vectors = {
-                new Vector(0, 0, 1),
-                new Vector(0, 1, 0),
-                new Vector(1, 0, 0),
-                new Vector(0, 0, -1),
-                new Vector(0, -1, 0),
-                new Vector(-1, 0, 0)};
-        Vector randV = new Vector(middle);
-        int i = 0;
+        Vector xV = dir.buildOrthogonalVector();
+        Vector yV = dir.crossProduct(xV);
+
+        Point3D pc = p0.add(dir); // point 1 size far from the beginning of the ray
+        List<Ray> beam = new LinkedList<>(Collections.singletonList(ray));
         do {
-            try {
-                randV = randV.add(vectors[i++]).normal();
-            } catch (Exception ignored) { }
-        } while (Math.abs(middle.dotProduct(randV)) == 1.0);
-
-        //get two orthogonal vectors to middle
-        Vector xV = middle.crossProduct(randV).normal();
-        Vector yV = middle.crossProduct(xV).normal();
-
-        //get vectors
-        Random rand = new Random();
-        List<Ray> beam = new LinkedList<>();
-        beam.add(new Ray(ray));
-        Point3D start = ray.getPoint3D();
-        int error1 = 0;
-        do {
-            try {
-                Point3D temp = new Point3D(middle.getPoint3D());
-
-                //get two random numbers in a circle with radius - 'radius'
-                double xS;
-                double yS;
-                int erorr =0;
-                do {
-                    xS = -radius + rand.nextDouble() * 2 * radius;
-                    yS = -radius + rand.nextDouble() * 2 * radius;
-                    erorr++;
-                    if(erorr>1000)
-                        return beam;
-                } while (xS * xS + yS * yS > radius * radius);
-
-                //add the points
-                temp = temp.add(xV.scale(xS));
-                temp = temp.add(yV.scale(yS));
-
-                //get the vector
-                Vector v = new Vector(temp);
-
-                //if it isn't under the geometry the add
-                if (v.dotProduct(normal) > 0)
-                    beam.add(new Ray(start, v));
-            } catch (Exception ignored) { }
-            error1++;
-            if(error1>1000)
-                return beam;
-        } while (beam.size() < num);
+            double xFactor = rand.nextDouble() * 2 - 1;
+            double yFactor = Math.sqrt(1 - xFactor * xFactor);
+            Point3D p = pc;
+            if (!isZero(xFactor))
+                p.add(xV.scale(xFactor));
+            if (!isZero(yFactor))
+                p.add(yV.scale(yFactor));
+            Vector v = p.subtract(p0).scale((rand.nextDouble()*2 - 1)*radius);
+            //if it isn't under the geometry then add
+            if (v.dotProduct(normal) > 0)
+                beam.add(new Ray(p0, v));
+        } while (beam.size() < RAY_BEAM);
         return beam;
     }
 }

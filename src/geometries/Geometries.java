@@ -10,7 +10,7 @@ import java.util.*;
 /**
  * A container for Geometries (Intersectables)
  */
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
 
     private List<Intersectable> _geometries = new ArrayList<>();
 
@@ -43,15 +43,6 @@ public class Geometries implements Intersectable {
         return _geometries;
     }
 
-
-    /**
-     * Intersections of all Geometries with ray
-     *
-     * @param ray The ray
-     * @return List of intersections (Points)
-     * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
-     * @see Ray#Ray(Point3D, Vector)
-     */
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
         List<GeoPoint> list = new ArrayList<>();

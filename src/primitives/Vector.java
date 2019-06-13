@@ -6,6 +6,13 @@ package primitives;
 public class Vector {
     private Point3D _point3D;
 
+    public static final Vector X = new Vector(1,0,0);
+    public static final Vector Y = new Vector(0,1,0);
+    public static final Vector Z = new Vector(0,0,1);
+    public static final Vector MINUS_X = new Vector(-1,0,0);
+    public static final Vector MINUS_Y = new Vector(0,-1,0);
+    public static final Vector MINUS_Z = new Vector(0,0,-1);
+
     /* ********* Constructors ***********/
     /**
      * A new vector
@@ -160,11 +167,23 @@ public class Vector {
      */
     public Vector normal() {
         double len = length();
+        return new Vector(
+                _point3D._x._coord / len,
+                _point3D._y._coord / len,
+                _point3D._z._coord / len);
+    }
 
-        return new Vector(new Point3D(
-                _point3D.getX().scale(1 / len),
-                _point3D.getY().scale(1 / len),
-                _point3D.getZ().scale(1 / len)));
+    /**
+     * normalize the vector
+     *
+     * @return the vector itself
+     */
+    public Vector normalize() {
+        double len = length();
+        _point3D = new Point3D(_point3D._x._coord / len,
+                _point3D._y._coord / len,
+                _point3D._z._coord / len);
+        return this;
     }
 
     /**
@@ -182,5 +201,22 @@ public class Vector {
                 numbers[1][0].multiply(x).add(numbers[1][1].multiply(y)).add(numbers[1][2].multiply(z)),
                 numbers[2][0].multiply(x).add(numbers[2][1].multiply(y)).add(numbers[2][2].multiply(z))
         ));
+    }
+
+    /**
+     * Builds an orthogonal vector of size 1
+     * @return new orthogonal vector
+     */
+    public Vector buildOrthogonalVector() {
+        double x = _point3D.getX().get();
+        double y = _point3D.getY().get();
+        double z = _point3D.getZ().get();
+        if (x <= y && x <= z) { // x is the smallest
+            return new Vector(0, z, -y).normalize();
+        } else if (y <= z) {
+            return new Vector(z, 0, -x).normalize();
+        } else {
+            return new Vector(y, -x, 0).normalize();
+        }
     }
 }

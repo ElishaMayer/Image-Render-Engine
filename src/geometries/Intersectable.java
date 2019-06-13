@@ -12,7 +12,7 @@ import java.util.Objects;
 /**
  * An Intersectable interface
  */
-public interface Intersectable {
+public abstract class Intersectable {
     /**
      * All intersections between the ray and the object
      * @param ray The ray
@@ -20,15 +20,31 @@ public interface Intersectable {
      * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
      * @see Ray#Ray(Point3D, Vector)
      */
-    List<GeoPoint> findIntersections(Ray ray);
+    public abstract List<GeoPoint> findIntersections(Ray ray);
+
+    /**
+     * All intersections between the ray and the object
+     * @param ray The ray
+     * @param distance2 max distance for intersections (squared)
+     * @return List of intersections (Points)
+     * @see Point3D#Point3D(Coordinate, Coordinate, Coordinate)
+     * @see Ray#Ray(Point3D, Vector)
+     */
+    public List<GeoPoint> findIntersections(Ray ray, double distance2) {
+        List<GeoPoint> intersections = findIntersections(ray);
+        if (distance2 != -1) {
+            Point3D p0 = ray.getPoint3D();
+            intersections.removeIf(gp -> p0.distance2(gp.point) > distance2);
+        }
+        return intersections;
+    }
 
     /**
      * An empty list
      */
     List<GeoPoint> EMPTY_LIST = new ArrayList<>();
 
-
-    static class GeoPoint {
+    public static class GeoPoint {
         public Geometry geometry;
         public Point3D point;
 
