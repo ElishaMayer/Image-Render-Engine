@@ -26,7 +26,7 @@ public class Ray {
 
     /**
      * A new Ray where the ray start point is moved by EPS on the
-     * noramal's line in direction with vec
+     * normal's line in direction with vec
      *
      * @param p the start point
      * @param vec  the vector

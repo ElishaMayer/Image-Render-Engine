@@ -38,6 +38,7 @@ public class SAXHandler extends DefaultHandler {
                 _imageWriter = new ImageWriter(_scene.getName(), width, heigth, width, heigth);
             }
             break;
+
             //Create new light
             case "ambient-light":{
                 double[] colors = parse3Numbers(attributes.getValue("color"));
@@ -211,6 +212,11 @@ public class SAXHandler extends DefaultHandler {
                 }
             }
             break;
+
+            // set number of rays in beam (default 20)
+            case "rays-beam":{
+                _scene.setBeamRaysAmount(Integer.parseInt(attributes.getValue("num")));
+            }
 
             //get rotation
             case "rotate": {
