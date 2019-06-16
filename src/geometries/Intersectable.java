@@ -13,6 +13,62 @@ import java.util.Objects;
  * An Intersectable interface
  */
 public abstract class Intersectable {
+    private Point3D _minimum;
+    private Point3D _maximum;
+    private Point3D _middle;
+
+    /* ************* Getters/Setters *******/
+
+    /**
+     * get maximum point
+     * @return 3d point
+     */
+    public Point3D getMax(){
+        return _maximum;
+    }
+
+    /**
+     * get minimum point
+     * @return 3d point
+     */
+    public Point3D getMin(){
+        return  _minimum;
+    }
+
+    /**
+     * Set minimum
+     * @param m point
+     */
+    public void setMin(Point3D m){
+        _minimum = new Point3D(m);
+    }
+
+    /**
+     * Set maximum
+     * @param m point
+     */
+    public void setMax(Point3D m){
+        _maximum = new Point3D(m);
+    }
+
+    /**
+     * Get middle point
+     * @return point
+     */
+    public Point3D getMiddle() {
+        return _middle;
+    }
+
+    /**
+     * set middle point
+     * @param middle point
+     */
+    public void setMiddle(Point3D middle) {
+        this._middle = new Point3D(middle);
+    }
+
+    /* ************* Operators *******/
+
     /**
      * All intersections between the ray and the object
      * @param ray The ray
@@ -37,6 +93,65 @@ public abstract class Intersectable {
             intersections.removeIf(gp -> p0.distance2(gp.point) > distance2);
         }
         return intersections;
+    }
+
+    /**
+     * Check if ray intersects box
+     * @param ray the ray
+     * @return boolean
+     */
+    public boolean intersects(Ray ray) {
+        double tmin, tmax, tymin, tymax, tzmin, tzmax;
+
+        Point3D max = getMax();
+        Point3D min = getMin();
+
+        Point3D dir = ray.getVector().getPoint3D();
+        Point3D origin = ray.getPoint3D();
+
+        double divx = 1/dir.getX().get();
+        double divy = 1/dir.getY().get();
+
+        if (ray.getVector().getPoint3D().getX().get()>=0){
+            tmin = min.getX().subtract(origin.getX()).scale(divx).get();
+            tmax = max.getX().subtract(origin.getX()).scale(divx).get();
+        }else{
+            tmax = min.getX().subtract(origin.getX()).scale(divx).get();
+            tmin = max.getX().subtract(origin.getX()).scale(divx).get();
+
+        }
+        if (ray.getVector().getPoint3D().getY().get()>=0){
+            tymin = min.getY().subtract(origin.getY()).scale(divy).get();
+            tymax = max.getY().subtract(origin.getY()).scale(divy).get();
+        }else{
+            tymax = min.getY().subtract(origin.getY()).scale(divy).get();
+            tymin = max.getY().subtract(origin.getY()).scale(divy).get();
+
+        }
+
+        if ( (tmin > tymax) || (tymin > tmax) )
+            return false;
+
+        if (tymin > tmin)
+            tmin = tymin;
+        if (tymax < tmax)
+            tmax = tymax;
+
+        double divz = 1/dir.getZ().get();
+
+        if (ray.getVector().getPoint3D().getZ().get()>=0){
+            tzmin = min.getZ().subtract(origin.getZ()).scale(divz).get();
+            tzmax = max.getZ().subtract(origin.getZ()).scale(divz).get();
+        }else{
+            tzmax = min.getZ().subtract(origin.getZ()).scale(divz).get();
+            tzmin = max.getZ().subtract(origin.getZ()).scale(divz).get();
+        }
+        if ( (tmin > tzmax) || (tzmin > tmax) )
+            return false;
+
+        if (tzmax < tmax)
+            tmax = tzmax;
+        return (tmax >= 0);
     }
 
     /**
