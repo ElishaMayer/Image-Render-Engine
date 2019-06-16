@@ -145,32 +145,36 @@ public class Square extends Plane {
      */
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
-        List<GeoPoint> intersections =  super.findIntersections(ray);
-        if(intersections.isEmpty())
+        if(intersects(ray)) {
+            List<GeoPoint> intersections = super.findIntersections(ray);
+            if (intersections.isEmpty())
+                return intersections;
+            Point3D intsPoint = intersections.get(0).point;
+            intersections.clear();
+            Vector vector = ray.getVector();
+            Point3D startPoint = ray.getPoint3D().subtract(ray.getVector());
+
+            Vector v1 = _point1.subtract(startPoint);
+            Vector v2 = _point2.subtract(startPoint);
+            Vector v3 = _point3.subtract(startPoint);
+            Vector v4 = _point4.subtract(startPoint);
+
+            Vector n1 = v1.crossProduct(v2);
+            Vector n2 = v2.crossProduct(v3);
+            Vector n3 = v3.crossProduct(v4);
+            Vector n4 = v4.crossProduct(v1);
+
+            double sign1 = vector.dotProduct(n1);
+            double sign2 = vector.dotProduct(n2);
+            double sign3 = vector.dotProduct(n3);
+            double sign4 = vector.dotProduct(n4);
+
+            if ((sign1 > 0 && sign2 > 0 && sign3 > 0 && sign4 > 0) || (sign1 < 0 && sign2 < 0 && sign3 < 0 && sign4 < 0)) {
+                intersections.add(new GeoPoint(this, intsPoint));
+            }
             return intersections;
-        Point3D intsPoint = intersections.get(0).point;
-        intersections.clear();
-        Vector vector = ray.getVector();
-        Point3D startPoint = ray.getPoint3D().subtract(ray.getVector());
-
-        Vector v1 = _point1.subtract(startPoint);
-        Vector v2 = _point2.subtract(startPoint);
-        Vector v3 = _point3.subtract(startPoint);
-        Vector v4 = _point4.subtract(startPoint);
-
-        Vector n1 = v1.crossProduct(v2);
-        Vector n2 = v2.crossProduct(v3);
-        Vector n3 = v3.crossProduct(v4);
-        Vector n4 = v4.crossProduct(v1);
-
-        double sign1 = vector.dotProduct(n1);
-        double sign2 = vector.dotProduct(n2);
-        double sign3 = vector.dotProduct(n3);
-        double sign4 = vector.dotProduct(n4);
-
-        if((sign1>0&&sign2>0&&sign3>0&&sign4>0)||(sign1<0&&sign2<0&&sign3<0&&sign4<0)){
-            intersections.add(new GeoPoint(this,intsPoint));
+        }else{
+            return EMPTY_LIST;
         }
-        return intersections;
     }
 }

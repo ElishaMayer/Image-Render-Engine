@@ -109,13 +109,17 @@ public class Cube extends Geometry {
      */
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
-        List<GeoPoint> intersections = _geometries.findIntersections(ray);
-        if(intersections.isEmpty())
-            return  intersections;
-        List<GeoPoint> returnInts = new ArrayList<>();
-        for(GeoPoint geoPoint:intersections){
-            returnInts.add(new GeoPoint(this,geoPoint.point));
+        if(intersects(ray)) {
+            List<GeoPoint> intersections = _geometries.findIntersections(ray);
+            if (intersections.isEmpty())
+                return intersections;
+            List<GeoPoint> returnInts = new ArrayList<>();
+            for (GeoPoint geoPoint : intersections) {
+                returnInts.add(new GeoPoint(this, geoPoint.point));
+            }
+            return returnInts;
+        }else{
+            return EMPTY_LIST;
         }
-        return returnInts;
     }
 }

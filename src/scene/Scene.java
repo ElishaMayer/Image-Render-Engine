@@ -5,6 +5,7 @@ import elements.Camera;
 import elements.LightSource;
 import geometries.Geometries;
 import geometries.Geometry;
+import geometries.Intersectable;
 import primitives.Color;
 
 import java.util.ArrayList;
@@ -130,7 +131,7 @@ public class Scene {
      * add one or more geometries
      * @param geometries
      */
-    public void addGeometries(Geometry... geometries) {
+    public void addGeometries(Intersectable... geometries) {
         _geometries.add(geometries);
     }
 

@@ -20,8 +20,8 @@ import java.util.Random;
 public class Render {
     private static final double MIN_CALC_COLOR_K = 0.001;
     private static final double EPS = 0.1;
-    private static final int RECURSIVE_L = 7;
-    private static final int RAY_BEAM = 20;
+    private static final int RECURSIVE_L = 5;
+    private static final int RAY_BEAM = 10;
     private static Random rand = new Random();
     // variables
     private ImageWriter _imageWriter;

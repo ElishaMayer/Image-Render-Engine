@@ -77,13 +77,13 @@ public class Cylinder extends Tube   {
         double maxY = upperPoint.add(new Vector(0,1,0).scale(_radius)).getY().get();
         maxY =Math.max( maxY,underPoint.add(new Vector(0,1,0).scale(_radius)).getY().get());
         double maxZ = upperPoint.add(new Vector(0,0,1).scale(_radius)).getZ().get();
-        maxZ = Math.max(maxZ,upperPoint.add(new Vector(0,0,1).scale(_radius)).getZ().get());
+        maxZ = Math.max(maxZ,underPoint.add(new Vector(0,0,1).scale(_radius)).getZ().get());
 
-        double minX = underPoint.add(new Vector(-1,0,0).scale(_radius)).getX().get();
+        double minX = upperPoint.add(new Vector(-1,0,0).scale(_radius)).getX().get();
         minX = Math.min(minX,underPoint.add(new Vector(-1,0,0).scale(_radius)).getX().get());
-        double minY = underPoint.add(new Vector(0,-1,0).scale(_radius)).getY().get();
+        double minY = upperPoint.add(new Vector(0,-1,0).scale(_radius)).getY().get();
         minY = Math.min(minY,underPoint.add(new Vector(0,-1,0).scale(_radius)).getY().get());
-        double minZ = underPoint.add(new Vector(0,0,-1).scale(_radius)).getZ().get();
+        double minZ = upperPoint.add(new Vector(0,0,-1).scale(_radius)).getZ().get();
         minZ = Math.min(minZ,underPoint.add(new Vector(0,0,-1).scale(_radius)).getZ().get());
 
         setMax(new Point3D(maxX,maxY,maxZ));
@@ -141,37 +141,41 @@ public class Cylinder extends Tube   {
      */
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
-        List<GeoPoint> list = new ArrayList<>();
-        Point3D rayP = _ray.getPoint3D();
-        Vector rayV = _ray.getVector();
+        if(intersects(ray)) {
+            List<GeoPoint> list = new ArrayList<>();
+            Point3D rayP = _ray.getPoint3D();
+            Vector rayV = _ray.getVector();
 
-        //get tube intersections
-        for (GeoPoint p : super.findIntersections(ray)) {
-            double d = Math.abs(rayV.dotProduct(p.point.subtract(rayP)));
-            //if point is in the range
-            if (Util.usubtract(_height / 2, d) >= 0.0)
-                list.add(new GeoPoint(this,p.point));
+            //get tube intersections
+            for (GeoPoint p : super.findIntersections(ray)) {
+                double d = Math.abs(rayV.dotProduct(p.point.subtract(rayP)));
+                //if point is in the range
+                if (Util.usubtract(_height / 2, d) >= 0.0)
+                    list.add(new GeoPoint(this, p.point));
+            }
+
+            //get upper plane intersections
+            Point3D upperPoint = rayP.add(rayV.scale(_height / 2));
+            Plane upperPlane = new Plane(upperPoint, rayV);
+            for (GeoPoint p : upperPlane.findIntersections(ray)) {
+                //if point is in the range
+                if (Util.usubtract(_radius, upperPoint.distance(p.point)) >= 0)
+                    list.add(new GeoPoint(this, p.point));
+            }
+
+            //get under plane intersections
+            Point3D underPoint = rayP.subtract(rayV.scale(_height / 2));
+            Plane underPlane = new Plane(underPoint, rayV);
+            for (GeoPoint p : underPlane.findIntersections(ray)) {
+                //if point is in the range
+                if (Util.usubtract(_radius, underPoint.distance(p.point)) >= 0)
+                    list.add(new GeoPoint(this, p.point));
+            }
+
+            return list;
+        }else{
+            return EMPTY_LIST;
         }
-
-        //get upper plane intersections
-        Point3D upperPoint = rayP.add(rayV.scale(_height / 2));
-        Plane upperPlane = new Plane(upperPoint, rayV);
-        for (GeoPoint p : upperPlane.findIntersections(ray)) {
-            //if point is in the range
-            if (Util.usubtract(_radius, upperPoint.distance(p.point)) >= 0)
-                list.add(new GeoPoint(this,p.point));
-        }
-
-        //get under plane intersections
-        Point3D underPoint = rayP.subtract(rayV.scale(_height / 2));
-        Plane underPlane = new Plane(underPoint, rayV);
-        for (GeoPoint p : underPlane.findIntersections(ray)) {
-            //if point is in the range
-            if (Util.usubtract(_radius, underPoint.distance(p.point)) >= 0)
-                list.add(new GeoPoint(this,p.point));
-        }
-
-        return list;
     }
 
 }

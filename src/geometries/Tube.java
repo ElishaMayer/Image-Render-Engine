@@ -94,7 +94,6 @@ public class Tube extends RadialGeometry implements InfiniteGeometry {
      */
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
-
         Point3D d;
         Point3D e;
         double dis;

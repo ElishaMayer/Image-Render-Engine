@@ -13,7 +13,7 @@ import java.util.List;
  * Box to contain geometries
  */
 public class Box extends Intersectable{
-    private List<Geometry> _geometries;
+    private List<Intersectable> _geometries;
 
     /* ********* Constructors ***********/
 
@@ -26,16 +26,16 @@ public class Box extends Intersectable{
      * A new Box
      * @param geometries geometries in box
      */
-    public Box(List<Geometry> geometries) {
+    public Box(List<Intersectable> geometries) {
         _geometries =new ArrayList<>(geometries);
         if(!_geometries.isEmpty()) {
             Coordinate maxX = _geometries.stream().max(Comparator.comparing(x-> x.getMax().getX().get())).get().getMax().getX();
             Coordinate maxY = _geometries.stream().max(Comparator.comparing(x-> x.getMax().getY().get())).get().getMax().getY();
             Coordinate maxZ = _geometries.stream().max(Comparator.comparing(x-> x.getMax().getZ().get())).get().getMax().getZ();
             setMax(new Point3D(maxX,maxY,maxZ));
-            Coordinate minX = _geometries.stream().min(Comparator.comparing(x-> x.getMax().getX().get())).get().getMax().getX();
-            Coordinate minY = _geometries.stream().min(Comparator.comparing(x-> x.getMax().getY().get())).get().getMax().getY();
-            Coordinate minZ = _geometries.stream().min(Comparator.comparing(x-> x.getMax().getZ().get())).get().getMax().getZ();
+            Coordinate minX = _geometries.stream().min(Comparator.comparing(x-> x.getMin().getX().get())).get().getMin().getX();
+            Coordinate minY = _geometries.stream().min(Comparator.comparing(x-> x.getMin().getY().get())).get().getMin().getY();
+            Coordinate minZ = _geometries.stream().min(Comparator.comparing(x-> x.getMin().getZ().get())).get().getMin().getZ();
             setMin(new Point3D(minX,minY,minZ));
             setMiddle(new Point3D(
                     maxX.add(minX).scale(0.5),
@@ -51,7 +51,7 @@ public class Box extends Intersectable{
      * Get all geometries
      * @return list of geometries
      */
-    public List<Geometry> getGeometries() {
+    public List<Intersectable> getGeometries() {
         return _geometries;
     }
 

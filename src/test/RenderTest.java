@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static junit.framework.TestCase.fail;
@@ -180,15 +182,28 @@ public class RenderTest {
 		scene.addGeometries(new Cylinder(25,new Point3D(-1400,225,-2320), new Point3D(-1400,225,-400),new Material(0.5,0.5,100,0,0),new Color(0,0,0)));
 		scene.addGeometries(new Sphere(25,new Point3D(600,225,-400),new Material(0.5,0.5,100,0,0),new Color(0,0,0)));
 		scene.addGeometries(new Sphere(25,new Point3D(-1400,225,-400),new Material(0.5,0.5,100,0,0),new Color(0,0,0)));
-		scene.addGeometries(new Plane(new Point3D(670,225,-400),new Vector(1,0,0),new Material(0.5,0.5,100,0.8,0,0.015,0),new Color(20,20,20)));
-		scene.addGeometries(new Plane(new Point3D(-1470,225,-400),new Vector(1,0,0),new Material(0.5,0.5,100,0.8,0,0.015,0),new Color(20,20,20)));
-		scene.addGeometries(new Plane(new Point3D(-1400,225,-2390),new Vector(0,0,1),new Material(0,0,100,0,0),new Color(0,0,0)));
+	//	scene.addGeometries(new Plane(new Point3D(670,225,-400),new Vector(1,0,0),new Material(0.5,0.5,100,0.8,0,0.015,0),new Color(20,20,20)));
+	//	scene.addGeometries(new Plane(new Point3D(-1470,225,-400),new Vector(1,0,0),new Material(0.5,0.5,100,0.8,0,0.015,0),new Color(20,20,20)));
+	//	scene.addGeometries(new Plane(new Point3D(-1400,225,-2390),new Vector(0,0,1),new Material(0,0,100,0,0),new Color(0,0,0)));
+		scene.addGeometries(new Square(new Point3D(670,200,200),new Point3D(670,200,-2320),new Point3D(670,-1000,-2320),new Point3D(670,-1000,200),new Material(0.1,0.1,100,0.67,0,0.01,0),new Color(20,20,20)));
+		scene.addGeometries(new Square(new Point3D(-1470,200,200),new Point3D(-1470,200,-2320),new Point3D(-1470,-1000,-2320),new Point3D(-1470,-1000,200),new Material(0.1,0.1,100,0.67,0,0.01,0),new Color(20,20,20)));
 
+		Intersectable list[][] =new Intersectable[20][5];
+		List<Intersectable> list1 = new ArrayList<>();
+		int w=0;
 		for(int i=0;i<10;i++){
-			for(int j=0;j<10;j++){
-				scene.addGeometries(new Sphere(100,new Point3D(500-i*200,100,-(500+j*200)),new Material(0.5,0.5,1000,0.2,0),new Color(	Math.random()*100,Math.random()*100,Math.random()*100)));
+			for(int j=0;j<5;j++){
+				list[w][j] = new Sphere(100,new Point3D(500-i*200,100,-(500+j*200)),new Material(0.5,0.5,1000,0.2,0),new Color(	Math.random()*100,Math.random()*100,Math.random()*100));
 			}
+			list1.add(new Box(Arrays.asList(list[w])));
+			w++;
+			for(int j=5;j<10;j++){
+				list[w][j-5] = new Sphere(100,new Point3D(500-i*200,100,-(500+j*200)),new Material(0.5,0.5,1000,0.2,0),new Color(	Math.random()*100,Math.random()*100,Math.random()*100));
+			}
+			list1.add(new Box(Arrays.asList(list[w])));
+			w++;
 		}
+		scene.addGeometries(new Box(list1));
 		ImageWriter imw = new ImageWriter("images\\IMG_0021_Balls",500,300,2000,1200);
 		Render rn = new Render(imw,scene);
 		rn.renderImage();
