@@ -35,6 +35,6 @@ public class loadScene {
 
         if(!handler.version.equals("1.0"))
             throw new IllegalArgumentException("Wrong xml version");
-        return new Render(handler._imageWriter, handler._scene);
+        return new Render(handler._imageWriter, handler._scene,handler._optimised);
     }
 }

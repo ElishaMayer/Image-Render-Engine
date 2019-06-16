@@ -16,6 +16,11 @@ public abstract class Intersectable {
     private Point3D _minimum;
     private Point3D _maximum;
     private Point3D _middle;
+    private Boolean _optimised;
+
+    public Intersectable() {
+         _optimised=true;
+    }
 
     /* ************* Getters/Setters *******/
 
@@ -65,6 +70,22 @@ public abstract class Intersectable {
      */
     public void setMiddle(Point3D middle) {
         this._middle = new Point3D(middle);
+    }
+
+    /**
+     * get if intersection is optimised
+     * @return boolean
+     */
+    public Boolean getOptimised() {
+        return _optimised;
+    }
+
+    /**
+     * Set if intersection is optimised
+     * @param optimised true if optimised
+     */
+    public void setOptimised(Boolean optimised) {
+        _optimised = optimised;
     }
 
     /* ************* Operators *******/

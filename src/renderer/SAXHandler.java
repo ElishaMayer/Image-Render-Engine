@@ -19,6 +19,7 @@ public class SAXHandler extends DefaultHandler {
     ImageWriter _imageWriter =null;
     String version=null;
     Boolean _ignoreResolution=false;
+    Boolean _optimised=false;
 
     //Triggered when the start of tag is found.
     @Override
@@ -88,6 +89,7 @@ public class SAXHandler extends DefaultHandler {
                 Color color = new Color(parse3Numbers(attributes.getValue("emission")));
                 Material material = getMaterail(attributes.getValue("material"));
                 Sphere sp = new Sphere(Double.parseDouble(attributes.getValue("radius")), center,material,color);
+                sp.setOptimised(_optimised);
                 _scene.addGeometries(sp);
             }
             break;
@@ -102,7 +104,9 @@ public class SAXHandler extends DefaultHandler {
                 Point3D p2 = new Point3D(points[0], points[1], points[2]);
                 Color color = new Color(parse3Numbers(attributes.getValue("emission")));
                 Material material = getMaterail(attributes.getValue("material"));
-                _scene.addGeometries(new Triangle(p0,p1,p2,material,color));
+                Triangle t = new Triangle(p0,p1,p2,material,color);
+                t.setOptimised(_optimised);
+                _scene.addGeometries(t);
             }
             break;
             //create new cylinder
@@ -115,7 +119,9 @@ public class SAXHandler extends DefaultHandler {
                 double radius = Double.parseDouble(attributes.getValue("radius"));
                 Color color = new Color(parse3Numbers(attributes.getValue("emission")));
                 Material material = getMaterail(attributes.getValue("material"));
-                _scene.addGeometries(new Cylinder(radius,p1,p2,material,color));
+                Cylinder c =new Cylinder(radius,p1,p2,material,color);
+                c.setOptimised(_optimised);
+                _scene.addGeometries(c);
             }
             break;
             //create new cylinder
@@ -129,7 +135,9 @@ public class SAXHandler extends DefaultHandler {
                 double heigth = Double.parseDouble(attributes.getValue("heigth"));
                 Color color = new Color(parse3Numbers(attributes.getValue("emission")));
                 Material material = getMaterail(attributes.getValue("material"));
-                _scene.addGeometries(new Cylinder(radius,new Ray(rayP,rayV),heigth,material,color));
+                Cylinder c = new Cylinder(radius,new Ray(rayP,rayV),heigth,material,color);
+                c.setOptimised(_optimised);
+                _scene.addGeometries(c);
             }
             break;
             //create new tube
@@ -170,7 +178,9 @@ public class SAXHandler extends DefaultHandler {
                 Point3D p4 = new Point3D(points[0], points[1], points[2]);
                 Color color = new Color(parse3Numbers(attributes.getValue("emission")));
                 Material material = getMaterail(attributes.getValue("material"));
-                _scene.addGeometries(new Square(p1,p2,p3,p4,material,color));
+                Square sq=new Square(p1,p2,p3,p4,material,color);
+                sq.setOptimised(_optimised);
+                _scene.addGeometries(sq);
             }
             break;
             //create new Square
@@ -190,13 +200,21 @@ public class SAXHandler extends DefaultHandler {
                 Color color = new Color(parse3Numbers(attributes.getValue("emission")));
                 Material material = getMaterail(attributes.getValue("material"));
                 Square front = new Square(p1,p2,p3,p4);
-                _scene.addGeometries(new Cube(front,bp,height,material,color));
+                Cube cb=new Cube(front,bp,height,material,color);
+                cb.setOptimised(_optimised);
+                _scene.addGeometries();
             }
             break;
             //set grid
             case "grid":
             {
                 _imageWriter.setGrid(true);
+            }
+            break;
+            //set grid
+            case "optimised":
+            {
+                _optimised=true;
             }
             break;
 

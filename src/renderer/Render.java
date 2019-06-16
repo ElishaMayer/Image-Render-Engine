@@ -23,6 +23,7 @@ public class Render {
     private static final int RECURSIVE_L = 5;
     private static final int RAY_BEAM = 10;
     private static Random rand = new Random();
+    private Boolean _optimised;
     // variables
     private ImageWriter _imageWriter;
 
@@ -40,6 +41,19 @@ public class Render {
     public Render(ImageWriter imageWriter, Scene scene) {
         _imageWriter = imageWriter;
         _scene = scene;
+        _optimised=false;
+    }
+
+    /**
+     * a new Render
+     *
+     * @param imageWriter image writer
+     * @param scene       scene
+     */
+    public Render(ImageWriter imageWriter, Scene scene,Boolean opt) {
+        _imageWriter = imageWriter;
+        _scene = scene;
+        _optimised=opt;
     }
 
     /**
@@ -79,6 +93,8 @@ public class Render {
         int whole = nx * ny;
         int prev = 0;
         long start = (long) (System.currentTimeMillis() / 1000.0);
+        if(_optimised)
+            _scene.buildBoxes();
 
         //render image
         for (int i = 0; i < nx; i++) {

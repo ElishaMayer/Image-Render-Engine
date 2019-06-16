@@ -93,7 +93,7 @@ public class Sphere extends RadialGeometry  {
      */
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
-        if(intersects(ray)) {
+        if(!getOptimised()||intersects(ray)) {
             //list to return
             List<GeoPoint> list;
 

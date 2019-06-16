@@ -141,7 +141,7 @@ public class Cylinder extends Tube   {
      */
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
-        if(intersects(ray)) {
+        if(!getOptimised()||intersects(ray)) {
             List<GeoPoint> list = new ArrayList<>();
             Point3D rayP = _ray.getPoint3D();
             Vector rayV = _ray.getVector();

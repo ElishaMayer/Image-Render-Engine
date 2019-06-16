@@ -109,7 +109,7 @@ public class Cube extends Geometry {
      */
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
-        if(intersects(ray)) {
+        if(!getOptimised()||intersects(ray)) {
             List<GeoPoint> intersections = _geometries.findIntersections(ray);
             if (intersections.isEmpty())
                 return intersections;

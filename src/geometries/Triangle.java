@@ -121,7 +121,7 @@ public class Triangle extends Plane {
      */
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
-        if(intersects(ray)) {
+        if(!getOptimised()||intersects(ray)) {
             // get the point from the plane intersection
             List<GeoPoint> list = super.findIntersections(ray);
 

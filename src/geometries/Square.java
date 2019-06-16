@@ -145,7 +145,7 @@ public class Square extends Plane {
      */
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
-        if(intersects(ray)) {
+        if(!getOptimised()||intersects(ray)) {
             List<GeoPoint> intersections = super.findIntersections(ray);
             if (intersections.isEmpty())
                 return intersections;
