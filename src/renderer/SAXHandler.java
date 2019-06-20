@@ -232,12 +232,6 @@ public class SAXHandler extends DefaultHandler {
             }
             break;
 
-            // set number of rays in beam (default 20)
-            case "rays-beam":{
-                _scene.setBeamRaysAmount(Integer.parseInt(attributes.getValue("num")));
-            }
-            break;
-
             //get rotation
             case "rotate": {
                 double x = Double.parseDouble(attributes.getValue("x"));
