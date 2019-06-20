@@ -19,7 +19,6 @@ import java.util.Random;
  */
 public class Render {
     private static final double MIN_CALC_COLOR_K = 0.001;
-    private static final double EPS = 0.1;
     private static final int RECURSIVE_L = 5;
     private int _rayBeam = 10;
     private static Random rand = new Random();
@@ -258,10 +257,10 @@ public class Render {
     }
 
     /**
-     * find the point with the minimal distance from the camera from the given intersection points list
+     * find the point with the minimal distance from the given ray
      *
-     * @param ray ...
-     * @return the closet point to the camera, or null if there are no intersection points
+     * @param ray the ray which make the intersection
+     * @return the closet point to the ray, or null if there are no intersection points
      */
     private GeoPoint getClosestPoint(Ray ray) {
         List<GeoPoint> list = _scene.getGeometries().findIntersections(ray);

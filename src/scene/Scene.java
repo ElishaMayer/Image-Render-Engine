@@ -28,6 +28,7 @@ public class Scene {
     private Camera _camera;
     private double _cameraDistance;
     private List<LightSource> _lights;
+    private int _beamRaysAmount;
 
     /* ********* Constructors ***********/
     /**
@@ -38,6 +39,7 @@ public class Scene {
         _name = name;
         _geometries = new Geometries();
         _lights = new ArrayList<>();
+        _beamRaysAmount = 20; // default
     }
 
     /* ************* Getters/Setters *******/
@@ -99,6 +101,14 @@ public class Scene {
     }
 
     /**
+     * get the amount of beam rays
+     * @return beam rays amount
+     */
+    public int getBeamRaysAmount() {
+        return _beamRaysAmount;
+    }
+
+    /**
      * set scene background
      * @param background the background color
      */
@@ -122,6 +132,14 @@ public class Scene {
     public void setCamera(Camera camera, double cameraDistance) {
         _camera = camera;
         _cameraDistance = cameraDistance;
+    }
+
+    /**
+     * set the amount of beam rays
+     * @param beamRaysAmount the number of rays in the beam
+     */
+    public void setBeamRaysAmount(int beamRaysAmount) {
+        _beamRaysAmount = beamRaysAmount;
     }
 
     /**
