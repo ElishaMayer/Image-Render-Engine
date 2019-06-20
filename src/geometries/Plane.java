@@ -4,6 +4,7 @@ import primitives.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static primitives.Util.isZero;
 
@@ -83,6 +84,20 @@ public class Plane extends Geometry implements InfiniteGeometry{
     @Override
     public String toString() {
         return "Plane{" + _point + ", " + _vector + "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Plane plane = (Plane) o;
+        return _point.equals(plane._point) &&
+                _vector.equals(plane._vector);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_point, _vector);
     }
 
     /* ************* Getters/Setters *******/

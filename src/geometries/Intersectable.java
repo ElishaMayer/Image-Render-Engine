@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static java.lang.Math.abs;
+
 /**
- * An Intersectable interface
+ * An Intersectable
  */
 public abstract class Intersectable {
     private Point3D _minimum;
@@ -86,6 +88,15 @@ public abstract class Intersectable {
      */
     public void setOptimised(Boolean optimised) {
         _optimised = optimised;
+    }
+
+    /**
+     * get Volume
+     * @return the volume
+     */
+    public double getVolume(){
+        Point3D p  = _maximum.subtract(_minimum).getPoint3D();
+        return abs(p.getX().get())*abs(p.getY().get())*abs(p.getZ().get());
     }
 
     /* ************* Operators *******/

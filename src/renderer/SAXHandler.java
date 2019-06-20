@@ -20,6 +20,7 @@ public class SAXHandler extends DefaultHandler {
     String version=null;
     Boolean _ignoreResolution=false;
     Boolean _optimised=false;
+    int _beamRay = 10;
 
     //Triggered when the start of tag is found.
     @Override
@@ -236,6 +237,11 @@ public class SAXHandler extends DefaultHandler {
                 double y = Double.parseDouble(attributes.getValue("y"));
                 double z = Double.parseDouble(attributes.getValue("z"));
                 _scene.getCamera().rotateXYZ(x,y,z);
+            }
+            break;
+            // set number of rays in beam (default 20)
+            case "rays-beam":{
+                _beamRay = Integer.parseInt(attributes.getValue("num"));
             }
             break;
 

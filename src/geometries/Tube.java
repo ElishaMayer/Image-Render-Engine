@@ -4,6 +4,7 @@ import primitives.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Tube
@@ -56,6 +57,20 @@ public class Tube extends RadialGeometry implements InfiniteGeometry {
         return "Tube{" + super.toString() +
                 ", " + _ray +
                 "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Tube tube = (Tube) o;
+        return _ray.equals(tube._ray);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_ray);
     }
 
     /**

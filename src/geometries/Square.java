@@ -177,4 +177,9 @@ public class Square extends Plane {
             return EMPTY_LIST;
         }
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), _point1, _point2, _point3, _point4);
+    }
 }

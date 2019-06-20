@@ -4,6 +4,7 @@ import primitives.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Sphere
@@ -70,6 +71,20 @@ public class Sphere extends RadialGeometry  {
         return "Sphere{" + super.toString() +
                 " ,P=" + _point +
                 "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Sphere sphere = (Sphere) o;
+        return _point.equals(sphere._point);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_point);
     }
 
     /**

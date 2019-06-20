@@ -21,7 +21,7 @@ public class Render {
     private static final double MIN_CALC_COLOR_K = 0.001;
     private static final double EPS = 0.1;
     private static final int RECURSIVE_L = 5;
-    private static final int RAY_BEAM = 10;
+    private int _rayBeam = 10;
     private static Random rand = new Random();
     private Boolean _optimised;
     // variables
@@ -50,10 +50,11 @@ public class Render {
      * @param imageWriter image writer
      * @param scene       scene
      */
-    public Render(ImageWriter imageWriter, Scene scene,Boolean opt) {
+    public Render(ImageWriter imageWriter, Scene scene,Boolean opt,int br) {
         _imageWriter = imageWriter;
         _scene = scene;
         _optimised=opt;
+        _rayBeam = br;
     }
 
     /**
@@ -99,6 +100,9 @@ public class Render {
         //render image
         for (int i = 0; i < nx; i++) {
             for (int j = 0; j < ny; j++) {
+                if(j==450&&i==850){
+                    int y=0;
+                }
                 int pers = (int) ((++time / whole) * 1000);
                 if (pers != prev) {
                     System.out.println(pers / 10.0 + "%");
@@ -354,7 +358,7 @@ public class Render {
             //if it isn't under the geometry then add
             if (v.dotProduct(normal) > 0)
                 beam.add(new Ray(p0, v));
-        } while (beam.size() < RAY_BEAM);
+        } while (beam.size() < _rayBeam);
         return beam;
     }
 }

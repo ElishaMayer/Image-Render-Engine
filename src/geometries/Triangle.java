@@ -3,6 +3,7 @@ package geometries;
 import primitives.*;
 
 import java.util.List;
+import java.util.Objects;
 
 import static primitives.Util.isOne;
 import static primitives.Util.isZero;
@@ -108,6 +109,21 @@ public class Triangle extends Plane {
                 ", P2=" + _point2 +
                 ", P3=" + _point3 +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Triangle triangle = (Triangle) o;
+        return _point2.equals(triangle._point2) &&
+                _point3.equals(triangle._point3);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), _point2, _point3);
     }
 
     /* ************** Operations ***************/

@@ -5,6 +5,7 @@ import primitives.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A Cube
@@ -121,5 +122,19 @@ public class Cube extends Geometry {
         }else{
             return EMPTY_LIST;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cube cube = (Cube) o;
+        return _geometries.equals(cube._geometries) &&
+                _middle.equals(cube._middle);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_geometries, _middle);
     }
 }

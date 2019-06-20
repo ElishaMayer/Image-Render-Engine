@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class Box extends Intersectable{
     private List<Intersectable> _geometries;
+    private int _size=0;
 
     /* ********* Constructors ***********/
 
@@ -28,6 +29,13 @@ public class Box extends Intersectable{
      */
     public Box(List<Intersectable> geometries) {
         _geometries =new ArrayList<>(geometries);
+        for(Intersectable intrs:_geometries){
+            if(intrs instanceof Geometry)
+                _size++;
+            else{
+                _size+=((Box)intrs).getSize();
+            }
+        }
         if(!_geometries.isEmpty()) {
             Coordinate maxX = _geometries.stream().max(Comparator.comparing(x-> x.getMax().getX().get())).get().getMax().getX();
             Coordinate maxY = _geometries.stream().max(Comparator.comparing(x-> x.getMax().getY().get())).get().getMax().getY();
@@ -55,12 +63,21 @@ public class Box extends Intersectable{
         return _geometries;
     }
 
+    /**
+     * get size
+     * @return size
+     */
+    public int getSize() {
+        return _size;
+    }
+
     /* ************** Admin *****************/
 
     @Override
     public String toString() {
         return "Box{" +
                 "mid=" + getMiddle() +
+                " size="+getSize()+
                 '}';
     }
 

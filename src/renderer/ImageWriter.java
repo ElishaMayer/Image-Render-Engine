@@ -50,8 +50,6 @@ public class ImageWriter {
 	public int getNy() { return _nY; }
 	public int getNx() { return _nX; }
 
-
-
 	public void setNy(int _Ny) {
 		this._nY = _Ny;
 		_image = new BufferedImage(_nX, _nY, BufferedImage.TYPE_INT_RGB);

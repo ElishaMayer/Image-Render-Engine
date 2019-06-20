@@ -4,6 +4,7 @@ import primitives.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static primitives.Util.isZero;
 
@@ -111,6 +112,19 @@ public class Cylinder extends Tube   {
                 "}";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Cylinder cylinder = (Cylinder) o;
+        return Double.compare(cylinder._height, _height) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_height);
+    }
     /* ************* Operations ***************/
 
     /**
