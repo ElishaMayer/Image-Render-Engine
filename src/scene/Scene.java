@@ -20,6 +20,9 @@ import static java.lang.Math.*;
  * A Scene with geometries ,camera and light
  */
 public class Scene {
+    private static final int START_DISTANCE = 15;
+    private static final int TREE_DEPTH = 10;
+    private static final double EMPTY_VOLUME = 0.75;
     //variables
     private String _name;
     private Color _background;
@@ -155,60 +158,48 @@ public class Scene {
 
     public void buildBoxes(){
         Box box = new Box(_geometries.getGeometries());
-        Point3D max = box.getMax();
-        Point3D min = box.getMin();
-        Point3D diff = max.subtract(min).getPoint3D();
-        double size = (abs(diff.getX().get())+ abs(diff.getY().get())+ abs(diff.getZ().get()))/3;
-        box = splitBoxes(box,size/5,size);
+        Point3D maxP = box.getMax();
+        Point3D minP = box.getMin();
+        Point3D difference = maxP.subtract(minP).getPoint3D();
+        double distance = (abs(difference.getX().get())+ abs(difference.getY().get())+ abs(difference.getZ().get()));
+        box = splitBoxes(box,distance/START_DISTANCE,distance);
         _geometries.getGeometries().clear();
         _geometries.add(box);
     }
 
-    private Intersectable getCloses(List<Intersectable> intersectables, Point3D start){
-        if(intersectables.isEmpty())
-            return null;
-        Intersectable first=intersectables.get(0);
-        for(Intersectable intrs:intersectables){
-            if(start.distance(intrs.getMiddle())<start.distance(first.getMiddle())){
-                first=intrs;
-            }
-        }
-        return first;
-    }
-
-    private Box splitBoxes(Box box,double size,double max){
+    private Box splitBoxes(Box box,double distance,double maxDistance){
         if( box.getGeometries().size()==1)
             return box;
-        int boxsize = box.getGeometries().size();
-        size*=10;
-        List<Intersectable> list = new ArrayList<>();
+        int boxSize = box.getGeometries().size();
+        distance*=TREE_DEPTH;
+        List<Intersectable> newBoxList = new ArrayList<>();
         List<Intersectable> temp = new ArrayList<>();
         List<Intersectable> boxList = box.getGeometries();
         do {
-            Intersectable in = boxList.get(0);
-            temp.add(in);
-            boxList.remove(in);
+            Intersectable first = boxList.get(0);
+            temp.add(first);
+            boxList.remove(first);
             for (int i=0;i<boxList.size();i++) {
-                if(in.getMiddle().distance(boxList.get(i).getMiddle())<size){
-                    List<Intersectable> temp2 = new ArrayList<>(temp);
-                    temp2.add(boxList.get(i));
+                if(first.getMiddle().distance(boxList.get(i).getMiddle())<distance){
+                    List<Intersectable> tempBox = new ArrayList<>(temp);
+                    tempBox.add(boxList.get(i));
                     Box original = new Box(temp);
-                    Box added = new Box(temp2);
-                    if((original.getVolume()+boxList.get(i).getVolume())/added.getVolume()>0.75) {
+                    Box added = new Box(tempBox);
+                    if((original.getVolume()+boxList.get(i).getVolume())/added.getVolume()>EMPTY_VOLUME) {
                         temp.add(boxList.get(i));
                         boxList.remove(boxList.get(i));
                     }
                 }
             }
             if(temp.size()>1)
-                list.add(new Box(temp));
+                newBoxList.add(new Box(temp));
             else
-                list.add(in);
+                newBoxList.add(first);
             temp.clear();
         }while (!boxList.isEmpty());
-        Box rBox = new Box(list);
-        if(rBox.getGeometries().size()==boxsize)
-            return rBox;
-        return splitBoxes(rBox,size,max);
+        Box returnBox = new Box(newBoxList);
+        if(returnBox.getGeometries().size()==boxSize && distance>maxDistance)
+            return returnBox;
+        return splitBoxes(returnBox,distance,maxDistance);
     }
 }

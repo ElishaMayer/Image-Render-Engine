@@ -1,12 +1,26 @@
 package com.miniproject;
 
+import elements.AmbientLight;
 import elements.Camera;
+import elements.DirectionalLight;
 import geometries.*;
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Vector;
+import org.junit.Test;
+import org.xml.sax.SAXException;
+import primitives.*;
+import renderer.ImageWriter;
+import renderer.Render;
+import renderer.RenderController;
+import renderer.loadScene;
+import scene.Scene;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import static junit.framework.TestCase.fail;
 
 /**
  * Home Work 3.
@@ -15,65 +29,85 @@ import java.util.List;
  * Menachem Natanson , 207134859, menachem.natanson@gmail.com
  */
 public class Main {
-    public  static int width = 1920;
-    public static int height = 1080;
-    public static double zoom=0.75;
-    public static Point3D startP = new Point3D(0,0,0);
-
     public static void main(String[] args) {
-        ImageWriter image = new ImageWriter("images\\IMG_0001",width,height,width,height);
-        Camera cam = new Camera(startP,new Vector(0,1,0),new Vector(0,0,-1));
-        Geometries geo = new Geometries(new Tube(54.96,new Ray(new Point3D(0,-150,-200),new Vector(1,1,-1.5))));
-        geo.add(new Cylinder(54.96,new Ray(new Point3D(-10,90,-240),new Vector(0.2,1,-0.4)),100));
-        geo.add(new Sphere(60,new Point3D(120,0,-240)));
-        geo.add(new Triangle(new Point3D(-50,0,-150),new Point3D(-150,0,-150),new Point3D(-50,-100,-150)));
+        proTestsNew();
+    }
 
-        double b=0,s=0;
-        for(int x = 0;x<width;x++){
-            for(int y=0;y<height;y++){
-                Ray ray = cam.constructRayThroughPixel(width,height,x,y,150,width-width*zoom,height-height*zoom);
-                if(geo.findIntersections(ray).size()!=0) {
-                    double dis = closes(geo.findIntersections(ray),startP).point.distance(startP);
-                    //int c = (int)( (dis/255));
-                  //  int c = (int) (255*30/dis*4.5);
-                    dis/=1.3;
-                    if(dis>b)
-                        b=dis;
-                    if(dis<s)
-                        s=dis;
-                    if(dis>255)
-                       dis=255;
-                    if(dis<0)
-                        dis=0;
-                    int c= (int) dis;
-                    c=255-c;
-                    image.writePixel(x, y, 240,c,c);
-                }
-                else if(isGrid(x,y,100,100))
-                    image.writePixel(x,y,0,255,0);
-                else
-                    image.writePixel(x,y,0,0,0);
-
+    /**
+     * Render all tests in folder Tests
+     */
+    @Test
+    public void renderTests() throws IOException, SAXException, ParserConfigurationException {
+        System.out.println("-----Tests render-----");
+        File folder = new File("xml\\Tests");
+        File[] listOfFiles = folder.listFiles();
+        assert listOfFiles != null;
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                Render render = loadScene.loadFromXML("xml\\Tests\\" + listOfFiles[i].getName(),false);
+                RenderController renderController = new RenderController(render.getImageWriter(),render.getScene(),render.getImageWriter().getGrid());
+                renderController.renderImage();
+                System.out.println("Successfully rendered picture: " + render.getImageWriter().getImageName());
+                System.out.println("Completed: " + (int)(((double) i+1) / listOfFiles.length * 100.0) + "%");
             }
         }
-        image.writeToimage();
     }
 
-    public static Boolean isGrid(int x, int y,int columnWidth ,int rowWidth){
-        return (x+1)%columnWidth == 0 || (y+1)%rowWidth == 0;
 
-    }
+    public static void proTestsNew(){
+        Scene scene = new Scene("");
+        scene.setCamera(new Camera(new Point3D(-400,-1800,2000),new Vector(0,-1,0),new Vector(0,0,-1)),500);
+        scene.getCamera().rotateXYZ(0,0,30);
+        scene.setBackground(Color.BLACK);
+        scene.setLight(new AmbientLight(new Color(20,20,20),1));
+        scene.addLight(new DirectionalLight(new Color(200,200,180),new Vector(0,1,-1)));
+        //scene.addLight(new SpotLight(new Color(655,655,655),new Point3D(200,-400,0),0.05,0.00005,0.000008,new Vector(5,1,-1)));
+        Cube cube=		new Cube(
+                new Square(
+                        new Point3D(600,200,-400),
+                        new Point3D(-1400,200,-400),
+                        new Point3D(-1400,200,-2320),
+                        new Point3D(600,200,-2320)),
+                new Point3D(0,-2000,1000),
+                50,
+                new Material(0.5,0.5,100,0.7,0)
+                ,new Color(0,0,0)) ;
+        cube.setOptimised(true);
+        scene.addGeometries(cube);
+        Cylinder c1 = (new Cylinder(25,new Point3D(600,225,-400), new Point3D(-1400,225,-400),new Material(0.5,0.5,100,0,0),new Color(0,0,0)));
+        Cylinder c2 = (new Cylinder(25,new Point3D(600,225,-400), new Point3D(600,225,-2320),new Material(0.5,0.5,100,0,0),new Color(0,0,0)));
+        Cylinder c3 = (new Cylinder(25,new Point3D(-1400,225,-2320), new Point3D(-1400,225,-400),new Material(0.5,0.5,100,0,0),new Color(0,0,0)));
+        Sphere sp1 = (new Sphere(25,new Point3D(600,225,-400),new Material(0.5,0.5,100,0,0),new Color(0,0,0)));
+        Sphere sp2 = (new Sphere(25,new Point3D(-1400,225,-400),new Material(0.5,0.5,100,0,0),new Color(0,0,0)));
+        //	scene.addGeometries(new Plane(new Point3D(670,225,-400),new Vector(1,0,0),new Material(0.5,0.5,100,0.8,0,0.015,0),new Color(20,20,20)));
+        //	scene.addGeometries(new Plane(new Point3D(-1470,225,-400),new Vector(1,0,0),new Material(0.5,0.5,100,0.8,0,0.015,0),new Color(20,20,20)));
+        //	scene.addGeometries(new Plane(new Point3D(-1400,225,-2390),new Vector(0,0,1),new Material(0,0,100,0,0),new Color(0,0,0)));
+        Square sq1 = (new Square(new Point3D(670,200,200),new Point3D(670,200,-2320),new Point3D(670,-1000,-2320),new Point3D(670,-1000,200),new Material(0.1,0.1,100,0.67,0,0.01,0),new Color(20,20,20)));
+        Square sq2 = (new Square(new Point3D(-1470,200,200),new Point3D(-1470,200,-2320),new Point3D(-1470,-1000,-2320),new Point3D(-1470,-1000,200),new Material(0.1,0.1,100,0.67,0,0.01,0),new Color(20,20,20)));
+        c1.setOptimised(true);
+        c2.setOptimised(true);
+        c3.setOptimised(true);
+        sp1.setOptimised(true);
+        sp2.setOptimised(true);
+        sq1.setOptimised(true);
+        sq2.setOptimised(true);
+        scene.addGeometries(c1,c2,c3,sp1,sp2,sq1,sq2);
 
-    public static Intersectable.GeoPoint closes(List<Intersectable.GeoPoint> list, Point3D p){
-        if(list.size()==0)
-            return null;
-        if(list.size()==1)
-            return list.get(0);
-        Intersectable.GeoPoint pToReturn = list.get(0);
-        for (Intersectable.GeoPoint point:list) {
-            if(p.distance2(point.point)<p.distance2(pToReturn.point))
-                pToReturn = point;
+
+        for(int i=0;i<10;i++){
+            for(int j=0;j<10;j++){
+                if(!((j>=4&&j<=5)&&(i>=4&&i<=5)) ){
+                    Sphere sp = new Sphere(100, new Point3D(500 - i * 200, 100, -(500 + j * 200)), new Material(0.5, 0.5, 1000, 0.2, 0), new Color(Math.random() * 100, Math.random() * 100, Math.random() * 100));
+                    sp.setOptimised(true);
+                    scene.addGeometries(sp);
+                }
+            }
         }
-        return pToReturn;
+        Sphere sp = new Sphere(400,new Point3D(500-900,-300,-(500+900)),new Material(0.1,0.5,1000,0.65,0),new Color(	10,10,10));
+        sp.setOptimised(true);
+        scene.addGeometries(sp);
+        ImageWriter imw = new ImageWriter("images\\IMG_0051_NewBalls",500,300,2000,1200);
+        RenderController rn = new RenderController(imw,scene);
+        rn.renderImage();
     }
 }

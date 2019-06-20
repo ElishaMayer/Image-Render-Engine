@@ -17,14 +17,20 @@ import java.util.Random;
 /**
  * Render class (makes a bitmap picture from the scene)
  */
-public class Render {
+public class Render implements Runnable {
     private static final double MIN_CALC_COLOR_K = 0.001;
-    private static final int RECURSIVE_L = 5;
-    private int _rayBeam = 10;
+    private static final int RECURSIVE_L = 7;
+    // variables
+    private int _rayBeam = 20;
     private static Random rand = new Random();
     private Boolean _optimised;
-    // variables
     private ImageWriter _imageWriter;
+    private int _id=-1;
+    private int _minI;
+    private int _maxI;
+    private int _minJ;
+    private int _maxJ;
+    private RenderController _controller;
 
     /* ********* Constructors ***********/
     private Scene _scene;
@@ -41,6 +47,10 @@ public class Render {
         _imageWriter = imageWriter;
         _scene = scene;
         _optimised=false;
+        _minI=0;
+        _minJ=0;
+        _maxI=imageWriter.getNx();
+        _maxJ=imageWriter.getNy();
     }
 
     /**
@@ -54,6 +64,22 @@ public class Render {
         _scene = scene;
         _optimised=opt;
         _rayBeam = br;
+        _minI=0;
+        _minJ=0;
+        _maxI=imageWriter.getNx();
+        _maxJ=imageWriter.getNy();
+    }
+
+    public Render(int i, RenderController renderController, ImageWriter imageWriter, Scene scene, int minI, int maxI, int minJ, int maxJ) {
+        _minI=minI;
+        _minJ=minJ;
+        _maxI=maxI;
+        _maxJ=maxJ;
+        _id=i;
+        _controller=renderController;
+        _imageWriter=imageWriter;
+        _scene=scene;
+        _optimised=false;
     }
 
     /**
@@ -80,7 +106,6 @@ public class Render {
      * render the scene into the imageWriter
      */
     public void renderImage() {
-        int cores = Runtime.getRuntime().availableProcessors();
         //variables
         int nx = _imageWriter.getNx();
         int ny = _imageWriter.getNy();
@@ -92,19 +117,18 @@ public class Render {
         double time = 0;
         int whole = nx * ny;
         int prev = 0;
-        long start = (long) (System.currentTimeMillis() / 1000.0);
         if(_optimised)
             _scene.buildBoxes();
 
         //render image
-        for (int i = 0; i < nx; i++) {
-            for (int j = 0; j < ny; j++) {
-                if(j==450&&i==850){
-                    int y=0;
-                }
+        for (int i = _minI; i < _maxI; i++) {
+            for (int j = _minJ; j < _maxJ; j++) {
                 int pers = (int) ((++time / whole) * 1000);
                 if (pers != prev) {
-                    System.out.println(pers / 10.0 + "%");
+                    if(_controller==null)
+                        System.out.println(pers / 10.0 + "%");
+                    else
+                        _controller.progress(pers/10.0,_id);
                     prev = pers;
                 }
                 Ray ray = camera.constructRayThroughPixel(nx, ny, i, j, distance, width, height);
@@ -114,14 +138,8 @@ public class Render {
                                 calcColor(intersection, ray).getColor()); // intersection = calculate the right color
             }
         }
-        long end = (long) (System.currentTimeMillis() / 1000.0);
-        int elapsed = (int) ((end - start));
-        int hours = (int) (elapsed / 600.0);
-        elapsed = elapsed % 600;
-        int minuts = (int) (elapsed / 60.0);
-        elapsed = elapsed % 60;
-        int seconds = elapsed;
-        System.out.println(hours + "h " + minuts + "m " + seconds + "s");
+        if(_controller!=null)
+            _controller.finish(_id);
     }
 
     private Color calcBeamColor(double rad, Ray ray, Vector n, int level, double kk) {
@@ -359,6 +377,11 @@ public class Render {
                 beam.add(new Ray(p0, v));
         } while (beam.size() < _rayBeam);
         return beam;
+    }
+
+    @Override
+    public void run() {
+        renderImage();
     }
 }
 

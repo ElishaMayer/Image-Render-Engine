@@ -19,9 +19,11 @@ public abstract class Intersectable {
     private Point3D _maximum;
     private Point3D _middle;
     private Boolean _optimised;
+    private double _volume;
 
     public Intersectable() {
-         _optimised=true;
+
+        _optimised=true;
     }
 
     /* ************* Getters/Setters *******/
@@ -96,7 +98,8 @@ public abstract class Intersectable {
      */
     public double getVolume(){
         Point3D p  = _maximum.subtract(_minimum).getPoint3D();
-        return abs(p.getX().get())*abs(p.getY().get())*abs(p.getZ().get());
+        _volume = abs(p.getX().get())*abs(p.getY().get())*abs(p.getZ().get());
+        return _volume;
     }
 
     /* ************* Operators *******/
