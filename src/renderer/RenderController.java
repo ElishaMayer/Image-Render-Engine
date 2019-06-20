@@ -6,6 +6,8 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class RenderController {
     private Boolean[] _threadsFinish;
@@ -14,6 +16,8 @@ public class RenderController {
     private Scene _scene;
     private boolean _grid = false;
     private LocalDateTime _start;
+    private ExecutorService _pool;
+
 
     public RenderController( ImageWriter imageWriter, Scene scene) {
         _imageWriter = imageWriter;
@@ -31,14 +35,13 @@ public class RenderController {
         _scene.buildBoxes();
         _start =  LocalDateTime.now();
         int _cores = Runtime.getRuntime().availableProcessors();
-        int seg = _imageWriter.getNy()/ _cores +1;
+        _pool = Executors.newFixedThreadPool(_cores);
 
-        _threadsFinish = new Boolean[_cores];
-        _progress = new double[_cores];
-        for(int i = 0; i< _cores; i++){
-            Render rn = new Render(i,this,_imageWriter,_scene,0,_imageWriter.getNx(),i*seg,Math.min(i*seg+seg,_imageWriter.getNy()));
-            Thread thread = new Thread(rn);
-            thread.start();
+        _threadsFinish = new Boolean[_imageWriter.getNx()-1];
+        _progress = new double[_imageWriter.getNx()-1];
+        for(int i = 0; i< _imageWriter.getNx()-1; i++){
+            Render rn = new Render(i,this,_imageWriter,_scene,i,i+1,0,_imageWriter.getNy());
+            _pool.execute(rn);
             _threadsFinish[i]=false;
         }
     }
@@ -64,7 +67,7 @@ public class RenderController {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
             System.out.println("\rStart time: "+dtf.format(_start));
             System.out.println("End time: "+dtf.format(end));
-
+            _pool.shutdownNow();
         }
     }
 }

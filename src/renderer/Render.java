@@ -19,9 +19,9 @@ import java.util.Random;
  */
 public class Render implements Runnable {
     private static final double MIN_CALC_COLOR_K = 0.001;
-    private static final int RECURSIVE_L = 7;
+    private static final int RECURSIVE_L = 5;
     // variables
-    private int _rayBeam = 20;
+    private int _rayBeam = 15;
     private static Random rand = new Random();
     private Boolean _optimised;
     private ImageWriter _imageWriter;
@@ -123,12 +123,12 @@ public class Render implements Runnable {
         //render image
         for (int i = _minI; i < _maxI; i++) {
             for (int j = _minJ; j < _maxJ; j++) {
-                int pers = (int) ((++time / whole) * 1000);
+                int pers = (int) ((++time / whole) * 100000);
                 if (pers != prev) {
                     if(_controller==null)
-                        System.out.println(pers / 10.0 + "%");
+                        System.out.println(pers / 1000.0 + "%");
                     else
-                        _controller.progress(pers/10.0,_id);
+                        _controller.progress(pers/1000.0,_id);
                     prev = pers;
                 }
                 Ray ray = camera.constructRayThroughPixel(nx, ny, i, j, distance, width, height);
