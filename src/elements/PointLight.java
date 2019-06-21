@@ -54,6 +54,14 @@ public class PointLight extends Light implements LightSource {
         return p.subtract(_position).normal();
     }
 
+    /**
+     * Get light position
+     * @return point
+     */
+    public Point3D getPosition() {
+        return _position;
+    }
+
     /* ************* Administration *******/
     @Override
     public String toString() {

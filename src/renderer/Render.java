@@ -8,6 +8,9 @@ import scene.Scene;
 import static primitives.Util.*;
 import static geometries.Intersectable.GeoPoint;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.LinkedList;
@@ -21,7 +24,7 @@ public class Render implements Runnable {
     private static final double MIN_CALC_COLOR_K = 0.001;
     private static final int RECURSIVE_L = 5;
     // variables
-    private int _rayBeam = 15;
+    private int _rayBeam = 10;
     private static Random rand = new Random();
     private Boolean _optimised;
     private ImageWriter _imageWriter;
@@ -70,7 +73,9 @@ public class Render implements Runnable {
         _maxJ=imageWriter.getNy();
     }
 
-    public Render(int i, RenderController renderController, ImageWriter imageWriter, Scene scene, int minI, int maxI, int minJ, int maxJ) {
+
+
+    public Render(int i, RenderController renderController, ImageWriter imageWriter, Scene scene, int minI, int maxI, int minJ, int maxJ, int br) {
         _minI=minI;
         _minJ=minJ;
         _maxI=maxI;
@@ -80,6 +85,7 @@ public class Render implements Runnable {
         _imageWriter=imageWriter;
         _scene=scene;
         _optimised=false;
+        _rayBeam=br;
     }
 
     /**
@@ -89,6 +95,22 @@ public class Render implements Runnable {
      */
     public ImageWriter getImageWriter() {
         return _imageWriter;
+    }
+
+    /**
+     * Get if it is optimised
+     * @return optimised
+     */
+    public Boolean getOptimised() {
+        return _optimised;
+    }
+
+    /**
+     * Get ray beam number
+     * @return int
+     */
+    public int getRayBeam() {
+        return _rayBeam;
     }
 
     /* ************* Operations ***************/
@@ -114,22 +136,23 @@ public class Render implements Runnable {
         Camera camera = _scene.getCamera();
         double distance = _scene.getCameraDistance();
         java.awt.Color background = _scene.getBackground().getColor();
-        double time = 0;
+        double steps = 0;
         int whole = nx * ny;
-        int prev = 0;
+        int previous = 0;
+        LocalDateTime start = LocalDateTime.now();
         if(_optimised)
             _scene.buildBoxes();
 
         //render image
         for (int i = _minI; i < _maxI; i++) {
             for (int j = _minJ; j < _maxJ; j++) {
-                int pers = (int) ((++time / whole) * 100000);
-                if (pers != prev) {
+                int percentage = (int) ((++steps / whole) * 100000);
+                if (percentage != previous) {
                     if(_controller==null)
-                        System.out.println(pers / 1000.0 + "%");
+                        System.out.print("\r"+percentage / 1000.0 + "%");
                     else
-                        _controller.progress(pers/1000.0,_id);
-                    prev = pers;
+                        _controller.progress(percentage/1000.0,_id);
+                    previous = percentage;
                 }
                 Ray ray = camera.constructRayThroughPixel(nx, ny, i, j, distance, width, height);
                 GeoPoint intersection = getClosestPoint(ray);
@@ -140,6 +163,15 @@ public class Render implements Runnable {
         }
         if(_controller!=null)
             _controller.finish(_id);
+        else {
+            LocalDateTime end = LocalDateTime.now();
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            System.out.println("\rStart time: "+dtf.format(start));
+            System.out.println("End time: "+dtf.format(end));
+            String reset = "\u001B[0m";
+            String red = "\u001B[31m";
+            System.out.println("Duration: "+red+Duration.between(start,end).toMillis()/1000.0+reset+" Seconds");
+        }
     }
 
     private Color calcBeamColor(double rad, Ray ray, Vector n, int level, double kk) {
@@ -150,12 +182,14 @@ public class Render implements Runnable {
                 GeoPoint gp = getClosestPoint(beamRay);
                 if (gp != null) {
                     sum = sum.add(calcColor(gp, beamRay, level - 1, kk));
+                }else{
+                    sum = sum.add(_scene.getBackground());
                 }
             }
             return sum.scale(1.0 / beam.size());
         } else {
             GeoPoint gp = getClosestPoint(ray);
-            return gp == null ? Color.BLACK : calcColor(gp, ray, level - 1, kk);
+            return gp == null ? _scene.getBackground() : calcColor(gp, ray, level - 1, kk);
         }
     }
 
