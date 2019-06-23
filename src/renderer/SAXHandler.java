@@ -204,7 +204,7 @@ public class SAXHandler extends DefaultHandler {
                 Square front = new Square(p1,p2,p3,p4);
                 Cube cb=new Cube(front,bp,height,material,color);
                 cb.setOptimised(_optimised);
-                _scene.addGeometries();
+                _scene.addGeometries(cb);
             }
             break;
             //set grid

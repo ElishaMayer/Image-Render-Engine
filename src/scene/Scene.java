@@ -3,10 +3,7 @@ package scene;
 import elements.AmbientLight;
 import elements.Camera;
 import elements.LightSource;
-import geometries.Box;
-import geometries.Geometries;
-import geometries.Geometry;
-import geometries.Intersectable;
+import geometries.*;
 import primitives.Color;
 import primitives.Point3D;
 import primitives.Vector;
@@ -157,14 +154,28 @@ public class Scene {
     }
 
     public void buildBoxes(){
-        Box box = new Box(_geometries.getGeometries());
-        Point3D maxP = box.getMax();
-        Point3D minP = box.getMin();
-        Point3D difference = maxP.subtract(minP).getPoint3D();
-        double distance = (abs(difference.getX().get())+ abs(difference.getY().get())+ abs(difference.getZ().get()));
-        box = splitBoxes(box,distance/START_DISTANCE,distance);
-        _geometries.getGeometries().clear();
-        _geometries.add(box);
+        List<Intersectable> infinite = new ArrayList<>();
+        for(int i=0;i<_geometries.getGeometries().size();i++){
+            Intersectable x =_geometries.getGeometries().get(i);
+            if( (x instanceof Plane)||(x instanceof Tube && !(x instanceof Cylinder))){
+                infinite.add(x);
+            }
+        }
+        _geometries.getGeometries().removeIf(x->(x instanceof Plane)||(x instanceof Tube && !(x instanceof Cylinder)));
+
+        if(!_geometries.getGeometries().isEmpty()) {
+            Box box = new Box(_geometries.getGeometries());
+            Point3D maxP = box.getMax();
+            Point3D minP = box.getMin();
+            Point3D difference = maxP.subtract(minP).getPoint3D();
+            double distance = (abs(difference.getX().get()) + abs(difference.getY().get()) + abs(difference.getZ().get()));
+            box = splitBoxes(box, distance / START_DISTANCE, distance);
+
+            _geometries.getGeometries().clear();
+            _geometries.add(box);
+        }
+        for(Intersectable intrs:infinite)
+            _geometries.add(intrs);
     }
 
     private Box splitBoxes(Box box,double distance,double maxDistance){
@@ -175,7 +186,7 @@ public class Scene {
         List<Intersectable> newBoxList = new ArrayList<>();
         List<Intersectable> temp = new ArrayList<>();
         List<Intersectable> boxList = box.getGeometries();
-        do {
+            do {
             Intersectable first = boxList.get(0);
             temp.add(first);
             boxList.remove(first);

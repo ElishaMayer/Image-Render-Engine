@@ -32,6 +32,20 @@ import static junit.framework.TestCase.fail;
 public class Main {
     private static boolean optimised;
     public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
+            if(args!=null&& args.length>0&& "xml".equals(args[0])) {
+                optimised=true;
+                renderTests();
+                return;
+            }
+            if(args!=null&& args.length>0&& "test1".equals(args[0])) {
+                optimised=true;
+                proTests();
+                return;
+            }
+            if(args!=null&& args.length>0&& "test2".equals(args[0])) {
+                proTestsNew();
+                return;
+            }
             Scanner scanner = new Scanner(System.in);
             System.out.print("Enter 1 to run from xml, enter 2 to run custom tests.\n>");
             String decision = scanner.nextLine();
@@ -135,7 +149,7 @@ public class Main {
         ImageWriter imw = new ImageWriter("images\\IMG_0051_NewBalls",500,300,2000,1200);
         imw.setGrid(false);
         if(optimised) {
-            RenderController rn = new RenderController(imw, scene,10);
+            RenderController rn = new RenderController(imw, scene,20);
             rn.renderImage();
         }else{
             Render render = new Render(imw,scene);
