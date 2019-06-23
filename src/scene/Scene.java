@@ -17,7 +17,7 @@ import static java.lang.Math.*;
  * A Scene with geometries ,camera and light
  */
 public class Scene {
-    private static final int START_DISTANCE = 15;
+    private static final int START_DISTANCE = 10;
     private static final int TREE_DEPTH = 10;
     private static final double EMPTY_VOLUME = 0.75;
     //variables
@@ -153,64 +153,96 @@ public class Scene {
                 '}';
     }
 
+    /**
+     *  build hierarchy tree of boxes in the scene
+     */
     public void buildBoxes(){
+        List<Intersectable> geoList = _geometries.getGeometries();
         List<Intersectable> infinite = new ArrayList<>();
-        for(int i=0;i<_geometries.getGeometries().size();i++){
-            Intersectable x =_geometries.getGeometries().get(i);
-            if( (x instanceof Plane)||(x instanceof Tube && !(x instanceof Cylinder))){
+
+        // add all infinite geometries into list
+        for(int i=0;i<geoList.size();i++){
+            Intersectable x =geoList.get(i);
+            if(((x instanceof Plane) && !(x instanceof Triangle) && !(x instanceof Square))||
+                    (x instanceof Tube && !(x instanceof Cylinder))){
                 infinite.add(x);
             }
         }
-        _geometries.getGeometries().removeIf(x->(x instanceof Plane)||(x instanceof Tube && !(x instanceof Cylinder)));
+        // remove all of the infinite geometries
+        geoList.removeIf(x->((x instanceof Plane)&& !(x instanceof Triangle) && !(x instanceof Square))||
+                (x instanceof Tube && !(x instanceof Cylinder)));
 
-        if(!_geometries.getGeometries().isEmpty()) {
-            Box box = new Box(_geometries.getGeometries());
+
+        if(!geoList.isEmpty()) {
+            // make the outside big box, and find what the distance between geometries should probably be
+            Box box = new Box(geoList);
             Point3D maxP = box.getMax();
             Point3D minP = box.getMin();
             Point3D difference = maxP.subtract(minP).getPoint3D();
             double distance = (abs(difference.getX().get()) + abs(difference.getY().get()) + abs(difference.getZ().get()));
+            // split the main box insides to hierarchy of boxes
             box = splitBoxes(box, distance / START_DISTANCE, distance);
 
-            _geometries.getGeometries().clear();
+            // clear the list of geometries and add the root box of the hierarchy
+            geoList.clear();
             _geometries.add(box);
         }
+        // add the infinite geometries
         for(Intersectable intrs:infinite)
             _geometries.add(intrs);
     }
 
+    /**
+     * recursive function to combine the geometries inside the box into more boxes if expedient
+     * @param box the outside box who contains geometries and other boxes
+     * @param distance the maximum distance for combining geometries into a box
+     * @param maxDistance the distance where it possible for no more combination
+     * @return the root box of the hierarchy
+     */
     private Box splitBoxes(Box box,double distance,double maxDistance){
-        if( box.getGeometries().size()==1)
+        List<Intersectable> boxList = box.getGeometries();
+
+        if(boxList.size()==1)
             return box;
-        int boxSize = box.getGeometries().size();
-        distance*=TREE_DEPTH;
+
+        int boxSize = boxList.size();
         List<Intersectable> newBoxList = new ArrayList<>();
         List<Intersectable> temp = new ArrayList<>();
-        List<Intersectable> boxList = box.getGeometries();
-            do {
-            Intersectable first = boxList.get(0);
+        Intersectable first;
+        List<Intersectable> tempBox;
+        Box original;
+        Box added;
+        do {
+            first = boxList.get(0);
             temp.add(first);
             boxList.remove(first);
+            // check if the first geometry has other geometries in a good distance between them
             for (int i=0;i<boxList.size();i++) {
                 if(first.getMiddle().distance(boxList.get(i).getMiddle())<distance){
-                    List<Intersectable> tempBox = new ArrayList<>(temp);
+                    tempBox = new ArrayList<>(temp);
                     tempBox.add(boxList.get(i));
-                    Box original = new Box(temp);
-                    Box added = new Box(tempBox);
-                    if((original.getVolume()+boxList.get(i).getVolume())/added.getVolume()>EMPTY_VOLUME) {
+                    original = new Box(temp);
+                    added = new Box(tempBox);
+                    // check if when we add the new geometry to the box, we don't have too much empty volume
+                    if((original.getVolume()+boxList.get(i).getVolume())/added.getVolume()>EMPTY_VOLUME)
                         temp.add(boxList.get(i));
-                        boxList.remove(boxList.get(i));
-                    }
                 }
             }
-            if(temp.size()>1)
+            if(temp.size()>1) {
+                for(Intersectable item:temp)
+                    boxList.remove(item);
                 newBoxList.add(new Box(temp));
+            }
             else
                 newBoxList.add(first);
             temp.clear();
         }while (!boxList.isEmpty());
         Box returnBox = new Box(newBoxList);
+
+        // check if the the amount of the geometries in the box hasn't changed (no combination happened)
+        // and we are over the distance where geometries should have been combined
         if(returnBox.getGeometries().size()==boxSize && distance>maxDistance)
             return returnBox;
-        return splitBoxes(returnBox,distance,maxDistance);
+        return splitBoxes(returnBox,distance*TREE_DEPTH,maxDistance);
     }
 }

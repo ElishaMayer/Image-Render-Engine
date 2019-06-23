@@ -136,6 +136,7 @@ public abstract class Intersectable {
      * @return boolean
      */
     public boolean intersects(Ray ray) {
+        // algorithm for finding if there is an intersection with the box that is parallel to the axis
         double tmin, tmax, tymin, tymax, tzmin, tzmax;
 
         Point3D max = getMax();
@@ -147,21 +148,19 @@ public abstract class Intersectable {
         double divx = 1/dir.getX().get();
         double divy = 1/dir.getY().get();
 
-        if (ray.getVector().getPoint3D().getX().get()>=0){
+        if (dir.getX().get()>=0){
             tmin = min.getX().subtract(origin.getX()).scale(divx).get();
             tmax = max.getX().subtract(origin.getX()).scale(divx).get();
         }else{
             tmax = min.getX().subtract(origin.getX()).scale(divx).get();
             tmin = max.getX().subtract(origin.getX()).scale(divx).get();
-
         }
-        if (ray.getVector().getPoint3D().getY().get()>=0){
+        if (dir.getY().get()>=0){
             tymin = min.getY().subtract(origin.getY()).scale(divy).get();
             tymax = max.getY().subtract(origin.getY()).scale(divy).get();
         }else{
             tymax = min.getY().subtract(origin.getY()).scale(divy).get();
             tymin = max.getY().subtract(origin.getY()).scale(divy).get();
-
         }
 
         if ( (tmin > tymax) || (tymin > tmax) )
@@ -174,7 +173,7 @@ public abstract class Intersectable {
 
         double divz = 1/dir.getZ().get();
 
-        if (ray.getVector().getPoint3D().getZ().get()>=0){
+        if (dir.getZ().get()>=0){
             tzmin = min.getZ().subtract(origin.getZ()).scale(divz).get();
             tzmax = max.getZ().subtract(origin.getZ()).scale(divz).get();
         }else{

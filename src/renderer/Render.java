@@ -74,7 +74,18 @@ public class Render implements Runnable {
     }
 
 
-
+    /**
+     *
+     * @param i id of the thread
+     * @param renderController class for controlling the render process with thread pool
+     * @param imageWriter image writer
+     * @param scene scene
+     * @param minI start X axis of render
+     * @param maxI end X axis of render
+     * @param minJ start Y axis of render
+     * @param maxJ end Y axis of render
+     * @param br amount of rays in beam
+     */
     public Render(int i, RenderController renderController, ImageWriter imageWriter, Scene scene, int minI, int maxI, int minJ, int maxJ, int br) {
         _minI=minI;
         _minJ=minJ;
