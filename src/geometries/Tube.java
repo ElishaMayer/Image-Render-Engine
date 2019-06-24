@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * Tube
  */
-public class Tube extends RadialGeometry implements InfiniteGeometry {
+public class Tube extends RadialGeometry {
     Ray _ray;
 
     /* ******* Constructors ***********/

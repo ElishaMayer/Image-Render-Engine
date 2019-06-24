@@ -143,11 +143,12 @@ public abstract class Intersectable {
 
         Point3D dir = ray.getVector().getPoint3D();
         Point3D origin = ray.getPoint3D();
+        Point3D inv = ray.getInverted().getPoint3D();
 
-        double divx = 1/dir.getX().get();
-        double divy = 1/dir.getY().get();
+        double divx = inv.getX().get();
+        double divy = inv.getY().get();
 
-        if (ray.getVector().getPoint3D().getX().get()>=0){
+        if (dir.getX().get()>=0){
             tmin = min.getX().subtract(origin.getX()).scale(divx).get();
             tmax = max.getX().subtract(origin.getX()).scale(divx).get();
         }else{
@@ -155,7 +156,7 @@ public abstract class Intersectable {
             tmin = max.getX().subtract(origin.getX()).scale(divx).get();
 
         }
-        if (ray.getVector().getPoint3D().getY().get()>=0){
+        if (dir.getY().get()>=0){
             tymin = min.getY().subtract(origin.getY()).scale(divy).get();
             tymax = max.getY().subtract(origin.getY()).scale(divy).get();
         }else{
@@ -169,12 +170,13 @@ public abstract class Intersectable {
 
         if (tymin > tmin)
             tmin = tymin;
+
         if (tymax < tmax)
             tmax = tymax;
 
-        double divz = 1/dir.getZ().get();
+        double divz = inv.getZ().get();
 
-        if (ray.getVector().getPoint3D().getZ().get()>=0){
+        if (dir.getZ().get()>=0){
             tzmin = min.getZ().subtract(origin.getZ()).scale(divz).get();
             tzmax = max.getZ().subtract(origin.getZ()).scale(divz).get();
         }else{
@@ -186,6 +188,7 @@ public abstract class Intersectable {
 
         if (tzmax < tmax)
             tmax = tzmax;
+
         return (tmax >= 0);
     }
 

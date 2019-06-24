@@ -7,6 +7,7 @@ package primitives;
 public class Ray {
     private Point3D _point3D;
     private Vector _vector;
+    private Vector _inverted;
     private static final double EPS = 0.1;
 
     /* ********* Constructors ***********/
@@ -22,6 +23,8 @@ public class Ray {
     public Ray(Point3D p, Vector vec) {
         _point3D = new Point3D(p);
         _vector = vec.normal();
+        p = vec.getPoint3D();
+        _inverted = new Vector(1/p.getX().get(),1/p.getY().get(),1/p.getZ().get());
     }
 
     /**
@@ -39,6 +42,9 @@ public class Ray {
         //add eps
         Vector epsVector = normal.scale((normal.dotProduct(vec) > 0) ? EPS : -EPS);
         _point3D = p.add(epsVector);
+        p = vec.getPoint3D();
+        _inverted = new Vector(1/p.getX().get(),1/p.getY().get(),1/p.getZ().get());
+
     }
 
     /**
@@ -49,6 +55,7 @@ public class Ray {
     public Ray(Ray other) {
         _point3D = new Point3D(other._point3D);
         _vector = new Vector(other._vector);
+        _inverted = new Vector(other._inverted);
     }
 
     /* ************* Getters/Setters *******/
@@ -71,6 +78,14 @@ public class Ray {
      */
     public Vector getVector() {
         return _vector;
+    }
+
+    /**
+     * Get inverted vector
+     * @return inverted vector
+     */
+    public Vector getInverted() {
+        return _inverted;
     }
 
     /* ************** Admin *****************/
