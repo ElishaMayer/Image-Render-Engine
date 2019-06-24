@@ -10,6 +10,9 @@ import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * class for controlling the render process with thread pool
+ */
 public class RenderController {
     private int _threadsFinish;
     private double[] _progress ;
@@ -20,14 +23,28 @@ public class RenderController {
     private ExecutorService _pool;
     private int _rayBeam=10;
 
-
-    public RenderController( ImageWriter imageWriter, Scene scene,int rb) {
+    /* ********* Constructors ***********/
+    /**
+     * build new RenderController
+     * @param imageWriter imageWriter
+     * @param scene scene
+     * @param rb amount of rays in beam
+     */
+    public RenderController(ImageWriter imageWriter, Scene scene,int rb) {
         _imageWriter = imageWriter;
         _scene = scene;
         _grid = _imageWriter.getGrid();
         _rayBeam=rb;
     }
 
+    /**
+     * build new RenderController (with option for grid)
+     *
+     * @param imageWriter imageWriter
+     * @param scene scene
+     * @param grid apply grid if true
+     * @param rb amount of rays in beam
+     */
     public RenderController( ImageWriter imageWriter, Scene scene,boolean grid,int rb) {
         _imageWriter = imageWriter;
         _scene = scene;
@@ -35,8 +52,10 @@ public class RenderController {
         _rayBeam=rb;
     }
 
-
-
+    /* ************* Operations ***************/
+    /**
+     * render image
+     */
     public void renderImage(){
         _scene.buildBoxes();
         _start =  LocalDateTime.now();
@@ -45,13 +64,18 @@ public class RenderController {
 
         _threadsFinish = 0;
         _progress = new double[_imageWriter.getNx()-1];
+        // make a thread for every row
         for(int i = 0; i< _imageWriter.getNx()-1; i++){
             Render rn = new Render(i,this,_imageWriter,_scene,i,i+1,0,_imageWriter.getNy(),_rayBeam);
             _pool.execute(rn);
-          //  _threadsFinish[i]=false;
         }
     }
 
+    /**
+     * gives information about the progress of a certain thread
+     * @param progress percentage of how much it already rendered
+     * @param id id of the thread
+     */
     void progress(double progress, int id){
         _progress[id]=progress;
         double sum = 0;
@@ -63,6 +87,10 @@ public class RenderController {
         System.out.flush();
     }
 
+    /**
+     * kill the thread pool after all threads are finished
+     * @param id id of the thread
+     */
     void finish(int id){
         _threadsFinish++;
         if(_threadsFinish>=_imageWriter.getNx()-1) {

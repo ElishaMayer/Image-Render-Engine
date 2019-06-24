@@ -95,6 +95,9 @@ public class Main {
     }
 
 
+    /**
+     * render special tests
+     */
     public static void proTestsNew(){
         Scene scene = new Scene("");
         scene.setCamera(new Camera(new Point3D(-400,-1800,2000),new Vector(0,-1,0),new Vector(0,0,-1)),500);

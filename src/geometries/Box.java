@@ -17,7 +17,6 @@ public class Box extends Intersectable{
     private int _size=0;
 
     /* ********* Constructors ***********/
-
     /**
      * A new Box
      */
@@ -54,7 +53,6 @@ public class Box extends Intersectable{
     }
 
     /* ************* Getters/Setters *******/
-
     /**
      * Get all geometries
      * @return list of geometries
@@ -82,8 +80,6 @@ public class Box extends Intersectable{
     }
 
     /* ************* Operations ***************/
-
-
 
     /**
      * Get all intersections
