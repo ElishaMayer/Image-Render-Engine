@@ -8,16 +8,16 @@ import static primitives.Util.*;
  * Radial Geometry
  */
 public abstract class RadialGeometry extends Geometry{
-    protected double _radius;
+    double _radius;
 
-    /********** Constructors ***********/
+    /* ********* Constructors ***********/
 
     /**
      * A new RadialGeometry
      *
      * @param radius the radius
      */
-    public RadialGeometry(double radius) {
+    RadialGeometry(double radius) {
         if(Util.isZero(radius) || radius < 0)
             throw new IllegalArgumentException("Zero or negative radius");
         _radius = radius;
@@ -30,7 +30,7 @@ public abstract class RadialGeometry extends Geometry{
      * @param material the material
      * @param emission the emission
      */
-    public RadialGeometry(double radius,Material material,Color emission) {
+    RadialGeometry(double radius, Material material, Color emission) {
         super(material,emission);
         if(Util.isZero(radius) || radius < 0)
             throw new IllegalArgumentException("Zero or negative radius");
@@ -43,7 +43,7 @@ public abstract class RadialGeometry extends Geometry{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof RadialGeometry)) return false;
+        if (!(o instanceof RadialGeometry)) return false;
         RadialGeometry other = (RadialGeometry) o;
         return usubtract(other._radius, _radius) == 0.0;
     }
@@ -53,7 +53,7 @@ public abstract class RadialGeometry extends Geometry{
         return "R=" + _radius;
     }
 
-    /************** Getters/Setters *******/
+    /* ************* Getters/Setters *******/
 
     /**
      * Get radius

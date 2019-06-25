@@ -13,11 +13,11 @@ public class Material {
     /**
      *  a new Material
      *
-     * @param kD
-     * @param kS
-     * @param nShininess
-     * @param kR
-     * @param kT
+     * @param kD Kd
+     * @param kS Ks
+     * @param nShininess Shininess
+     * @param kR Kr
+     * @param kT Kt
      */
     public Material(double kD, double kS, int nShininess, double kR, double kT ,double rR ,double rT) {
         _kD = kD;
@@ -32,11 +32,11 @@ public class Material {
     /**
      *  a new Material
      *
-     * @param kD
-     * @param kS
-     * @param nShininess
-     * @param kR
-     * @param kT
+     * @param kD Kd
+     * @param kS Ks
+     * @param nShininess Shininess
+     * @param kR Kr
+     * @param kT Kt
      */
     public Material(double kD, double kS, int nShininess, double kR, double kT) {
         _kD = kD;
@@ -51,9 +51,9 @@ public class Material {
     /**
      *  a new Material (without kR and kT)
      *
-     * @param kD
-     * @param kS
-     * @param nShininess
+     * @param kD Kd
+     * @param kS Ks
+     * @param nShininess Shininess
      */
     public Material(double kD, double kS, int nShininess) {
         _kD = kD;
@@ -81,7 +81,7 @@ public class Material {
     /**
      * copy constructor
      *
-     * @param material
+     * @param material material
      */
     public Material(Material material){
         _nShininess = material._nShininess;

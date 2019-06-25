@@ -6,7 +6,6 @@ import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -18,10 +17,10 @@ public class RenderController {
     private double[] _progress ;
     private ImageWriter _imageWriter;
     private Scene _scene;
-    private boolean _grid = false;
+    private boolean _grid;
     private LocalDateTime _start;
     private ExecutorService _pool;
-    private int _rayBeam=10;
+    private int _rayBeam;
 
     /* ********* Constructors ***********/
     /**
@@ -89,9 +88,8 @@ public class RenderController {
 
     /**
      * kill the thread pool after all threads are finished
-     * @param id id of the thread
      */
-    void finish(int id){
+    void finish(){
         _threadsFinish++;
         if(_threadsFinish>=_imageWriter.getNx()-1) {
             if(_grid)

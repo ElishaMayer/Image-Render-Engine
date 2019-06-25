@@ -1,12 +1,8 @@
 package geometries;
 
 import primitives.*;
-
 import java.util.List;
 import java.util.Objects;
-
-import static primitives.Util.isOne;
-import static primitives.Util.isZero;
 
 /**
  * Triangle

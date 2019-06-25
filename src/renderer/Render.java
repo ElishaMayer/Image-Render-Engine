@@ -173,7 +173,7 @@ public class Render implements Runnable {
             }
         }
         if(_controller!=null)
-            _controller.finish(_id);
+            _controller.finish();
         else {
             LocalDateTime end = LocalDateTime.now();
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");

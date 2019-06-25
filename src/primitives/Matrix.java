@@ -35,7 +35,6 @@ public class Matrix {
                 _matrix[i][j] = new Coordinate(matrix[i][j]);
             }
         }
-
     }
 
     /**

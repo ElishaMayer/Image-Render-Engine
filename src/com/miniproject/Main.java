@@ -16,12 +16,7 @@ import scene.Scene;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Scanner;
-
-import static junit.framework.TestCase.fail;
 
 /**
  * Home Work 3.
@@ -73,20 +68,20 @@ public class Main {
     /**
      * Render all tests in folder Tests
      */
-    public static void renderTests() throws IOException, SAXException, ParserConfigurationException {
+    private static void renderTests() throws IOException, SAXException, ParserConfigurationException {
         File folder = new File("xml\\Tests");
         File[] listOfFiles = folder.listFiles();
         assert listOfFiles != null;
-        for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
-                Render render = loadScene.loadFromXML("xml\\Tests\\" + listOfFiles[i].getName(),false);
+        for (File listOfFile : listOfFiles) {
+            if (listOfFile.isFile()) {
+                Render render = loadScene.loadFromXML("xml\\Tests\\" + listOfFile.getName(), false);
                 System.out.println("rendering picture: " + render.getImageWriter().getImageName());
-                if(render.getOptimised()) {
-                    RenderController renderController = new RenderController(render.getImageWriter(), render.getScene(), render.getImageWriter().getGrid(),render.getRayBeam());
+                if (render.getOptimised()) {
+                    RenderController renderController = new RenderController(render.getImageWriter(), render.getScene(), render.getImageWriter().getGrid(), render.getRayBeam());
                     renderController.renderImage();
-                }else{
+                } else {
                     render.renderImage();
-                    if(render.getImageWriter().getGrid())
+                    if (render.getImageWriter().getGrid())
                         render.printGrid(50);
                     render.getImageWriter().writeToimage();
                 }
@@ -98,7 +93,7 @@ public class Main {
     /**
      * render special tests
      */
-    public static void proTestsNew(){
+    private static void proTestsNew(){
         Scene scene = new Scene("");
         scene.setCamera(new Camera(new Point3D(-400,-1800,2000),new Vector(0,-1,0),new Vector(0,0,-1)),500);
         scene.getCamera().rotateXYZ(0,0,30);
@@ -124,8 +119,8 @@ public class Main {
 
         Sphere sp1 = (new Sphere(25,new Point3D(600,225,-400),new Material(0.5,0.5,100,0,0),new Color(0,0,0)));
         Sphere sp2 = (new Sphere(25,new Point3D(-1400,225,-400),new Material(0.5,0.5,100,0,0),new Color(0,0,0)));
-        Square sq1 = (new Square(new Point3D(670,200,200),new Point3D(670,200,-2320),new Point3D(670,-1000,-2320),new Point3D(670,-1000,200),new Material(0.1,0.1,100,0.67,0,0.01,0),new Color(20,20,20)));
-        Square sq2 = (new Square(new Point3D(-1470,200,200),new Point3D(-1470,200,-2320),new Point3D(-1470,-1000,-2320),new Point3D(-1470,-1000,200),new Material(0.1,0.1,100,0.67,0,0.01,0),new Color(20,20,20)));
+        Square sq1 = (new Square(new Point3D(670,200,200),new Point3D(670,200,-2320),new Point3D(670,-1000,-2320),new Point3D(670,-1000,200),new Material(0.1,0.1,100,0.67,0,0.005,0),new Color(20,20,20)));
+        Square sq2 = (new Square(new Point3D(-1470,200,200),new Point3D(-1470,200,-2320),new Point3D(-1470,-1000,-2320),new Point3D(-1470,-1000,200),new Material(0.1,0.1,100,0.67,0,0.005,0),new Color(20,20,20)));
 
         c1.setOptimised(optimised);
         c2.setOptimised(optimised);
@@ -152,7 +147,7 @@ public class Main {
         ImageWriter imw = new ImageWriter("images\\IMG_0051_NewBalls",500,300,2000,1200);
         imw.setGrid(false);
         if(optimised) {
-            RenderController rn = new RenderController(imw, scene,20);
+            RenderController rn = new RenderController(imw, scene,10);
             rn.renderImage();
         }else{
             Render render = new Render(imw,scene);
@@ -165,7 +160,7 @@ public class Main {
      * 100 Balls on plane
      */
     @Test
-    public static void proTests(){
+    private static void proTests(){
         Scene scene = new Scene("");
         scene.setCamera(new Camera(new Point3D(-400,-1800,2000),new Vector(0,-1,0),new Vector(0,0,-1)),500);
         scene.getCamera().rotateXYZ(0,0,30);

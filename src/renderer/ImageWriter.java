@@ -1,14 +1,9 @@
 package renderer;
 
-import primitives.Point3D;
-
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.imageio.*;
 import javax.imageio.stream.*;
 
@@ -17,9 +12,9 @@ public class ImageWriter {
 	private double _imageWidth, _imageHeight;
 	private int _nX, _nY;
 
-	Boolean _grid=false;
+	private Boolean _grid=false;
 
-	final String PROJECT_PATH = System.getProperty("user.dir");
+	private final String PROJECT_PATH = System.getProperty("user.dir");
 
 	private BufferedImage _image;
 
@@ -40,6 +35,8 @@ public class ImageWriter {
 		this(	imageWriter._imageName,
 				imageWriter._imageWidth, imageWriter._imageHeight,
 				imageWriter._nX, imageWriter._nY);
+		_grid = imageWriter.getGrid();
+		_image = imageWriter._image;
 	}
 
 	// ***************** Getters/Setters ********************** //

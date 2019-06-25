@@ -6,8 +6,6 @@ import elements.LightSource;
 import geometries.*;
 import primitives.Color;
 import primitives.Point3D;
-import primitives.Vector;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -134,7 +132,7 @@ public class Scene {
 
     /**
      * add one or more geometries
-     * @param geometries
+     * @param geometries geometries to add
      */
     public void addGeometries(Intersectable... geometries) {
         _geometries.add(geometries);
@@ -188,8 +186,8 @@ public class Scene {
             _geometries.add(box);
         }
         // add the infinite geometries
-        for(Intersectable intrs:infinite)
-            _geometries.add(intrs);
+        for(Intersectable intersectable:infinite)
+            _geometries.add(intersectable);
     }
 
     /**
@@ -229,8 +227,7 @@ public class Scene {
                 }
             }
             if(temp.size()>1) {
-                for(Intersectable item:temp)
-                    boxList.remove(item);
+                boxList.removeAll(temp);
                 newBoxList.add(new Box(temp));
             }
             else

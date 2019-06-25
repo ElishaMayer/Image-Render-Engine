@@ -2,13 +2,9 @@ package renderer;
 import elements.*;
 import geometries.*;
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import primitives.*;
 import scene.Scene;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * a handler for xml extract
