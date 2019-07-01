@@ -28,7 +28,6 @@ public class Main {
     private static boolean optimised;
     public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
             if(args!=null&& args.length>0&& "xml".equals(args[0])) {
-                optimised=true;
                 renderTests();
                 return;
             }
@@ -38,6 +37,7 @@ public class Main {
                 return;
             }
             if(args!=null&& args.length>0&& "test2".equals(args[0])) {
+                optimised=true;
                 proTestsNew();
                 return;
             }
@@ -144,7 +144,7 @@ public class Main {
         Sphere sp = new Sphere(400,new Point3D(500-900,-300,-(500+900)),new Material(0.1,0.5,2000,0.68,0),new Color(	10,10,10));
         sp.setOptimised(optimised);
         scene.addGeometries(sp);
-        ImageWriter imw = new ImageWriter("images\\IMG_0051_NewBalls",500,300,2000,1200);
+        ImageWriter imw = new ImageWriter("images\\IMG_0051_NewBalls",500,300,6000,3600);
         imw.setGrid(false);
         if(optimised) {
             RenderController rn = new RenderController(imw, scene,10);

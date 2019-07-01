@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * class for controlling the render process with thread pool
@@ -68,6 +69,10 @@ public class RenderController {
             Render rn = new Render(i,this,_imageWriter,_scene,i,i+1,0,_imageWriter.getNy(),_rayBeam);
             _pool.execute(rn);
         }
+       _pool.shutdown();
+        try {
+          while (!_pool.awaitTermination(1, TimeUnit.HOURS));
+       } catch (Exception ignored) {}
     }
 
     /**
@@ -87,7 +92,7 @@ public class RenderController {
     }
 
     /**
-     * kill the thread pool after all threads are finished
+     * Save image and kill the thread pool after all threads are finished
      */
     void finish(){
         _threadsFinish++;
@@ -99,8 +104,10 @@ public class RenderController {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
             System.out.println("\rStart time: "+dtf.format(_start));
             System.out.println("End time: "+dtf.format(end));
-            String reset = "\u001B[0m";
-            String red = "\u001B[31m";
+            //String reset = "\u001B[0m";
+            //String red = "\u001B[31m";
+            String reset = "";
+            String red = "";
             System.out.println("Duration: "+red+Duration.between(_start,end).toMillis()/1000.0+reset+" Seconds");
             _pool.shutdownNow();
         }

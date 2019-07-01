@@ -22,7 +22,7 @@ import java.util.Random;
  */
 public class Render implements Runnable {
     private static final double MIN_CALC_COLOR_K = 0.001;
-    private static final int RECURSIVE_L = 5;
+    private static final int RECURSIVE_L = 7;
     // variables
     private int _rayBeam = 10;
     private static Random rand = new Random();
@@ -179,8 +179,10 @@ public class Render implements Runnable {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
             System.out.println("\rStart time: "+dtf.format(start));
             System.out.println("End time: "+dtf.format(end));
-            String reset = "\u001B[0m";
-            String red = "\u001B[31m";
+            //String reset = "\u001B[0m";
+            //String red = "\u001B[31m";
+            String reset = "";
+            String red = "";
             System.out.println("Duration: "+red+Duration.between(start,end).toMillis()/1000.0+reset+" Seconds");
         }
     }
