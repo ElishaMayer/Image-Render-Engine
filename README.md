@@ -31,7 +31,7 @@ For exsample if you set a high Transparancy, it will look like glass. If you set
 1. Download the folloing <a href="https://github.com/ElishaMayer/Execise_1_5779/raw/master/Run.zip">file<a/> and extract it.
 2. To run a buildin example, run "Run_Test1.bat" or "Run_Test2.bat" file.
 3. To run from XML, place the xml in /xml/Tests and run "Run_XML.bat".
-4. The after it will finish the picture will be in /images.
+4. When it finished rendering, the picture will be in /images.
 
 # How to Write the XML
 
