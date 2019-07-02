@@ -3,7 +3,7 @@ As part of the course "Introduction to Software Engineering" we wrote from scrat
 The program gets a XML file with a description about the scene and renders a picture from it.
 
 # How it Works
-In order to render a picture you need to define a scene. Basicly a scene is a camera in 3D with one or more of the folloing objects and lights:
+In order to render a picture you need to define a scene. Basicly, a scene is a camera in 3D with one or more of the folloing objects and lights:
 1. Plane
 2. Triangle
 3. Sphere
@@ -17,7 +17,7 @@ In order to render a picture you need to define a scene. Basicly a scene is a ca
 4. Spot Light
 
 The camera is defined by a start point and a View Plane (Similar to the sensor in a camera).
-Basicly the camera sends ray through eatch pixel in the View Plane of the camera and calculates the pixels color.
+Basicly the camera sends rays through eatch pixel in its View Plane and calculates the pixels color.
 
 # Object Color & Material
 In order to show objects in different color and different textures, eatch object has its own color and Material.
@@ -31,7 +31,7 @@ For exsample if you set a high Transparancy, it will look like glass. If you set
 1. Download the folloing <a href="https://github.com/ElishaMayer/Execise_1_5779/raw/master/Run.zip">file<a/> and extract it.
 2. To run a buildin example, run "Run_Test1.bat" or "Run_Test2.bat" file.
 3. To run from XML, place the xml in /xml/Tests and run "Run_XML.bat".
-4. When it finished rendering, the picture will be in /images.
+4. Once it is finished rendering, the picture will be in /images.
 
 # How to Write the XML
 
