@@ -1,4 +1,4 @@
-# Picture Render Engine
+# Image Render Engine
 As part of the course "Introduction to Software Engineering" we wrote from scratch a render engine in Java.
 The program gets a XML file with a description about the scene and renders a picture from it.
 
