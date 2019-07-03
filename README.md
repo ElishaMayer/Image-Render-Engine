@@ -2,6 +2,22 @@
 As part of the course "Introduction to Software Engineering" we wrote from scratch a render engine in Java.
 The program gets a XML file with a description about the scene and renders a picture from it.
 
+# Examples 
+![Alt text](readme/0005.jpg?raw=true "Title")
+![Alt text](readme/0001.jpg?raw=true "Title")
+![Alt text](readme/0003.jpg?raw=true "Title")
+![Alt text](readme/0004.jpg?raw=true "Title")
+![Alt text](readme/0002.jpg?raw=true "Title")
+For more examples go to <a href="https://github.com/ElishaMayer/Execise_1_5779/tree/master/images">here<a/> folder
+
+# How to Use
+1. Download the folloing <a href="https://github.com/ElishaMayer/Execise_1_5779/raw/master/Run.zip">file<a/> and extract it.
+2. To run a buildin example, run "Run_Test1.bat" or "Run_Test2.bat" file.
+3. To run from XML, place the xml in /xml/Tests and run "Run_XML.bat".
+4. Once it is finished rendering, the picture will be in /images.
+<br>
+At the end of the page is a guid how to write the XML.
+
 # How it Works
 In order to render a picture you need to define a scene. Basicly, a scene is a camera in 3D with one or more of the folloing objects and lights:
 1. Plane
@@ -26,12 +42,17 @@ The Material defines how shinny or mat the object will look.
 # Transparancy & Reflaction
 There is olso an option to add the transparancy and reflaction to eatch object. 
 For exsample if you set a high Transparancy, it will look like glass. If you set a high Reflaction , it will look like a mirror.
+<br>
+We added an option to make the reflacion and trancparcy look blurry by sending a beam of rays.
 
-# How to Use
-1. Download the folloing <a href="https://github.com/ElishaMayer/Execise_1_5779/raw/master/Run.zip">file<a/> and extract it.
-2. To run a buildin example, run "Run_Test1.bat" or "Run_Test2.bat" file.
-3. To run from XML, place the xml in /xml/Tests and run "Run_XML.bat".
-4. Once it is finished rendering, the picture will be in /images.
+# Render Optimisations
+We added to rendering optimisations.
+1. Each row of the picture in rendered in a different thread. The threads are managed by a thread pool. With that the program can use all the cores of the processor.
+2. We added Hiracical AABB Boxes. Each group of geometries is put in a AABB box, then all the boxes are grouped again recurcivly until there is only one box.
+<br/>
+To use this optimizations you need to add to the xml <optimised/> tag.
+<br/>
+Depending on the picture it is posibble to get a 9 times faster rendering.
 
 # How to Write the XML
 
@@ -142,8 +163,11 @@ Whre the first points are a square and the bp is a point on the other side.
 Each Geometry has a ```material``` tag.
 There are 3 way to use it:
 1. By Using only 3 parameters. Defusal, Spetcular and Shinnines.
+```material="0.5 0.5 100"```
 2. By using the the same 3 parameters and another 2 Transparcy and Reflaction.
+```material="0.3 0.3 100 0.2 0.2"```
 3. By using the same 5 parameters and The Transparcy blurry and Reflaction blurry
+```material="0.3 0.3 100 0.2 0.2 0.012 0.011"```
 ## Example
 A simple scene with a cube
 ```xml
@@ -173,13 +197,6 @@ A simple scene with a cube
 
 
 
-# Examples 
-![Alt text](readme/0001.jpg?raw=true "Title")
-![Alt text](readme/0002.jpg?raw=true "Title")
-![Alt text](readme/0003.jpg?raw=true "Title")
-![Alt text](readme/0004.jpg?raw=true "Title")
-![Alt text](readme/0005.jpg?raw=true "Title")
-The are more pictures and in better resolution in <a href="https://github.com/ElishaMayer/Execise_1_5779/tree/master/images">this<a/> folder
 
 
 
