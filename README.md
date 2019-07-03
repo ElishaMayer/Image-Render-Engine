@@ -49,6 +49,37 @@ First the xml need to look like the fooloing example:
 </scene>
 ```
 Were the ```background-color``` is the backgound color of the scene,the first ```screen-width``` and ```screen-heigth``` are the camera size and the second are the pictures resolution.
+## Add Camrea
+To add the Camera add the follonig line inside "scene" tag:
+```xml
+  <camera p0="0 0 0" vTo="0 0 -1" vUp="0 -1 0" Screen-dist="50"/>
+```
+Where ```p0="0 0 0"``` is the cameras location, ```vTo="0 0 -1"``` is the direction towards the scene and ```vUp="0 -1 0"``` is the vector that is going up. vUp and vTo need to be othogonal.
+
+To rotate the camera around the X Y or Z coordinate you can add the follonig row:
+```xml
+    <rotate x="0" y="30" z="22"/>
+```
+The numbers are in degrees.
+## render settings
+To optimise the runnig time, add the tag:
+```xml
+<optimised/>
+```
+To set the amount fo rays in a beam add:
+```xml
+<rays-beam num="10"/>
+```
+Stting this value too high can couse a very long rendering time.
+
+## Add lights
+To add directional light add:
+```xml
+<directional-light color="100 100 100" direction="-0.8 0.3 -0.5"/>
+```
+To add 
+
+
 
 # Examples 
 ![Alt text](readme/0001.jpg?raw=true "Title")
