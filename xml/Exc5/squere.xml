@@ -1,0 +1,12 @@
+
+<scene name="images\\IMG_0023_Square" version="1.0"
+       background-color="75 127 190"
+       screen-width="500"
+       screen-height="500">
+    <grid/>
+    <ambient-light color="255 255 255" ka="1.0"/>
+    <camera p0="0 0 0" vTo="0 0 -1" vUp="0 -1 0" Screen-dist="50"/>
+    <geometries>
+        <square p0="-100 100 -50" p1="-100 -100 -50" p2="100 -100 -50" p3="100 100 -50" emission="255 255 255" material="1 1 1"/>
+    </geometries>
+</scene>

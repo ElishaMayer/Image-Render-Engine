@@ -1,0 +1,16 @@
+
+<scene name="images\\IMG_0003_XMLScene" version="1.0"
+       background-color="75 127 190"
+       screen-width="500"
+       screen-height="500">
+    <grid/>
+    <ambient-light color="255 255 255" ka="1.0"/>
+    <camera p0="0 0 0" vTo="0 0 -1" vUp="0 -1 0" Screen-dist="50"/>
+    <geometries>
+        <sphere center="0 0 -50" radius="50" emission="255 0 0" material="1 1 1"/>
+        <triangle p0="100 0 -50" p1="0 100 -50" p2="100 100 -50" emission="255 0 0" material="1 1 1"/>
+        <triangle p0="-100 0 -50" p1="0 100 -50" p2="-100 100 -50" emission="255 0 0" material="1 1 1"/>
+        <triangle p0="100 0 -50" p1="0 -100 -50" p2="100 -100 -50" emission="255 0 0" material="1 1 1"/>
+        <triangle p0="-100 0 -50" p1="0 -100 -50" p2="-100 -100 -50" emission="255 0 0" material="1 1 1"/>
+    </geometries>
+</scene>
