@@ -1,0 +1,23 @@
+
+<scene name="images\\IMG_0037_ballOnCylinder" version="1.0"
+       background-color="0 0 0"
+       screen-width="300"
+       screen-height="300">
+    <resolution
+            screen-width="2000"
+            screen-height="2000"/>
+    <ambient-light color="20 20 20" ka="0"/>
+
+    <spot-light color="650 650 650" position="-600 -250 -550" kc="0.1" kl="0.00001" kq="0.000003" direction="2 0 -3"/>
+    <camera p0="0 0 0" vTo="0 0 -1" vUp="0 -1 0" Screen-dist="200"/>
+    <geometries>
+        <sphere center="0 -20 -1000" radius="200" emission="25 25 25" material="0 0.2 1000 0.2 0.6 0.02 0.02"/>
+        <sphere center="-300 0 -1200" radius="150" emission="25 25 25" material="0 0.2 1000 0.2 0.6 0.02 0.02"/>
+        <sphere center="-210 130 -900" radius="60" emission="25 25 25" material="0 0.2 1000 0.2 0.6 0.02 0.02"/>
+        <cylinder Ray-p="-100 150 -1300" Ray-v="0 1 -0.14" radius="600" heigth="20" emission="0 90 80" material="0.5 0.5 10 0 0 0 0"/>
+        <plane p="0 0 -2600" v="0 0 1" emission="20 30 60" material="0.5 0.5 10 0 0"/>
+        <square p0="-800 -400 -900" p1="-800 -400 -1000" p2="-800 0 -1000" p3="-800 0 -900" emission="255 255 255" material="1 1 1"/>
+
+
+    </geometries>
+</scene>

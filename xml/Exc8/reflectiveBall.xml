@@ -1,0 +1,72 @@
+
+<scene name="images\\IMG_0043_PointLightRoom" version="1.0"
+        background-color="20 20 100"
+        screen-width="400"
+        screen-height="400">
+	<resolution 
+		screen-width="2000"
+        screen-height="2000"/>
+	<optimised/>
+	<rays-beam num="10"/>
+
+	<ambient-light color="20 20 20" ka="0"/>
+
+    <point-light color="500 500 500" position="0 0 1000" kc="1" kl="0.003" kq="0.0000001" />
+	<directional-light color="300 300 300" direction="-1 1 -1"/>
+
+    <camera p0="0 -600 2600" vTo="0 0 -1" vUp="0 -1 0" Screen-dist="550"/>
+  	<rotate x="0" y="0" z="1" />
+	<geometries>
+			<square p0="3000 300 3000" p1="-3000 300 3000" p2="-3000 300 -3000" p3="3000 300 -3000" emission="100 100 100" material="0.1 0.1 1 0.2 0 0.021 0"/>
+			<square p0="3000 -1000 3000" p1="-3000 -1000 3000" p2="-3000 -1000 -3000" p3="3000 -1000 -3000" emission="10 50 100" material="0.1 0.1 1"/>
+			<square p0="3000 -1000 3000" p1="3000 -1000 -3000" p2="3000 300 -3000" p3="3000 300 3000" emission="100 50 50" material="0.1 0.1 1"/>
+			<square p0="-3000 -1000 3000" p1="-3000 -1000 -3000" p2="-3000 300 -3000" p3="-3000 300 3000" emission="100 50 50" material="0.1 0.1 1"/>
+			<square p0="-3000 -1000 -3000" p1="-3000 300 -3000" p2="3000 300 -3000" p3="3000 -1000 -3000" emission="50 100 50" material="0.1 0.1 1"/>
+
+
+			<sphere center="-750 220 0" radius="80" emission="110 25 25" material="0.1 0.2 1000 0.2 0"/>
+			<sphere center="-250 220 0" radius="80" emission="110 25 25" material="0.1 0.2 1000 0.2 0"/>
+			<sphere center="250 220 0" radius="80" emission="110 25 25" material="0.1 0.2 1000 0.2 0"/>
+			<sphere center="750 220 0" radius="80" emission="110 25 25" material="0.1 0.2 1000 0.2 0"/>
+			
+			<sphere center="500 220 -400" radius="80" emission="110 25 25" material="0.1 0.2 1000 0.2 0"/>
+			<sphere center="0 220 -400" radius="80" emission="110 25 25" material="0.1 0.2 1000 0.2 0"/>
+			<sphere center="-500 220 -400" radius="80" emission="110 25 25" material="0.1 0.2 1000 0.2 0"/>
+			
+			<sphere center="-250 220 -800" radius="80" emission="110 25 25" material="0.1 0.2 1000 0.2 0"/>
+			<sphere center="250 220 -800" radius="80" emission="110 25 25" material="0.1 0.2 1000 0.2 0"/>
+			
+			<sphere center="0 220 -1200" radius="80" emission="110 25 25" material="0.1 0.2 1000 0.2 0"/>
+			
+			<sphere center="0 -260 -400" radius="400" emission="15 15 15" material="0.1 0.1 1000 0.8 0 0.021 0"/>
+
+
+			
+			<cylinder2p p1="-750 220 0" p2="-250 220 0" radius="30" emission="0 0 20" material="0.5 0.5 10 0.3 0 0 0"/>
+			<cylinder2p p1="-250 220 0" p2="250 220 0" radius="30" emission="0 0 20" material="0.5 0.5 10 0.3 0 0 0"/>
+			<cylinder2p p1="250 220 0" p2="750 220 0" radius="30" emission="0 0 20" material="0.5 0.5 10 0.3 0 0 0"/>
+			
+			<cylinder2p p1="500 220 -400" p2="0 220 -400" radius="30" emission="0 0 20" material="0.5 0.5 10 0.3 0 0 0"/>
+			<cylinder2p p1="0 220 -400" p2="-500 220 -400" radius="30" emission="0 0 20" material="0.5 0.5 10 0.3 0 0 0"/>
+			
+	
+		
+			
+			<cylinder2p p1="-250 220 -800" p2="250 220 -800" radius="30" emission="0 0 20" material="0.5 0.5 10 0.3 0 0 0"/>
+			
+			<cylinder2p p1="-750 220 0" p2="-500 220 -400" radius="30" emission="0 0 20" material="0.5 0.5 10 0.3 0 0 0"/>
+			<cylinder2p p1="-500 220 -400" p2="-250 220 0" radius="30" emission="0 0 20" material="0.5 0.5 10 0.3 0 0 0"/>
+			<cylinder2p p1="-250 220 0" p2="0 220 -400" radius="30" emission="0 0 20" material="0.5 0.5 10 0.3 0 0 0"/>
+			<cylinder2p p1="0 220 -400" p2="250 220 0" radius="30" emission="0 0 20" material="0.5 0.5 10 0.3 0 0 0"/>
+			<cylinder2p p1="250 220 0" p2="500 220 -400" radius="30" emission="0 0 20" material="0.5 0.5 10 0.3 0 0 0"/>
+			<cylinder2p p1="500 220 -400" p2="750 220 0" radius="30" emission="0 0 20" material="0.5 0.5 10 0.3 0 0 0"/>
+			
+			<cylinder2p p1="500 220 -400" p2="250 220 -800" radius="30" emission="0 0 20" material="0.5 0.5 10 0.3 0 0 0"/>
+			<cylinder2p p1="250 220 -800" p2="0 220 -400" radius="30" emission="0 0 20" material="0.5 0.5 10 0.3 0 0 0"/>
+			<cylinder2p p1="-500 220 -400" p2="-250 220 -800" radius="30" emission="0 0 20" material="0.5 0.5 10 0.3 0 0 0"/>
+			<cylinder2p p1="-250 220 -800" p2="0 220 -400" radius="30" emission="0 0 20" material="0.5 0.5 10 0.3 0 0 0"/>
+			
+			<cylinder2p p1="0 220 -1200" p2="250 220 -800" radius="30" emission="0 0 20" material="0.5 0.5 10 0.3 0 0 0"/>
+			<cylinder2p p1="-250 220 -800" p2="0 220 -1200" radius="30" emission="0 0 20" material="0.5 0.5 10 0.3 0 0 0"/>
+    </geometries>
+</scene>
