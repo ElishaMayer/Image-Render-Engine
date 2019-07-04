@@ -1,0 +1,15 @@
+
+<scene name="images\\IMG_0012_DirectionalCylinder" version="1.0"
+        background-color="0 0 0"
+        screen-width="200"
+        screen-height="200">
+    <resolution
+            screen-width="2000"
+            screen-height="2000"/>
+    <ambient-light color="0 0 0" ka="1.0"/>
+    <directional-light color="255 0 255" direction="0 0.3 -0.9"/>
+    <camera p0="0 0 0" vTo="0 0 -1" vUp="0 -1 0" Screen-dist="50"/>
+    <geometries>
+        <cylinder Ray-p="-10 250 -1000" Ray-v="0.2 1 -0.3" radius="600" heigth="800" emission="50 0 0" material="0.7 0.9 30"/>
+    </geometries>
+</scene>

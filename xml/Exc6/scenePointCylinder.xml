@@ -1,0 +1,15 @@
+<scene name="images\\IMG_0014_PointCylinder" version="1.0"
+       background-color="0 0 0"
+       screen-width="150"
+       screen-height="150">
+    <resolution
+            screen-width="2000"
+            screen-height="2000"/>
+    <ambient-light color="20 20 20" ka="1.0"/>
+
+    <point-light color="255 255 255" position="-250 350 -1000" kc="0.00001" kl="0.002" kq="0.000000008" />
+    <camera p0="0 0 0" vTo="0 0 -1" vUp="0 -1 0" Screen-dist="50"/>
+    <geometries>
+        <cylinder Ray-p="-10 250 -3000" Ray-v="0.2 1 -0.21" radius="1500" heigth="1200" emission="120 0 0" material="0.5 0.5 30"/>
+    </geometries>
+</scene>

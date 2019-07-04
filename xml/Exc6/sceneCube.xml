@@ -1,0 +1,50 @@
+
+<scene name="images\\IMG_0022_Cube" version="1.0"
+        background-color="0 0 0"
+        screen-width="50"
+        screen-height="50">
+    <resolution
+            screen-width="2000"
+            screen-height="2000"/>
+	<optimised/>
+	<rays-beam num="10"/>
+    <ambient-light color="15 15 15" ka="1.0"/>
+    <directional-light color="200 10 200" direction="-0.8 0.3 -0.5"/>
+	<directional-light color="30 30 30" direction="0 0.3 -1"/>
+    <camera p0="1200 -1000 800" vTo="0 0 -1" vUp="0 -1 0" Screen-dist="50"/>
+    <rotate x="0" y="28.6479" z="17.1887"/>
+    <geometries>
+        <cylinder Ray-p="0 400 -1000" Ray-v="1 0 0" radius="100" heigth="800" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+        <sphere center="400 400 -1000" radius="100" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+        <sphere center="-400 400 -1000" radius="100" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+
+        <cylinder Ray-p="0 -400 -1000" Ray-v="1 0 0" radius="100" heigth="800" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+        <sphere center="400 -400 -1000" radius="100" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+        <sphere center="-400 -400 -1000" radius="100" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+        <cylinder Ray-p="400 0 -1000" Ray-v="0 1 0" radius="100" heigth="800" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+        <cylinder Ray-p="-400 0 -1000" Ray-v="0 1 0" radius="100" heigth="800" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+
+        <cylinder Ray-p="0 400 -1800" Ray-v="1 0 0" radius="100" heigth="800" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+        <sphere center="400 400 -1800" radius="100" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+        <sphere center="-400 400 -1800" radius="100" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+
+        <cylinder Ray-p="0 -400 -1800" Ray-v="1 0 0" radius="100" heigth="800" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+        <sphere center="400 -400 -1800" radius="100" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+        <sphere center="-400 -400 -1800" radius="100" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+        <cylinder Ray-p="400 0 -1800" Ray-v="0 1 0" radius="100" heigth="800" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+        <cylinder Ray-p="-400 0 -1800" Ray-v="0 1 0" radius="100" heigth="800" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+
+
+        <cylinder Ray-p="-400 400 -1400" Ray-v="0 0 1" radius="100" heigth="800" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+        <cylinder Ray-p="-400 -400 -1400" Ray-v="0 0 1" radius="100" heigth="800" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+        <cylinder Ray-p="400 400 -1400" Ray-v="0 0 1" radius="100" heigth="800" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+        <cylinder Ray-p="400 -400 -1400" Ray-v="0 0 1" radius="100" heigth="800" emission="50 0 0" material="0.7 0.9 30 0.2 0"/>
+		
+		<plane p="0 500 0" v="0 1 0" emission="80 80 80" material="0.2 0.4 30 0.4 0 0.012 0"/>
+		<plane p="0 0 -2600" v="0 0 1" emission="60 60 60" material="0.2 0.4 30 0 0"/>
+		<plane p="-1700 0 0" v="1 0 0" emission="60 60 60" material="0.2 0.4 30 0 0"/>
+
+
+
+    </geometries>
+</scene>

@@ -1,0 +1,15 @@
+
+<scene name="images\\IMG_0010_Directional" version="1.0"
+        background-color="0 0 0"
+        screen-width="500"
+        screen-height="500">
+    <resolution
+            screen-width="2000"
+            screen-height="2000"/>
+    <ambient-light color="0 0 0" ka="1.0"/>
+    <directional-light color="200 0 255" direction="1 0 -0.7"/>
+    <camera p0="0 0 0" vTo="0 0 -1" vUp="0 -1 0" Screen-dist="50"/>
+    <geometries>
+        <sphere center="0 0 -1000" radius="950" emission="50 50 50" material="0.7 0.4 2"/>
+    </geometries>
+</scene>

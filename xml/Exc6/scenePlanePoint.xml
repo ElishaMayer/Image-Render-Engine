@@ -1,0 +1,16 @@
+
+<scene name="images\\IMG_0015_PlanePoint" version="1.0"
+        background-color="0 0 0"
+        screen-width="500"
+        screen-height="500">
+    <resolution
+            screen-width="2000"
+            screen-height="2000"/>
+    <ambient-light color="50 50 50" ka="0"/>
+    <point-light color="255 100 100" position="0 0 0" kc="0" kl="0.0000001" kq="0.00001" />
+    <camera p0="0 0 0" vTo="0 0 -1" vUp="0 -1 0" Screen-dist="50"/>
+    <geometries>
+        <triangle p0="1000 1000 -300" p1="1000 -1000 -300" p2="-1000 1000 -300" emission="50 0 0" material="0.9 0.9 20"/>
+        <triangle p0="-1000 -1000 -300" p1="1000 -1000 -300" p2="-1000 1000 -300" emission="50 0 0" material="0.9 0.9 20"/>
+    </geometries>
+</scene>
