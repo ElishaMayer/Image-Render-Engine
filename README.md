@@ -33,6 +33,8 @@ There is also an option to add the transparency and reflection to each object.
 For example, if you set a high Transparency, it will look like glass. If you set a high Reflection, it will look like a mirror.
 <br>
 We added an option to make the reflation and transparency look blurry by sending a beam of rays.
+<br>
+The reflection and transparency is calculated by a recursive function, so using a lot of transparency and reflection especially with the blurry effect can take a long time to render.
 
 # Render Optimizations
 We added two rendering optimizations.
