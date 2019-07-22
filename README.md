@@ -160,7 +160,7 @@ There are 3 way to use it:
 3. By using the same 5 parameters and another 2, Transparency blurry (Rt) and Reflection blurry (Rr).
 ```material="0.3 0.3 100 0.2 0.2 0.012 0.011"```
 <br>
-To get a realistic image, Kd + Ks + Kr + Kt = 1 and for high ShN there need to be high Kt.<br>
+To get a realistic image, Kd + Ks + Kr + Kt = 1 and for high ShN there need to be high Kr.<br>
 Kd, Ks, Kt, Kr, need to be between 0 - 1. ShN need to be bigger than 1.<br>
 Rt, Rr need to be small numbers, (between 0.01 - 0.02).<br>
 
